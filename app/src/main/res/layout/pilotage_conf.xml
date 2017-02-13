@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/SeparatorVertical"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/sVPilotageConf"
+        android:layout_toRightOf="@+id/sVPilotageConf"
+        android:background="@android:color/black" />
+
+    <View
+        android:id="@+id/SeparatorHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/btnResetPilotDrones"
+        android:layout_marginBottom="8dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black" />
+
+    <TextView
+        android:id="@+id/TitreConfDrones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/btnResetPilotDrones"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toStartOf="@+id/btnResetPilotDrones"
+        android:layout_toLeftOf="@+id/btnResetPilotDrones"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:text="PARAMETRES DE PILOTAGE" />
+
+    <TextView
+        android:text="Bebop_XXXX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btnResetPilotDrones"
+        android:layout_toStartOf="@+id/btnResetPilotDrones"
+        android:id="@+id/txtDroneNom"
+        android:layout_alignBottom="@+id/SeparatorHorizontal"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:id="@+id/btnResetPilotDrones"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Reset" />
+
+    <View
+        android:id="@+id/SeparatorHorizontal1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/SeparatorHorizontal"
+        android:layout_marginTop="66dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black" />
+
+<!-- 1er param -->
+
+    <TextView
+        android:id="@+id/TitreConfPilotParam1"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal1"
+        android:layout_alignLeft="@+id/SeparatorVertical"
+        android:layout_alignStart="@+id/SeparatorVertical"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:text="Inclinaison max" />
+
+    <TextView
+        android:text="20°"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtValeursBInclin"
+        android:layout_toRightOf="@+id/TitreConfPilotParam1"
+        android:layout_toEndOf="@+id/TitreConfPilotParam1"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
+        android:layout_alignBottom="@+id/SeparatorHorizontal1"
+        android:gravity="center" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sBInclinMax"
+        android:max="30"
+        android:progress="15"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
+        android:layout_alignBottom="@+id/SeparatorHorizontal1"
+        android:layout_toRightOf="@+id/txtValeursBInclin"
+        android:layout_toEndOf="@+id/txtValeursBInclin"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+
+<!-- FIN 1er param -->
+
+    <View
+        android:id="@+id/SeparatorHorizontal2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/SeparatorHorizontal1"
+        android:layout_marginTop="66dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black" />
+
+<!-- 2eme param -->
+
+    <TextView
+        android:id="@+id/TitreConfPilotParam2"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal2"
+        android:layout_alignLeft="@+id/SeparatorVertical"
+        android:layout_alignStart="@+id/SeparatorVertical"
+        android:layout_alignTop="@+id/SeparatorHorizontal1"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:text="Vitesse d'inclinaison max" />
+
+    <TextView
+        android:text="300°/s"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtValeursBInclinSpeed"
+        android:layout_toRightOf="@+id/TitreConfPilotParam2"
+        android:layout_toEndOf="@+id/TitreConfPilotParam2"
+        android:layout_alignTop="@+id/SeparatorHorizontal1"
+        android:layout_alignBottom="@+id/SeparatorHorizontal2"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sBInclinSpeed"
+        android:max="220"
+        android:progress="220"
+        android:layout_alignTop="@+id/SeparatorHorizontal1"
+        android:layout_alignBottom="@+id/SeparatorHorizontal2"
+        android:layout_toRightOf="@+id/txtValeursBInclinSpeed"
+        android:layout_toEndOf="@+id/txtValeursBInclinSpeed"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+
+<!-- FIN 2eme param -->
+
+    <View
+        android:id="@+id/SeparatorHorizontal3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/SeparatorHorizontal2"
+        android:layout_marginTop="66dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black" />
+
+<!-- 3eme param -->
+
+    <TextView
+        android:id="@+id/TitreConfPilotParam3"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal3"
+        android:layout_alignLeft="@+id/SeparatorVertical"
+        android:layout_alignStart="@+id/SeparatorVertical"
+        android:layout_alignTop="@+id/SeparatorHorizontal2"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:text="Vitesse verticale max" />
+
+    <TextView
+        android:text="1.0m/s"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtValeursBVerticalSpeed"
+        android:layout_toRightOf="@+id/TitreConfPilotParam3"
+        android:layout_toEndOf="@+id/TitreConfPilotParam3"
+        android:layout_alignTop="@+id/SeparatorHorizontal2"
+        android:layout_alignBottom="@+id/SeparatorHorizontal3"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sBVerticalSpeed"
+        android:max="55"
+        android:progress="5"
+        android:layout_alignTop="@+id/SeparatorHorizontal2"
+        android:layout_alignBottom="@+id/SeparatorHorizontal3"
+        android:layout_toRightOf="@+id/txtValeursBVerticalSpeed"
+        android:layout_toEndOf="@+id/txtValeursBVerticalSpeed"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+
+<!-- FIN 3eme param -->
+
+    <View
+        android:id="@+id/SeparatorHorizontal4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/SeparatorHorizontal3"
+        android:layout_marginTop="66dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black"/>
+
+<!-- 3eme param -->
+
+    <TextView
+        android:id="@+id/TitreConfPilotParam4"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal4"
+        android:layout_alignLeft="@+id/SeparatorVertical"
+        android:layout_alignStart="@+id/SeparatorVertical"
+        android:layout_alignTop="@+id/SeparatorHorizontal3"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:text="Vitesse verticale max" />
+
+    <TextView
+        android:text="100°/s"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtValeursBRotatSpeed"
+        android:layout_toRightOf="@+id/TitreConfPilotParam4"
+        android:layout_toEndOf="@+id/TitreConfPilotParam4"
+        android:layout_alignTop="@+id/SeparatorHorizontal3"
+        android:layout_alignBottom="@+id/SeparatorHorizontal4"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sBRotatSpeed"
+        android:max="190"
+        android:progress="90"
+        android:layout_alignTop="@+id/SeparatorHorizontal3"
+        android:layout_alignBottom="@+id/SeparatorHorizontal4"
+        android:layout_toRightOf="@+id/txtValeursBRotatSpeed"
+        android:layout_toEndOf="@+id/txtValeursBRotatSpeed"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+
+<!-- FIN 3eme param -->
+
+    <ScrollView
+        android:id="@+id/sVPilotageConf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/TitreConfDrones"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/btnRetour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_back_btn" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_pilotage_control"
+                android:id="@+id/btnPilotConf"
+                android:backgroundTint="@color/colorPrimary" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_position_logo"
+                android:id="@+id/btnPositConf" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_video_logo"
+                android:id="@+id/btnVideoConf" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_reseau_logo"
+                android:id="@+id/btnNetConf" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_info_logo"
+                android:layout_marginTop="7dp"
+                android:id="@+id/btnInfoConf" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

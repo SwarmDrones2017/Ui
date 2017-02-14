@@ -4,93 +4,376 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_back_btn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/btnBackSwapView" />
+
 
     <ImageButton
+        android:id="@+id/btnBackSwapView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_settings"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/ic_back_btn" />
+
+    <ImageButton
+        android:id="@+id/btnSettingsSwapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:id="@+id/btnSettingsSwapView" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/ic_settings" />
 
     <AbsoluteLayout
+        android:id="@+id/Ecran"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:srcCompat="@drawable/shape"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/Ecran"
-        app:srcCompat="@drawable/shape">
+        android:layout_alignParentStart="true">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="241dp"
-            android:layout_y="88dp"
-            android:id="@+id/LayoutDrone1">
+        <!-- LayoutDrone1-->
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_drone"
-                android:id="@+id/Drone1"
-                android:layout_x="45dp"
-                android:layout_y="113dp"
-                android:background="@null"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+        <ImageButton
+            android:id="@+id/Drone1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_drone"
+            android:layout_x="200dp"
+            android:layout_y="60dp" />
 
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/D1ProxRedBot"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="205dp"
+            android:layout_y="106dp"
+            android:layout_width="40dp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="120dp"
-            android:layout_y="158dp"
-            android:id="@+id/LayoutDrone2">
+        <ImageView
+            android:id="@+id/D1ProxOrBot"
+            android:layout_height="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="205dp"
+            android:layout_y="111dp"
+            android:layout_width="40dp" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_drone"
-                android:id="@+id/Drone2"
-                android:layout_x="452dp"
-                android:layout_y="105dp"
-                android:background="@null" />
+        <ImageView
+            android:id="@+id/D1ProxJauBot"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="205dp"
+            android:layout_y="116dp"
+            android:layout_width="40dp" />
 
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/D1ProxRedTop"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="205dp"
+            android:layout_y="60dp"
+            android:layout_width="40dp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/Drone2"
-            android:layout_toEndOf="@+id/Drone2"
-            android:layout_marginLeft="144dp"
-            android:layout_marginStart="144dp"
-            android:layout_marginBottom="24dp"
-            android:layout_x="390dp"
-            android:layout_y="158dp"
-            android:id="@+id/LayoutDrone3">
+        <ImageView
+            android:id="@+id/D1ProxOrTop"
+            android:layout_height="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="205dp"
+            android:layout_y="55dp"
+            android:layout_width="40dp" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_drone"
-                android:id="@+id/Drone3"
-                android:layout_x="271dp"
-                android:layout_y="198dp"
-                android:background="@null" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/D1ProxJauTop"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="205dp"
+            android:layout_y="50dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D1ProxRedRight"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="245dp"
+            android:layout_y="65dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D1ProxOrRight"
+            android:layout_width="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="250dp"
+            android:layout_y="65dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D1ProxJauRight"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="255dp"
+            android:layout_y="65dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D1ProxRedLeft"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="201dp"
+            android:layout_y="65dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D1ProxOrLeft"
+            android:layout_width="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="196dp"
+            android:layout_y="65dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D1ProxJauLeft"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="191dp"
+            android:layout_y="65dp"
+            android:layout_height="40dp" />
+
+        <!-- FIN LayoutDrone1 -->
+
+        <!-- LayoutDrone2-->
+
+        <ImageButton
+            android:id="@+id/Drone2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:layout_x="450dp"
+            android:layout_y="100dp"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_drone" />
+
+        <ImageView
+            android:id="@+id/D2ProxRedTop"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="455dp"
+            android:layout_y="100dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxOrTop"
+            android:layout_height="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="455dp"
+            android:layout_y="95dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxJauTop"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="455dp"
+            android:layout_y="90dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxRedBot"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="455dp"
+            android:layout_y="146dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxOrBot"
+            android:layout_height="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="455dp"
+            android:layout_y="151dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxJauBot"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="455dp"
+            android:layout_y="156dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxRedRight"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="495dp"
+            android:layout_y="105dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxOrRight"
+            android:layout_width="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="500dp"
+            android:layout_y="105dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxJauRight"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="505dp"
+            android:layout_y="105dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxRedLeft"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="451dp"
+            android:layout_y="105dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxOrLeft"
+            android:layout_width="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="446dp"
+            android:layout_y="105dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D2ProxJauLeft"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="441dp"
+            android:layout_y="105dp"
+            android:layout_height="40dp" />
+
+        <!-- FIN LayoutDrone2 -->
+
+        <!-- LayoutDrone3-->
+
+        <ImageButton
+            android:id="@+id/Drone3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:layout_x="270dp"
+            android:layout_y="200dp"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_drone" />
+
+        <ImageView
+            android:id="@+id/D3ProxRedTop"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="275dp"
+            android:layout_y="200dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxOrTop"
+            android:layout_height="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="275dp"
+            android:layout_y="195dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxJauTop"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="275dp"
+            android:layout_y="190dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxRedBot"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="275dp"
+            android:layout_y="246dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxOrBot"
+            android:layout_height="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="275dp"
+            android:layout_y="251dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxJauBot"
+            android:layout_height="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="275dp"
+            android:layout_y="256dp"
+            android:layout_width="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxRedRight"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="315dp"
+            android:layout_y="205dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxOrRight"
+            android:layout_width="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="320dp"
+            android:layout_y="205dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxJauRight"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="325dp"
+            android:layout_y="205dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxRedLeft"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_red_dark"
+            android:layout_x="271dp"
+            android:layout_y="205dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxOrLeft"
+            android:layout_width="4dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@android:color/holo_orange_dark"
+            android:layout_x="266dp"
+            android:layout_y="205dp"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/D3ProxJauLeft"
+            android:layout_width="4dp"
+            app:srcCompat="@android:color/holo_orange_light"
+            android:layout_x="261dp"
+            android:layout_y="205dp"
+            android:layout_height="40dp" />
+
+        <!-- FIN LayoutDrone3 -->
 
     </AbsoluteLayout>
 

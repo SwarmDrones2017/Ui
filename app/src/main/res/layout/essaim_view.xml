@@ -21,4 +21,77 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/btnSettingsSwapView" />
+
+    <AbsoluteLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/Ecran"
+        app:srcCompat="@drawable/shape">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="241dp"
+            android:layout_y="88dp"
+            android:id="@+id/LayoutDrone1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_drone"
+                android:id="@+id/Drone1"
+                android:layout_x="45dp"
+                android:layout_y="113dp"
+                android:background="@null"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="120dp"
+            android:layout_y="158dp"
+            android:id="@+id/LayoutDrone2">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_drone"
+                android:id="@+id/Drone2"
+                android:layout_x="452dp"
+                android:layout_y="105dp"
+                android:background="@null" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/Drone2"
+            android:layout_toEndOf="@+id/Drone2"
+            android:layout_marginLeft="144dp"
+            android:layout_marginStart="144dp"
+            android:layout_marginBottom="24dp"
+            android:layout_x="390dp"
+            android:layout_y="158dp"
+            android:id="@+id/LayoutDrone3">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_drone"
+                android:id="@+id/Drone3"
+                android:layout_x="271dp"
+                android:layout_y="198dp"
+                android:background="@null" />
+        </RelativeLayout>
+
+    </AbsoluteLayout>
+
 </RelativeLayout>

@@ -57,7 +57,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="3 drones"
+        android:text="aucun drones"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"

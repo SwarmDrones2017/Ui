@@ -34,14 +34,13 @@ public class PositionConf extends AppCompatActivity {
 
         ImageButton btnPilotConf = (ImageButton) findViewById(R.id.btnPilotConf);
         ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
-        ImageButton btnNetConf = (ImageButton) findViewById(R.id.btnNetConf);
         ImageButton btnInfoConf = (ImageButton) findViewById(R.id.btnInfoConf);
 
         final TextView txtsBAltiMax = (TextView) findViewById(R.id.txtValeursBAltiMax);
         final TextView txtsBDistMax = (TextView) findViewById(R.id.txtValeursBDistMax);
 
-        SeekBar sBAltiMax = (SeekBar) findViewById(R.id.sBAltiMax);
-        SeekBar sBDistMax = (SeekBar) findViewById(R.id.sBDistMax);
+        final SeekBar sBAltiMax = (SeekBar) findViewById(R.id.sBAltiMax);
+        final SeekBar sBDistMax = (SeekBar) findViewById(R.id.sBDistMax);
 
         //Gerer le nom du drone à afficher dans le réglages des paramètres
 
@@ -101,7 +100,13 @@ public class PositionConf extends AppCompatActivity {
 
         //On gère le reset des réglages
 
-
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sBAltiMax.setProgress(295);
+                sBDistMax.setProgress(1990);
+            }
+        });
 
         //On gère le passage aux autres menus
 
@@ -118,14 +123,6 @@ public class PositionConf extends AppCompatActivity {
             public void onClick(View v) {
                 Intent VideoConfActivity = new Intent(PositionConf.this, VideoConf.class);
                 startActivity(VideoConfActivity);
-            }
-        });
-
-        btnNetConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent NetConfActivity = new Intent(PositionConf.this, NetConf.class);
-                startActivity(NetConfActivity);
             }
         });
 

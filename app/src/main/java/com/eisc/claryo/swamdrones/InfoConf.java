@@ -32,7 +32,6 @@ public class InfoConf extends AppCompatActivity {
         ImageButton btnPilotConf = (ImageButton) findViewById(R.id.btnPilotConf);
         ImageButton btnPositConf = (ImageButton) findViewById(R.id.btnPositConf);
         ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
-        ImageButton btnNetConf = (ImageButton) findViewById(R.id.btnNetConf);
 
         //Gerer le nom du drone à afficher dans le réglages des paramètres
 
@@ -65,14 +64,6 @@ public class InfoConf extends AppCompatActivity {
             public void onClick(View v) {
                 Intent NetConfActivity = new Intent(InfoConf.this, VideoConf.class);
                 startActivity(NetConfActivity);
-            }
-        });
-
-        btnNetConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent InfoConfActivity = new Intent(InfoConf.this, NetConf.class);
-                startActivity(InfoConfActivity);
             }
         });
 

@@ -34,7 +34,6 @@ public class PilotageConf extends AppCompatActivity {
 
         ImageButton btnPositConf = (ImageButton) findViewById(R.id.btnPositConf);
         ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
-        ImageButton btnNetConf = (ImageButton) findViewById(R.id.btnNetConf);
         ImageButton btnInfoConf = (ImageButton) findViewById(R.id.btnInfoConf);
 
         final SeekBar sBInclinMax = (SeekBar) findViewById(R.id.sBInclinMax);
@@ -167,14 +166,6 @@ public class PilotageConf extends AppCompatActivity {
             public void onClick(View v) {
                 Intent VideoConfActivity = new Intent(PilotageConf.this, VideoConf.class);
                 startActivity(VideoConfActivity);
-            }
-        });
-
-        btnNetConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent NetConfActivity = new Intent(PilotageConf.this, NetConf.class);
-                startActivity(NetConfActivity);
             }
         });
 

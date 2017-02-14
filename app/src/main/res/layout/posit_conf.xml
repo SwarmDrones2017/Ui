@@ -31,15 +31,12 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/btnResetPilotDrones"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toStartOf="@+id/btnResetPilotDrones"
-        android:layout_toLeftOf="@+id/btnResetPilotDrones"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:gravity="center_vertical"
-        android:text="PARAMETRES DE PILOTAGE" />
+        android:text="PARAMETRES DE POSITION"
+        android:layout_toLeftOf="@+id/txtDroneNom"
+        android:layout_alignLeft="@+id/TitreConfPilotParam1"
+        android:layout_alignStart="@+id/TitreConfPilotParam1" />
 
     <TextView
         android:text="Bebop_XXXX"
@@ -82,7 +79,7 @@
 
     <TextView
         android:id="@+id/TitreConfPilotParam1"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal1"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -95,7 +92,7 @@
     <!-- FIN 1er param -->
 
     <Button
-        android:text="Button"
+        android:text="Calibrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnCalibrate"
@@ -128,7 +125,7 @@
 
     <TextView
         android:id="@+id/TitreConfPilotParam2"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -155,7 +152,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/sBAltiMax"
         android:max="1495"
-        android:progress="300"
+        android:progress="295"
         android:layout_alignTop="@+id/SeparatorHorizontal1"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:layout_toRightOf="@+id/txtValeursBAltiMax"
@@ -185,7 +182,7 @@
 
     <TextView
         android:id="@+id/TitreConfPilotParam3"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal3"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -263,12 +260,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_video_logo"
                 android:id="@+id/btnVideoConf" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_reseau_logo"
-                android:id="@+id/btnNetConf" />
 
             <ImageButton
                 android:layout_width="match_parent"

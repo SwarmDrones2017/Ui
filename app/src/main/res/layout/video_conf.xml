@@ -19,7 +19,7 @@
         android:layout_height="2dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/btnResetPilotDrones"
+        android:layout_below="@+id/btnResetVideoDrones"
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/SeparatorVertical"
         android:layout_toRightOf="@+id/SeparatorVertical"
@@ -29,24 +29,21 @@
         android:id="@+id/TitreConfDrones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/btnResetPilotDrones"
+        android:layout_alignBottom="@id/btnResetVideoDrones"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toStartOf="@+id/btnResetPilotDrones"
-        android:layout_toLeftOf="@+id/btnResetPilotDrones"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:gravity="center_vertical"
-        android:text="PARAMETRES DE PILOTAGE" />
+        android:text="PARAMETRES VIDEO"
+        android:layout_toLeftOf="@+id/txtDroneNom"
+        android:layout_alignLeft="@+id/TitreConfPilotParam1"
+        android:layout_alignStart="@+id/TitreConfPilotParam1" />
 
     <TextView
         android:text="Bebop_XXXX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/btnResetPilotDrones"
-        android:layout_toStartOf="@+id/btnResetPilotDrones"
+        android:layout_toLeftOf="@+id/btnResetVideoDrones"
+        android:layout_toStartOf="@+id/btnResetVideoDrones"
         android:id="@+id/txtDroneNom"
         android:layout_alignBottom="@+id/SeparatorHorizontal"
         android:layout_margin="8dp"
@@ -54,7 +51,7 @@
         android:layout_alignParentTop="true" />
 
     <Button
-        android:id="@+id/btnResetPilotDrones"
+        android:id="@+id/btnResetVideoDrones"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -82,7 +79,7 @@
 
     <TextView
         android:id="@+id/TitreConfPilotParam1"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal1"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -90,37 +87,42 @@
         android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Inclinaison max" />
+        android:text="Resolution de l'enregistrement" />
 
-    <TextView
-        android:text="5°"
-        android:layout_width="50dp"
+    <ToggleButton
+        android:text="720p"
+        android:textOff="720p"
+        android:textOn="720p"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBInclin"
-        android:layout_toRightOf="@+id/TitreConfPilotParam1"
-        android:layout_toEndOf="@+id/TitreConfPilotParam1"
+        android:id="@+id/btnVid720"
         android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:gravity="center" />
+        android:layout_toLeftOf="@+id/btnVid1080"
+        android:layout_toStartOf="@+id/btnVid1080"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"/>
 
-    <SeekBar
-        android:layout_width="wrap_content"
+    <ToggleButton
+        android:text="1080p"
+        android:textOff="1080p"
+        android:textOn="1080p"
+        android:checked="true"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:id="@+id/sBInclinMax"
-        android:max="30"
-        android:progress="15"
+        android:id="@+id/btnVid1080"
         android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_toRightOf="@+id/txtValeursBInclin"
-        android:layout_toEndOf="@+id/txtValeursBInclin"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"/>
 
-<!-- FIN 1er param -->
+    <!-- FIN 1er param -->
 
     <View
         android:id="@+id/SeparatorHorizontal2"
@@ -138,7 +140,7 @@
 
     <TextView
         android:id="@+id/TitreConfPilotParam2"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -146,38 +148,44 @@
         android:layout_alignTop="@+id/SeparatorHorizontal1"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Vitesse d'inclinaison max" />
+        android:text="Qualité de l'enregistrement" />
 
-    <TextView
-        android:text="80°/s"
-        android:layout_width="50dp"
+    <ToggleButton
+        android:text="Standard"
+        android:textOff="Standard"
+        android:textOn="Standard"
+        android:checked="true"
+        android:layout_width="80dp"
+        android:textSize="10sp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBInclinSpeed"
-        android:layout_toRightOf="@+id/TitreConfPilotParam2"
-        android:layout_toEndOf="@+id/TitreConfPilotParam2"
+        android:id="@+id/btnStdr"
         android:layout_alignTop="@+id/SeparatorHorizontal1"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
+        android:layout_toLeftOf="@+id/btnHigh"
+        android:layout_toStartOf="@+id/btnHigh"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"/>
 
-    <SeekBar
-        android:layout_width="wrap_content"
+    <ToggleButton
+        android:text="Haute"
+        android:textOff="Haute"
+        android:textOn="Haute"
+        android:textSize="10sp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:id="@+id/sBInclinSpeed"
-        android:max="220"
-        android:progress="220"
+        android:id="@+id/btnHigh"
         android:layout_alignTop="@+id/SeparatorHorizontal1"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
-        android:layout_toRightOf="@+id/txtValeursBInclinSpeed"
-        android:layout_toEndOf="@+id/txtValeursBInclinSpeed"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"/>
 
-<!-- FIN 2eme param -->
+    <!-- FIN 2eme param -->
 
     <View
         android:id="@+id/SeparatorHorizontal3"
@@ -195,7 +203,7 @@
 
     <TextView
         android:id="@+id/TitreConfPilotParam3"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal3"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -203,38 +211,56 @@
         android:layout_alignTop="@+id/SeparatorHorizontal2"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Vitesse verticale max" />
+        android:text="Fréquence d'images" />
 
-    <TextView
-        android:text="0,5m/s"
-        android:layout_width="50dp"
+    <ToggleButton
+        android:text="24 FPS"
+        android:textOff="24 FPS"
+        android:textOn="24 FPS"
+        android:layout_width="54dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBVerticalSpeed"
-        android:layout_toRightOf="@+id/TitreConfPilotParam3"
-        android:layout_toEndOf="@+id/TitreConfPilotParam3"
+        android:id="@+id/btn24"
         android:layout_alignTop="@+id/SeparatorHorizontal2"
         android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
+        android:layout_toLeftOf="@+id/btn25"
+        android:layout_toStartOf="@+id/btn25"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
 
-    <SeekBar
-        android:layout_width="wrap_content"
+    <ToggleButton
+        android:text="25 FPS"
+        android:textOff="25 FPS"
+        android:textOn="25 FPS"
+        android:layout_width="54dp"
         android:layout_height="wrap_content"
-        android:id="@+id/sBVerticalSpeed"
-        android:max="55"
-        android:progress="5"
+        android:id="@+id/btn25"
         android:layout_alignTop="@+id/SeparatorHorizontal2"
         android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:layout_toRightOf="@+id/txtValeursBVerticalSpeed"
-        android:layout_toEndOf="@+id/txtValeursBVerticalSpeed"
-        android:layout_alignParentEnd="true"
+        android:layout_toLeftOf="@+id/btn30"
+        android:layout_toStartOf="@+id/btn30"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <ToggleButton
+        android:text="30 FPS"
+        android:textOff="30 FPS"
+        android:textOn="30 FPS"
+        android:checked="true"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn30"
+        android:layout_alignTop="@+id/SeparatorHorizontal2"
+        android:layout_alignBottom="@+id/SeparatorHorizontal3"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"/>
 
-<!-- FIN 3eme param -->
+
+
+    <!-- FIN 3eme param -->
 
     <View
         android:id="@+id/SeparatorHorizontal4"
@@ -246,13 +272,13 @@
         android:layout_marginTop="66dp"
         android:layout_toEndOf="@+id/SeparatorVertical"
         android:layout_toRightOf="@+id/SeparatorVertical"
-        android:visibility="invisible" />
+        android:background="@android:color/black" />
 
-<!-- 3eme param -->
+<!-- 4eme param -->
 
     <TextView
         android:id="@+id/TitreConfPilotParam4"
-        android:layout_width="98dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/SeparatorHorizontal4"
         android:layout_alignLeft="@+id/SeparatorVertical"
@@ -260,38 +286,118 @@
         android:layout_alignTop="@+id/SeparatorHorizontal3"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Vitesse verticale max" />
+        android:text="Stabilisation des roulis" />
 
-    <TextView
-        android:text="10°/s"
-        android:layout_width="50dp"
+    <ToggleButton
+        android:text="NON"
+        android:textOff="NON"
+        android:textOn="NON"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBRotatSpeed"
-        android:layout_toRightOf="@+id/TitreConfPilotParam4"
-        android:layout_toEndOf="@+id/TitreConfPilotParam4"
+        android:id="@+id/btnStablN"
         android:layout_alignTop="@+id/SeparatorHorizontal3"
         android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
+        android:layout_toLeftOf="@+id/btnStabO"
+        android:layout_toStartOf="@+id/btnStabO"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"/>
 
-    <SeekBar
-        android:layout_width="wrap_content"
+    <ToggleButton
+        android:text="OUI"
+        android:textOff="OUI"
+        android:textOn="OUI"
+        android:checked="true"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:id="@+id/sBRotatSpeed"
-        android:max="190"
-        android:progress="90"
+        android:id="@+id/btnStabO"
         android:layout_alignTop="@+id/SeparatorHorizontal3"
         android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:layout_toRightOf="@+id/txtValeursBRotatSpeed"
-        android:layout_toEndOf="@+id/txtValeursBRotatSpeed"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"/>
 
-<!-- FIN 3eme param -->
+    <!-- FIN 4eme param -->
+
+    <View
+        android:id="@+id/SeparatorHorizontal5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/SeparatorHorizontal4"
+        android:layout_marginTop="66dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black" />
+
+<!-- 5eme param -->
+
+    <TextView
+        android:id="@+id/TitreConfPilotParam5"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal5"
+        android:layout_alignLeft="@+id/SeparatorVertical"
+        android:layout_alignStart="@+id/SeparatorVertical"
+        android:layout_alignTop="@+id/SeparatorHorizontal4"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:text="Mode d'anti-scintillement" />
+
+    <ToggleButton
+        android:text="50 Hz"
+        android:textOff="50 Hz"
+        android:textOn="50 Hz"
+        android:textSize="11sp"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn50Hz"
+        android:layout_alignTop="@+id/SeparatorHorizontal4"
+        android:layout_alignBottom="@+id/SeparatorHorizontal5"
+        android:layout_toLeftOf="@+id/btn60Hz"
+        android:layout_toStartOf="@+id/btn60Hz"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <ToggleButton
+        android:text="60 Hz"
+        android:textOff="60 Hz"
+        android:textOn="60 Hz"
+        android:textSize="11sp"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn60Hz"
+        android:layout_alignTop="@+id/SeparatorHorizontal4"
+        android:layout_alignBottom="@+id/SeparatorHorizontal5"
+        android:layout_toLeftOf="@+id/btnAutoHz"
+        android:layout_toStartOf="@+id/btnAutoHz"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <ToggleButton
+        android:text="AUTO"
+        android:textOff="AUTO"
+        android:textOn="AUTO"
+        android:checked="true"
+        android:textSize="11sp"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAutoHz"
+        android:layout_alignTop="@+id/SeparatorHorizontal4"
+        android:layout_alignBottom="@+id/SeparatorHorizontal5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+
+    <!-- FIN 5eme param -->
 
     <ScrollView
         android:id="@+id/sVPilotageConf"
@@ -334,16 +440,11 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_reseau_logo"
-                android:id="@+id/btnNetConf" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_info_logo"
                 android:layout_marginTop="7dp"
                 android:id="@+id/btnInfoConf" />
 
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

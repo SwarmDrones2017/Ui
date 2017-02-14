@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".DroneDetails"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity android:name=".Control"
@@ -26,26 +27,32 @@
         </activity>
         <activity android:name=".EssaimConfig"
             android:parentActivityName=".Control"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity android:name=".PilotageConf"
             android:parentActivityName=".EssaimConfig"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity android:name=".PositionConf"
             android:parentActivityName=".EssaimConfig"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity android:name=".VideoConf"
             android:parentActivityName=".EssaimConfig"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
-        <activity android:name=".NetConf"
-            android:parentActivityName=".EssaimConfig"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity android:name=".InfoConf"
             android:parentActivityName=".EssaimConfig"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity android:name=".EssaimView"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
 

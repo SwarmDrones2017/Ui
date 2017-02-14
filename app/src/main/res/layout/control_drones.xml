@@ -285,7 +285,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_swap_view"
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnSwapView"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

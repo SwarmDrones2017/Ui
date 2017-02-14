@@ -19,7 +19,8 @@
         android:layout_height="2dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/btnResetPilotDrones"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="64dp"
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/SeparatorVertical"
         android:layout_toRightOf="@+id/SeparatorVertical"
@@ -29,34 +30,21 @@
         android:id="@+id/TitreConfDrones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/btnResetPilotDrones"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toStartOf="@+id/btnResetPilotDrones"
-        android:layout_toLeftOf="@+id/btnResetPilotDrones"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:gravity="center_vertical"
-        android:text="PARAMETRES DE PILOTAGE" />
+        android:text="Versions"
+        android:layout_toLeftOf="@+id/txtDroneNom"
+        android:layout_alignLeft="@+id/TitreConfPilotParam1"
+        android:layout_alignStart="@+id/TitreConfPilotParam1"
+        android:layout_alignBottom="@+id/txtDroneNom" />
 
     <TextView
         android:text="Bebop_XXXX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/btnResetPilotDrones"
-        android:layout_toStartOf="@+id/btnResetPilotDrones"
         android:id="@+id/txtDroneNom"
         android:layout_alignBottom="@+id/SeparatorHorizontal"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:layout_alignParentTop="true" />
-
-    <Button
-        android:id="@+id/btnResetPilotDrones"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -64,7 +52,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Reset" />
+        android:gravity="center_vertical" />
 
     <View
         android:id="@+id/SeparatorHorizontal1"
@@ -90,37 +78,22 @@
         android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Inclinaison max" />
+        android:text="Version logiciel" />
 
     <TextView
-        android:text="5°"
+        android:text="3.9.0"
+        android:textColor="#21D162"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtValeursBInclin"
         android:layout_toRightOf="@+id/TitreConfPilotParam1"
-        android:layout_toEndOf="@+id/TitreConfPilotParam1"
         android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:gravity="center" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sBInclinMax"
-        android:max="30"
-        android:progress="15"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_toRightOf="@+id/txtValeursBInclin"
-        android:layout_toEndOf="@+id/txtValeursBInclin"
-        android:layout_alignParentEnd="true"
+        android:gravity="center"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_alignParentEnd="true" />
 
-<!-- FIN 1er param -->
+    <!-- FIN 1er param -->
 
     <View
         android:id="@+id/SeparatorHorizontal2"
@@ -146,38 +119,22 @@
         android:layout_alignTop="@+id/SeparatorHorizontal1"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Vitesse d'inclinaison max" />
+        android:text="Version matricielle" />
 
     <TextView
-        android:text="80°/s"
+        android:text="HW_OL"
+        android:textColor="#21D162"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtValeursBInclinSpeed"
-        android:layout_toRightOf="@+id/TitreConfPilotParam2"
-        android:layout_toEndOf="@+id/TitreConfPilotParam2"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
-        android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:gravity="center"
-        android:layout_centerHorizontal="true" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sBInclinSpeed"
-        android:max="220"
-        android:progress="220"
         android:layout_alignTop="@+id/SeparatorHorizontal1"
-        android:layout_alignBottom="@+id/SeparatorHorizontal2"
-        android:layout_toRightOf="@+id/txtValeursBInclinSpeed"
-        android:layout_toEndOf="@+id/txtValeursBInclinSpeed"
-        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/TitreConfPilotParam2"
+        android:layout_above="@+id/txtValeursBVerticalSpeed"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_alignParentEnd="true" />
 
-<!-- FIN 2eme param -->
+    <!-- FIN 2eme param -->
 
     <View
         android:id="@+id/SeparatorHorizontal3"
@@ -203,38 +160,22 @@
         android:layout_alignTop="@+id/SeparatorHorizontal2"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Vitesse verticale max" />
+        android:text="Version logicielle Swarm Drones" />
 
     <TextView
-        android:text="0,5m/s"
+        android:text="beta_prout"
+        android:textColor="#21D162"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtValeursBVerticalSpeed"
         android:layout_toRightOf="@+id/TitreConfPilotParam3"
-        android:layout_toEndOf="@+id/TitreConfPilotParam3"
         android:layout_alignTop="@+id/SeparatorHorizontal2"
         android:layout_alignBottom="@+id/SeparatorHorizontal3"
         android:gravity="center"
-        android:layout_centerHorizontal="true" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sBVerticalSpeed"
-        android:max="55"
-        android:progress="5"
-        android:layout_alignTop="@+id/SeparatorHorizontal2"
-        android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:layout_toRightOf="@+id/txtValeursBVerticalSpeed"
-        android:layout_toEndOf="@+id/txtValeursBVerticalSpeed"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_alignParentEnd="true" />
 
-<!-- FIN 3eme param -->
+    <!-- FIN 3eme param -->
 
     <View
         android:id="@+id/SeparatorHorizontal4"
@@ -247,51 +188,6 @@
         android:layout_toEndOf="@+id/SeparatorVertical"
         android:layout_toRightOf="@+id/SeparatorVertical"
         android:visibility="invisible" />
-
-<!-- 3eme param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam4"
-        android:layout_width="98dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal3"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Vitesse verticale max" />
-
-    <TextView
-        android:text="10°/s"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBRotatSpeed"
-        android:layout_toRightOf="@+id/TitreConfPilotParam4"
-        android:layout_toEndOf="@+id/TitreConfPilotParam4"
-        android:layout_alignTop="@+id/SeparatorHorizontal3"
-        android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sBRotatSpeed"
-        android:max="190"
-        android:progress="90"
-        android:layout_alignTop="@+id/SeparatorHorizontal3"
-        android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:layout_toRightOf="@+id/txtValeursBRotatSpeed"
-        android:layout_toEndOf="@+id/txtValeursBRotatSpeed"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-<!-- FIN 3eme param -->
 
     <ScrollView
         android:id="@+id/sVPilotageConf"
@@ -329,12 +225,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_video_logo"
                 android:id="@+id/btnVideoConf" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_reseau_logo"
-                android:id="@+id/btnNetConf" />
 
             <ImageButton
                 android:layout_width="match_parent"

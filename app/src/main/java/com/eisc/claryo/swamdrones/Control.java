@@ -23,6 +23,7 @@ public class Control extends AppCompatActivity {
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);
@@ -41,6 +42,14 @@ public class Control extends AppCompatActivity {
             public void onClick(View v) {
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
                 startActivity(EssaimConfigActivity);
+            }
+        });
+
+        btnSwapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
+                startActivity(EssaimViewActivity);
             }
         });
     }

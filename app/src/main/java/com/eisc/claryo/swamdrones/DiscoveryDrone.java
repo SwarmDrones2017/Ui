@@ -99,22 +99,27 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
             Message myMessage = handler.obtainMessage();
 
             // Do what you want with the device list
+            String[] listDrone;
             if (deviceList != null) {
-                String[] listDrone = new String[deviceList.size()];
-                for (int i = 0; i < listDrone.length; i++) {
-                    listDrone[i] = deviceList.get(i).getName();
+                if (deviceList.size() > 0) {
+                    listDrone = new String[deviceList.size()];
+                    for (int i = 0; i < listDrone.length; i++) {
+                        listDrone[i] = deviceList.get(i).getName();
+                    }
+                } else {
+                    listDrone = new String[1];
+                    listDrone[0] = MainActivity.MSG_ANY_DRONES;
+
                 }
                 messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
+                myMessage.setData(messageBundle);
+                //Envoyer le message
+                handler.sendMessage(myMessage);
+                //messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
                 //messageBundle.putParcelableArrayList(MessageHandler.LISTDRONEUPDATE,deviceList.toArray());
 
-            } else {
-                String[] listDrone = new String[1];
-                listDrone[0] ="Aucun drone";
-                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
             }
-            myMessage.setData(messageBundle);
-            //Envoyer le message
-            handler.sendMessage(myMessage);
+
         }
 
     }

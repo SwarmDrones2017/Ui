@@ -2,6 +2,7 @@ package com.eisc.claryo.swamdrones;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import java.net.DatagramSocket;
@@ -39,37 +41,41 @@ public class MainActivity extends AppCompatActivity {
             //String msgNULL = msg.getData().getString(NOTDRONE);
             String[] listDrone = msg.getData().getStringArray(LISTDRONEUPDATE);
             if (listDrone != null) {
-                //items = listDrone;
+                if (listDrone[0].equals(MSG_ANY_DRONES)){
+                    textViewNbDrones.setText(MSG_ANY_DRONES);
+                    list.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    textViewNbDrones.setText(""+listDrone.length);
+                    ArrayAdapter<String> listitems = new ArrayAdapter<String>(ici, android.R.layout.simple_list_item_1, listDrone);
+                    //list.setCacheColorHint(Color.BLACK);
+                    //list.setBackgroundColor(Color.BLACK);
+                    list.setAdapter(listitems);
+                    list.setVisibility(View.VISIBLE);
 
-                DroneListeConnecte[] items = new DroneListeConnecte[listDrone.length];
-
-                for (int i = 0; i < listDrone.length; i++) {
-                    items[i] = new DroneListeConnecte(listDrone[i], "En cours");
                 }
 
             }
-            ArrayAdapter<DroneListeConnecte> adapt = new ArrayAdapter<DroneListeConnecte>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
-            list.setAdapter(adapt);
         }
     };
+    public static final String MSG_ANY_DRONES = "Aucun";
 
     public static DroneListeConnecte[] items;
 
     private ArrayAdapter<DroneListeConnecte> adapter;
     private ListView list;
-    public static byte[] test;
+    private TextView textViewNbDrones;
+    private MainActivity ici = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        test = new byte[1];
 
         //new ServerUDP(getApplicationContext());
-
-        new DiscoveryDrone(getApplicationContext(), handler);
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
         Button btnFly = (Button) findViewById(R.id.btnFly);
+        textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
         //adapter = new ArrayAdapter<DroneListeConnecte>();
         if (items == null) {
             items = new DroneListeConnecte[1];
@@ -80,28 +86,17 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<DroneListeConnecte>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
 
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                        startActivity(DroneDetailsActivity);
-                        break;
                     case 1:
-                        DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                        startActivity(DroneDetailsActivity);
-                        break;
                     case 2:
-                        DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                        startActivity(DroneDetailsActivity);
-                        break;
                     case 3:
-                        DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                        startActivity(DroneDetailsActivity);
-                        break;
                     case 4:
-                        DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
+                        Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
                         startActivity(DroneDetailsActivity);
                         break;
 
@@ -124,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        new DiscoveryDrone(getApplicationContext(), handler);
     }
 }
 

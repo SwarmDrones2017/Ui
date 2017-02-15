@@ -17,7 +17,9 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/btnFly"
         android:layout_below="@+id/textViewDronesCo"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="181dp"
+        android:headerDividersEnabled="false" />
 
     <Button
         android:text="Notice"
@@ -57,15 +59,24 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="aucun drones"
+        android:text="drones"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/textViewNbDrones"
+        android:id="@+id/textViewDrones"
         android:layout_width="wrap_content"
-        android:gravity="center"
-        android:layout_alignLeft="@+id/btnAbout"
-        android:layout_alignStart="@+id/btnAbout" />
+        android:gravity="center" />
+
+    <TextView
+        android:text="Aucun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/textViewDrones"
+        android:layout_toStartOf="@+id/textViewDrones"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/textViewNbDrones" />
 
 </RelativeLayout>

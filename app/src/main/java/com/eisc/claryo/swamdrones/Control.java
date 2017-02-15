@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
@@ -19,7 +20,9 @@ import com.parrot.arsdk.arcontroller.ARFrame;
 
 public class Control extends AppCompatActivity implements BebopDrone.Listener{
     private ProgressBar progressBarBatterie;
+    private ImageView batteryIndicator;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -34,7 +37,10 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener{
 
         progressBarBatterie = (ProgressBar)findViewById(R.id.batteryLevel);
         progressBarBatterie.setProgress(progressBarBatterie.getMax());
-        progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+        progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+
+        batteryIndicator = (ImageView)findViewById(R.id.battery_indicator);
+        batteryIndicator.setImageResource(R.drawable.ic_battery_full_24dp);
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);
@@ -73,6 +79,29 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener{
     @Override
     public void onBatteryChargeChanged(int batteryPercentage) {
         progressBarBatterie.setProgress(batteryPercentage);
+        switch (batteryPercentage){
+            case 90:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_90_24dp);
+                break;
+            case 80:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_80_24dp);
+                break;
+            case 60:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_60_24dp);
+                break;
+            case 50:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_50_24dp);
+                break;
+            case 30:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_30_24dp);
+                break;
+            case 20:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_20_24dp);
+                break;
+            case 10:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_alert_24dp);
+                break;
+        }
         if(batteryPercentage<75)
             progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
         else if(batteryPercentage<25)

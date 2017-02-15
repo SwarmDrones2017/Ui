@@ -45,6 +45,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     @Override
     public ARCONTROLLER_ERROR_ENUM configureDecoder(ARDeviceController deviceController, ARControllerCodec codec) {
+
         return null;
     }
 
@@ -134,6 +135,9 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     private ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM mFlyingState;
     private String mCurrentRunId;
 
+    private String IP;
+    private ARDiscoveryDeviceService deviceService;
+
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
 
         mListeners = new ArrayList<>();
@@ -156,13 +160,13 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
             try
             {
-                String productIP = ((ARDiscoveryDeviceNetService)(deviceService.getDevice())).getIp();
+                IP = ((ARDiscoveryDeviceNetService)(deviceService.getDevice())).getIp();
 
                 ARUtilsManager ftpListManager = new ARUtilsManager();
                 ARUtilsManager ftpQueueManager = new ARUtilsManager();
 
-                ftpListManager.initWifiFtp(productIP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
-                ftpQueueManager.initWifiFtp(productIP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
+                ftpListManager.initWifiFtp(IP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
+                ftpQueueManager.initWifiFtp(IP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
 
 
             }
@@ -174,6 +178,14 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         } else {
             Log.e(TAG, "DeviceService type is not supported by BebopDrone");
         }
+    }
+
+    public String getIP(){
+        return IP;
+    }
+
+    public ARDiscoveryDeviceService getdeviceService(){
+        return deviceService;
     }
 
     public void dispose()

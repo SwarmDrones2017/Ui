@@ -25,7 +25,19 @@ public class Control extends AppCompatActivity {
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
         ImageButton btn_takeoff_land = (ImageButton) findViewById(R.id.btn_takeoff_land);
+
+        ImageButton btn_forward = (ImageButton) findViewById(R.id.btn_forward);
+        ImageButton btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
+        ImageButton btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
+        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
+
+        ImageButton btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
+        ImageButton btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
+        ImageButton btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
+        ImageButton btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+
         Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
+
         //ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
         Intent ControlActivity = new Intent();
@@ -63,6 +75,12 @@ public class Control extends AppCompatActivity {
                 for (int i = 0; i<MainActivity.listBebop.size();i++){
                     MainActivity.listBebop.get(i).emergency();
                 }
+            }
+        });
+        btn_forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
        /* btnSwapView.setOnClickListener(new View.OnClickListener() {

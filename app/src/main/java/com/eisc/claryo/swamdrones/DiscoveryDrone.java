@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -15,6 +19,7 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiver;
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiverDelegate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,13 +29,15 @@ import java.util.List;
 /**
  * @author sofiane
  * @version 1.0
- * Class permet de decouvrir les drones sur le reseau
+ *          Class permet de decouvrir les drones sur le reseau
  */
 public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedReceiverDelegate {
 
     private final static String TAG = "DiscoveryDrone";
     private Context context;
     private List<ARDiscoveryDeviceService> deviceList;
+
+    private Handler handler;
 
     /////////Start discovery:
     private ARDiscoveryService mArdiscoveryService;
@@ -64,6 +71,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
             startDiscovery();
         }
     }
+
     private void startDiscovery() {
         if (mArdiscoveryService != null) {
             mArdiscoveryService.start();
@@ -87,18 +95,33 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
         if (mArdiscoveryService != null) {
             deviceList = mArdiscoveryService.getDeviceServicesArray();
 
+            Bundle messageBundle = new Bundle();
+            Message myMessage = handler.obtainMessage();
+
             // Do what you want with the device list
-            if(deviceList != null){
-                MainActivity.items = new DroneListeConnecte[deviceList.size()];
-                for (int i = 0;i<deviceList.size();i++){
-                    MainActivity.items[i] = new DroneListeConnecte(deviceList.get(i).getName(),"En cours");
+            if (deviceList != null) {
+                String[] listDrone = new String[deviceList.size()];
+                for (int i = 0; i < listDrone.length; i++) {
+                    listDrone[i] = deviceList.get(i).getName();
                 }
+                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
+                //messageBundle.putParcelableArrayList(MessageHandler.LISTDRONEUPDATE,deviceList.toArray());
+
+            } else {
+                String[] listDrone = new String[1];
+                listDrone[0] ="Aucun drone";
+                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
             }
+            myMessage.setData(messageBundle);
+            //Envoyer le message
+            handler.sendMessage(myMessage);
         }
+
     }
 
-    DiscoveryDrone(Context context) {
+    DiscoveryDrone(Context context, Handler handler) {
         this.context = context;
+        this.handler = handler;
         ARSDK.loadSDKLibs();
         initDiscoveryService();
         registerReceivers();

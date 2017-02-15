@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.parrot.arsdk.ARSDK;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
@@ -115,6 +116,15 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handler.sendMessage(myMessage);
+
+                //Construction
+                for (int i = 0;i<deviceList.size();i++){
+                    MainActivity.listBebop.add(new BebopDrone(context,deviceList.get(i)));
+                    boolean isConnect = MainActivity.listBebop.get(i).connect();
+                    if (isConnect == false){
+                        Toast.makeText(context,"Probleme de connection",Toast.LENGTH_LONG);
+                    }
+                }
                 //messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
                 //messageBundle.putParcelableArrayList(MessageHandler.LISTDRONEUPDATE,deviceList.toArray());
 

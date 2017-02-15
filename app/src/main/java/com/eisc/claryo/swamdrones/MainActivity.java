@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     textViewNbDrones.setText(""+listDrone.length);
                     ArrayAdapter<String> listitems = new ArrayAdapter<String>(ici, android.R.layout.simple_list_item_1, listDrone);
-                    //list.setCacheColorHint(Color.BLACK);
-                    //list.setBackgroundColor(Color.BLACK);
                     list.setAdapter(listitems);
                     list.setVisibility(View.VISIBLE);
 
@@ -67,12 +65,19 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewNbDrones;
     private MainActivity ici = this;
 
+    public static ArrayList<BebopDrone> listBebop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //new ServerUDP(getApplicationContext());
+        if(listBebop == null){
+            listBebop = new ArrayList<BebopDrone>();
+            //new ServerUDP(getApplicationContext());
+        }
+
+
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
         Button btnFly = (Button) findViewById(R.id.btnFly);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);

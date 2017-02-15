@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 /**
@@ -23,6 +24,8 @@ public class Control extends AppCompatActivity {
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        ImageButton btn_takeoff_land = (ImageButton) findViewById(R.id.btn_takeoff_land);
+        Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
         //ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
         Intent ControlActivity = new Intent();
@@ -45,6 +48,23 @@ public class Control extends AppCompatActivity {
             }
         });
 
+        btn_takeoff_land.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0;i<MainActivity.listBebop.size();i++){
+                    MainActivity.listBebop.get(i).takeOff();
+                }
+
+            }
+        });
+        btn_emergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i<MainActivity.listBebop.size();i++){
+                    MainActivity.listBebop.get(i).emergency();
+                }
+            }
+        });
        /* btnSwapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

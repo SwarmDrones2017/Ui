@@ -43,45 +43,6 @@ public class EssaimConfig extends AppCompatActivity {
         final ImageButton btnSet3 = (ImageButton) findViewById(R.id.btn_Drone3_Setting);
         final ImageButton btnSet4 = (ImageButton) findViewById(R.id.btn_Drone4_Setting);
         final ImageButton btnSet5 = (ImageButton) findViewById(R.id.btn_Drone5_Setting);
-        final ToggleButton ToggleBtnParamNon = (ToggleButton) findViewById(R.id.tglBtnConfDronesParamN1);
-        final ToggleButton ToggleBtnParamOui = (ToggleButton) findViewById(R.id.tglBtnConfDronesParamO1);
-
-        // On gère le fonctionnement des toggleButton du mode de paramètrage des drones
-
-        if(ToggleBtnParamNon.isChecked()){
-            ToggleBtnParamNon.setClickable(false);
-        }
-        else{
-            ToggleBtnParamOui.setClickable(true);
-        }
-
-        ToggleBtnParamNon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (ToggleBtnParamNon.isChecked()) {
-                    ToggleBtnParamOui.setChecked(false);
-                    ToggleBtnParamNon.setClickable(false);
-                }
-                else {
-                    ToggleBtnParamOui.setChecked(true);
-                    ToggleBtnParamNon.setClickable(true);
-                }
-            }
-        });
-
-        ToggleBtnParamOui.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (ToggleBtnParamOui.isChecked()) {
-                    ToggleBtnParamNon.setChecked(false);
-                    ToggleBtnParamOui.setClickable(false);
-                }
-                else {
-                    ToggleBtnParamNon.setChecked(true);
-                    ToggleBtnParamOui.setClickable(true);
-                }
-            }
-        });
 
         //On gère le fonctionnement des toggleButton du choix du drone "maitre"
 
@@ -206,7 +167,6 @@ public class EssaimConfig extends AppCompatActivity {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToggleBtnParamNon.setChecked(true);
                 btnDrone1.setChecked(true);
             }
         });

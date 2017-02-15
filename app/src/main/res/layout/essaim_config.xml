@@ -65,74 +65,11 @@
         android:layout_marginTop="8dp"
         android:text="Reset" />
 
-    <View
-        android:id="@+id/SeparatorHorizontal1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
-
-    <TextView
-        android:id="@+id/TitreConfDronesParam1"
-        android:layout_width="10dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_toLeftOf="@+id/tglBtnConfDronesParamN1"
-        android:layout_toStartOf="@+id/tglBtnConfDronesParamN1"
-        android:gravity="center_vertical"
-        android:text='Paramètres communs aux drones' />
-
-    <ToggleButton
-        android:id="@+id/tglBtnConfDronesParamN1"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_toLeftOf="@+id/tglBtnConfDronesParamO1"
-        android:layout_toStartOf="@+id/tglBtnConfDronesParamO1"
-        android:checked="true"
-        android:text="Non"
-        android:textOff="Non"
-        android:textOn="Non" />
-
-    <ToggleButton
-        android:id="@+id/tglBtnConfDronesParamO1"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:checked="false"
-        android:text="Oui"
-        android:textOff="Oui"
-        android:textOn="Oui" />
-
     <TextView
         android:id="@+id/TitreConfParam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/SeparatorHorizontal1"
+        android:layout_below="@+id/SeparatorHorizontal"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

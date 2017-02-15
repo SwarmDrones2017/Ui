@@ -143,7 +143,8 @@
 
     <!-- Alerte proximité jaune-->
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
+        app:srcCompat="@android:color/holo_orange_dark"
+        android:tint="#F2EE1A"
         android:id="@+id/ProxJauneGauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
@@ -154,7 +155,8 @@
         android:layout_marginStart="29dp" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
+        app:srcCompat="@android:color/holo_orange_dark"
+        android:tint="#F2EE1A"
         android:id="@+id/ProxJauneDroite"
         android:layout_width="8dp"
         android:layout_height="100dp"
@@ -165,7 +167,8 @@
         android:layout_marginEnd="29dp" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
+        app:srcCompat="@android:color/holo_orange_dark"
+        android:tint="#F2EE1A"
         android:id="@+id/ProxJauneDevant"
         android:layout_width="100dp"
         android:layout_height="8dp"
@@ -174,7 +177,8 @@
         android:layout_alignStart="@+id/ProxJauneDerriere" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
+        app:srcCompat="@android:color/holo_orange_dark"
+        android:tint="#F2EE1A"
         android:id="@+id/ProxJauneDerriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
@@ -316,8 +320,9 @@
         android:layout_marginBottom="7dp" />
 
     <ImageView
+        app:srcCompat="@android:color/holo_orange_dark"
         android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_orange_light"
+        android:tint="#F2EE1A"
         android:id="@+id/ProxJauneAbove"
         android:layout_width="25dp"
         android:layout_above="@+id/ProxOrangeAbove"
@@ -343,8 +348,9 @@
         android:layout_marginTop="7dp" />
 
     <ImageView
+        app:srcCompat="@android:color/holo_orange_dark"
         android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_orange_light"
+        android:tint="#F2EE1A"
         android:id="@+id/ProxJauneBelow"
         android:layout_width="25dp"
         android:layout_marginTop="7dp"

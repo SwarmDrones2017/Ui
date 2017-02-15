@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libmux-3.11.0">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.parrot/libmux/3.11.0/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.parrot/libmux/3.11.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libmux/3.11.0/a46ac77eb3d5582161ab1910d48b909a39868832/libmux-3.11.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

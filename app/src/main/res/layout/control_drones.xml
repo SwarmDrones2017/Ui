@@ -7,9 +7,9 @@
 
     <ProgressBar
         android:id="@+id/batteryLevel"
-        style="?android:progressBarStyleHorizontal"
+        style="@style/CustomProgressBarHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
         android:layout_alignParentBottom="true"
         android:max="100"
         android:minHeight="0dp"

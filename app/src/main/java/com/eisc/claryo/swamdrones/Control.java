@@ -67,15 +67,15 @@ public class Control extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    for (int i = 0; i < MainActivity.listBebop.size(); i++) {
+                    for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                         if(GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
-                            MainActivity.listBebop.get(i).takeOff();
+                            GlobalCouple.couples.get(i).getBebopDrone().takeOff();
                     }
                 }
                 else {
-                    for (int i = 0; i < MainActivity.listBebop.size(); i++) {
+                    for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                         if(GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
-                            MainActivity.listBebop.get(i).land();
+                            GlobalCouple.couples.get(i).getBebopDrone().land();
                     }
                 }
             }
@@ -84,8 +84,8 @@ public class Control extends AppCompatActivity {
         btn_emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                    MainActivity.listBebop.get(i).emergency();
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    GlobalCouple.couples.get(i).getBebopDrone().emergency();
                 }
             }
         });
@@ -95,17 +95,17 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setPitch((byte) 50);
-                            MainActivity.listBebop.get(i).setFlag((byte) 1);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) 50);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setPitch((byte) 0);
-                            MainActivity.listBebop.get(i).setFlag((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) 0);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
 
@@ -123,17 +123,17 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setPitch((byte) -50);
-                            MainActivity.listBebop.get(i).setFlag((byte) 1);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) -50);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setPitch((byte) 0);
-                            MainActivity.listBebop.get(i).setFlag((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) 0);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
 
@@ -153,17 +153,17 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setRoll((byte) -50);
-                            MainActivity.listBebop.get(i).setFlag((byte) 1);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) -50);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setRoll((byte) 0);
-                            MainActivity.listBebop.get(i).setFlag((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) 0);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
 
@@ -182,17 +182,17 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setRoll((byte) 50);
-                            MainActivity.listBebop.get(i).setFlag((byte) 1);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) 50);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setRoll((byte) 0);
-                            MainActivity.listBebop.get(i).setFlag((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) 0);
+                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
 
@@ -210,15 +210,15 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setYaw((byte) -50);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) -50);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setYaw((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 0);
                         }
                         break;
 
@@ -236,15 +236,15 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setYaw((byte) 50);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 50);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setYaw((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 0);
                         }
                         break;
 
@@ -262,15 +262,15 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setGaz((byte) 50);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 50);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setGaz((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 0);
                         }
                         break;
 
@@ -288,15 +288,15 @@ public class Control extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setGaz((byte) -50);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) -50);
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                            MainActivity.listBebop.get(i).setGaz((byte) 0);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 0);
                         }
                         break;
 

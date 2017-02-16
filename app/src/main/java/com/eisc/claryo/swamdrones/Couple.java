@@ -7,7 +7,7 @@ package com.eisc.claryo.swamdrones;
 public class Couple {
     BebopDrone bebopDrone;
     Raspberry raspberry;
-    boolean ok=false;
+    boolean ok=true;
 
 
     public Couple(BebopDrone bebopDrone, Raspberry raspberry) {

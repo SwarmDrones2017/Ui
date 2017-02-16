@@ -117,17 +117,33 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handler.sendMessage(myMessage);
-                if (deviceList.size() == 0){
-                    MainActivity.listBebop.clear();
-                }
-                else {
+                if (deviceList.size() == 0) {
+                    //GlobalCouple.couples.clear();
+                } else {
                     //Construction
                     //MainActivity.listBebop.get(0).dispose();
-                    for (int i = 0;i<deviceList.size();i++){
+                    for (int i = 0; i < deviceList.size(); i++) {
+                        /*
+                        à modifier pour insérer dans GlobalCouple
                         MainActivity.listBebop.add(new BebopDrone(context,deviceList.get(i)));
                         boolean isConnect = MainActivity.listBebop.get(i).connect();
-                        if (isConnect == false){
-                            Toast.makeText(context,"Probleme de connection",Toast.LENGTH_LONG);
+                        */
+                        BebopDrone bebop = new BebopDrone(context, deviceList.get(i));
+                        if (GlobalCouple.droneExist(bebop)) {
+                            bebop = null; //si le drone existait déjà, je supprime ce nouvel objet
+                        } else {
+                            boolean isConnect = bebop.connect();
+
+                            if (isConnect == false) {
+                                Toast.makeText(context, "Probleme de connection", Toast.LENGTH_LONG);
+                            } else {
+                                int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop);
+                                if (positionRpiCorres == -1) {
+                                    GlobalCouple.couples.add(new Couple(bebop, null));
+                                } else {
+                                    GlobalCouple.couples.get(positionRpiCorres).setBebopDrone(bebop);
+                                }
+                            }
                         }
                     }
                 }

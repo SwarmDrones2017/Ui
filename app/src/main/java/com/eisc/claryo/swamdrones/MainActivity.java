@@ -26,78 +26,59 @@ import static com.eisc.claryo.swamdrones.MessageHandler.LISTDRONEUPDATE;
 import static com.eisc.claryo.swamdrones.MessageHandler.NOTDRONE;
 
 public class MainActivity extends AppCompatActivity {
-/*
-    public static DroneListeConnecte[] items = {
-            new DroneListeConnecte("Bebop_648992", "Connected"),
-            new DroneListeConnecte("Bebop_615482", "Connected"),
-            new DroneListeConnecte("Bebop_026482", "Connected"),
-            new DroneListeConnecte("Bebop_528462", "Connected"),
-            new DroneListeConnecte("Bebop_645283", "Connected"),
-    };
-*/
 
+    public static final String MSG_ANY_DRONES = "Aucun";
+    public static DroneListeConnecte[] items;
+    private ArrayAdapter<String> adapter;
+    private ListView list;
+    private TextView textViewNbDrones;
+    private MainActivity ici = this;
+    static private String[] listDrone;
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            //String msgNULL = msg.getData().getString(NOTDRONE);
-            String[] listDrone = msg.getData().getStringArray(LISTDRONEUPDATE);
-            if (listDrone != null) {
-                if (listDrone[0].equals(MSG_ANY_DRONES)){
-                    textViewNbDrones.setText(MSG_ANY_DRONES);
-                    list.setVisibility(View.INVISIBLE);
-                }
-                else {
-                    textViewNbDrones.setText(""+listDrone.length);
-                    ArrayAdapter<String> listitems = new ArrayAdapter<String>(ici, android.R.layout.simple_list_item_1, listDrone);
-                    list.setAdapter(listitems);
-                    list.setVisibility(View.VISIBLE);
-
-                }
-
-            }
+            listDrone = msg.getData().getStringArray(LISTDRONEUPDATE);
+            ShowDroneList();
         }
     };
-    public static final String MSG_ANY_DRONES = "Aucun";
 
-    public static DroneListeConnecte[] items;
+    /**
+     * @author : sofiane :p
+     */
+    private void ShowDroneList() {
+        if (listDrone != null) {
+            if (listDrone[0].equals(MSG_ANY_DRONES)) {
+                textViewNbDrones.setText(MSG_ANY_DRONES);
+                list.setVisibility(View.INVISIBLE);
+            } else {
+                textViewNbDrones.setText("" + listDrone.length);
+                ArrayAdapter<String> listitems = new ArrayAdapter<String>(ici, android.R.layout.simple_list_item_1, listDrone);
+                list.setAdapter(listitems);
+                list.setVisibility(View.VISIBLE);
+            }
 
-    private ArrayAdapter<DroneListeConnecte> adapter;
-    private ListView list;
-    private TextView textViewNbDrones;
-    private MainActivity ici = this;
-
-    public static ArrayList<BebopDrone> listBebop;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(listBebop == null){
-            listBebop = new ArrayList<BebopDrone>();
+        if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<Couple>();
-            //new ServerUDP(getApplicationContext());
+            new ServerUDP(getApplicationContext());
         }
-
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
         Button btnFly = (Button) findViewById(R.id.btnFly);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
-        //adapter = new ArrayAdapter<DroneListeConnecte>();
-        if (items == null) {
-            items = new DroneListeConnecte[1];
-            if (items != null)
-                items[0] = new DroneListeConnecte("Aucun drone connecter", "Activer le wifi");
-        }
 
-        adapter = new ArrayAdapter<DroneListeConnecte>(this, android.R.layout.simple_list_item_1, items);
-        list.setAdapter(adapter);
-
+        ShowDroneList();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Si aucun drone n'est connecté, cliquer sur l'item ne fera rien
                 if(!list.getAdapter().getItem(0).equals("Aucun drone connecter")){

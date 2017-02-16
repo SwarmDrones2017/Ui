@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libARMedia-3.11.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.parrot/libARMedia/3.11.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.parrot/libARMedia/3.11.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARMedia/3.11.0/28b969e1410c8d9b6a6c17cb7562d1642d6ba13b/libARMedia-3.11.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

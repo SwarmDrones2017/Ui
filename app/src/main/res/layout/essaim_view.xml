@@ -23,6 +23,54 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@drawable/ic_settings" />
 
+    <ToggleButton
+        android:id="@+id/TglDrone1"
+        android:text="Drone 1"
+        android:textOff="Drone 1"
+        android:textOn="Drone 1"
+        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:checked="true" />
+
+    <ToggleButton
+        android:id="@+id/TglDrone2"
+        android:text="Drone 2"
+        android:textOff="Drone 2"
+        android:textOn="Drone 2"
+        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_toRightOf="@+id/TglDrone1"
+        android:layout_alignParentBottom="true"
+        android:checked="true" />
+
+    <ToggleButton
+        android:id="@+id/TglDrone3"
+        android:text="Drone 3"
+        android:textOff="Drone 3"
+        android:textOn="Drone 3"
+        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_toRightOf="@+id/TglDrone2"
+        android:layout_alignParentBottom="true"
+        android:checked="true" />
+
+    <Button
+        android:id="@+id/BtnAllDrone"
+        android:text="Tous"
+        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:checked="true" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -30,7 +78,26 @@
         android:layout_toRightOf="@+id/btnBackSwapView"
         android:layout_toEndOf="@+id/btnBackSwapView"
         android:layout_alignTop="@+id/btnBackSwapView"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/LayoutDrone1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/LigneTitre1">
+
+            <TextView
+                android:text="Bebop_786238"
+                android:textColor="@android:color/holo_green_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/NomDrone1"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -42,34 +109,112 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_speed"
-                android:id="@+id/imageView8"
+                android:id="@+id/VitesseD1"
                 android:layout_weight="1" />
+
+            <TextView
+                android:text="12m/s"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/VitessetxtD1"
+                android:layout_weight="1"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneHauteur1"></LinearLayout>
+            android:id="@+id/LigneHauteur1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_height"
+                android:id="@+id/Altitude1"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="25m"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Altitudetxt1"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneBatterie1"></LinearLayout>
+            android:id="@+id/LigneBatterie1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/battery_state_list"
+                android:id="@+id/Batterie1"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="90%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Batterie1txt"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneRaspi1"></LinearLayout>
+            android:id="@+id/LigneRaspi1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_raspi"
+                android:id="@+id/Raspi1"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="72%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Raspitxt1"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/LayoutDrone1"
+        android:layout_toEndOf="@+id/LayoutDrone1"
+        android:layout_alignTop="@+id/btnBackSwapView"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/LayoutDrone2">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/LigneTitre2">
+
+            <TextView
+                android:text="Bebop_017352"
+                android:textColor="@android:color/holo_blue_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/NomDrone2"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -77,32 +222,117 @@
             android:layout_height="match_parent"
             android:id="@+id/LigneVitesse2">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_speed"
+                android:id="@+id/VitesseD2"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="12m/s"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/VitessetxtD2"
+                android:layout_weight="1"
+                android:gravity="center" />
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneHauteur2"></LinearLayout>
+            android:id="@+id/LigneHauteur2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_height"
+                android:id="@+id/Altitude2"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="25m"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Altitudetxt2"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneBatterie2"></LinearLayout>
+            android:id="@+id/LigneBatterie2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/battery_state_list"
+                android:id="@+id/Batterie2"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="90%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Batterie2txt"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneRaspi2"></LinearLayout>
+            android:id="@+id/LigneRaspi2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_raspi"
+                android:id="@+id/Raspi2"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="72%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Raspitxt2"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/LayoutDrone2"
+        android:layout_toEndOf="@+id/LayoutDrone2"
+        android:layout_alignTop="@+id/btnBackSwapView"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/LayoutDrone3">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/LigneTitre3">
+
+            <TextView
+                android:text="Bebop_026123"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/NomDrone3"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -110,25 +340,87 @@
             android:layout_height="match_parent"
             android:id="@+id/LigneVitesse3">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_speed"
+                android:id="@+id/VitesseD3"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="12m/s"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/VitessetxtD3"
+                android:layout_weight="1"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneHauteur3"></LinearLayout>
+            android:id="@+id/LigneHauteur3">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_height"
+                android:id="@+id/Altitude3"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="25m"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Altitudetxt3"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneBatterie3"></LinearLayout>
+            android:id="@+id/LigneBatterie3">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/battery_state_list"
+                android:id="@+id/Batterie3"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="90%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Batterie3txt"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneRaspi3"></LinearLayout>
+            android:id="@+id/LigneRaspi3">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_raspi"
+                android:id="@+id/Raspi3"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="72%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/Raspitxt3"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
     </LinearLayout>
 
     <AbsoluteLayout
@@ -177,7 +469,8 @@
             android:background="@null"
             app:srcCompat="@drawable/ic_drone"
             android:layout_x="80dp"
-            android:layout_y="182dp" />
+            android:layout_y="182dp"
+            android:tint="@android:color/holo_green_dark" />
 
         <ImageView
             android:id="@+id/D1ProxRedBot"
@@ -349,7 +642,8 @@
             android:layout_x="450dp"
             android:layout_y="100dp"
             android:background="@null"
-            app:srcCompat="@drawable/ic_drone" />
+            app:srcCompat="@drawable/ic_drone"
+            android:tint="@android:color/holo_blue_dark" />
 
         <ImageView
             android:id="@+id/D2ProxRedTop"
@@ -521,7 +815,8 @@
             android:layout_x="270dp"
             android:layout_y="200dp"
             android:background="@null"
-            app:srcCompat="@drawable/ic_drone" />
+            app:srcCompat="@drawable/ic_drone"
+            android:tint="@android:color/black" />
 
         <ImageView
             android:id="@+id/D3ProxRedTop"

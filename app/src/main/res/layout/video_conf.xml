@@ -32,11 +32,13 @@
         android:layout_alignBottom="@id/btnResetVideoDrones"
         android:layout_alignParentTop="true"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:gravity="center_vertical"
         android:text="PARAMETRES VIDEO"
         android:layout_toLeftOf="@+id/txtDroneNom"
-        android:layout_alignLeft="@+id/TitreConfPilotParam1"
-        android:layout_alignStart="@+id/TitreConfPilotParam1" />
+        android:layout_alignLeft="@+id/sVParamVideo"
+        android:layout_alignStart="@+id/sVParamVideo" />
 
     <TextView
         android:text="Bebop_XXXX"
@@ -62,342 +64,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="Reset" />
-
-    <View
-        android:id="@+id/SeparatorHorizontal1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
-
-<!-- 1er param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Resolution de l'enregistrement" />
-
-    <ToggleButton
-        android:text="720p"
-        android:textOff="720p"
-        android:textOn="720p"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnVid720"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_toLeftOf="@+id/btnVid1080"
-        android:layout_toStartOf="@+id/btnVid1080"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"/>
-
-    <ToggleButton
-        android:text="1080p"
-        android:textOff="1080p"
-        android:textOn="1080p"
-        android:checked="true"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnVid1080"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-    <!-- FIN 1er param -->
-
-    <View
-        android:id="@+id/SeparatorHorizontal2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal1"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
-
-<!-- 2eme param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal2"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Qualité de l'enregistrement" />
-
-    <ToggleButton
-        android:text="Standard"
-        android:textOff="Standard"
-        android:textOn="Standard"
-        android:checked="true"
-        android:layout_width="80dp"
-        android:textSize="10sp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnStdr"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
-        android:layout_alignBottom="@+id/SeparatorHorizontal2"
-        android:layout_toLeftOf="@+id/btnHigh"
-        android:layout_toStartOf="@+id/btnHigh"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"/>
-
-    <ToggleButton
-        android:text="Haute"
-        android:textOff="Haute"
-        android:textOn="Haute"
-        android:textSize="10sp"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnHigh"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
-        android:layout_alignBottom="@+id/SeparatorHorizontal2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-    <!-- FIN 2eme param -->
-
-    <View
-        android:id="@+id/SeparatorHorizontal3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal2"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
-
-<!-- 3eme param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam3"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal2"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Fréquence d'images" />
-
-    <ToggleButton
-        android:text="24 FPS"
-        android:textOff="24 FPS"
-        android:textOn="24 FPS"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn24"
-        android:layout_alignTop="@+id/SeparatorHorizontal2"
-        android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:layout_toLeftOf="@+id/btn25"
-        android:layout_toStartOf="@+id/btn25"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
-
-    <ToggleButton
-        android:text="25 FPS"
-        android:textOff="25 FPS"
-        android:textOn="25 FPS"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn25"
-        android:layout_alignTop="@+id/SeparatorHorizontal2"
-        android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:layout_toLeftOf="@+id/btn30"
-        android:layout_toStartOf="@+id/btn30"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
-
-    <ToggleButton
-        android:text="30 FPS"
-        android:textOff="30 FPS"
-        android:textOn="30 FPS"
-        android:checked="true"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn30"
-        android:layout_alignTop="@+id/SeparatorHorizontal2"
-        android:layout_alignBottom="@+id/SeparatorHorizontal3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-
-
-    <!-- FIN 3eme param -->
-
-    <View
-        android:id="@+id/SeparatorHorizontal4"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal3"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
-
-<!-- 4eme param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam4"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal3"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Stabilisation des roulis" />
-
-    <ToggleButton
-        android:text="NON"
-        android:textOff="NON"
-        android:textOn="NON"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnStablN"
-        android:layout_alignTop="@+id/SeparatorHorizontal3"
-        android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:layout_toLeftOf="@+id/btnStabO"
-        android:layout_toStartOf="@+id/btnStabO"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"/>
-
-    <ToggleButton
-        android:text="OUI"
-        android:textOff="OUI"
-        android:textOn="OUI"
-        android:checked="true"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnStabO"
-        android:layout_alignTop="@+id/SeparatorHorizontal3"
-        android:layout_alignBottom="@+id/SeparatorHorizontal4"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-    <!-- FIN 4eme param -->
-
-    <View
-        android:id="@+id/SeparatorHorizontal5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal4"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
-
-<!-- 5eme param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam5"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal5"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal4"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Mode d'anti-scintillement" />
-
-    <ToggleButton
-        android:text="50 Hz"
-        android:textOff="50 Hz"
-        android:textOn="50 Hz"
-        android:textSize="11sp"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn50Hz"
-        android:layout_alignTop="@+id/SeparatorHorizontal4"
-        android:layout_alignBottom="@+id/SeparatorHorizontal5"
-        android:layout_toLeftOf="@+id/btn60Hz"
-        android:layout_toStartOf="@+id/btn60Hz"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
-
-    <ToggleButton
-        android:text="60 Hz"
-        android:textOff="60 Hz"
-        android:textOn="60 Hz"
-        android:textSize="11sp"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn60Hz"
-        android:layout_alignTop="@+id/SeparatorHorizontal4"
-        android:layout_alignBottom="@+id/SeparatorHorizontal5"
-        android:layout_toLeftOf="@+id/btnAutoHz"
-        android:layout_toStartOf="@+id/btnAutoHz"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
-
-    <ToggleButton
-        android:text="AUTO"
-        android:textOff="AUTO"
-        android:textOn="AUTO"
-        android:checked="true"
-        android:textSize="11sp"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnAutoHz"
-        android:layout_alignTop="@+id/SeparatorHorizontal4"
-        android:layout_alignBottom="@+id/SeparatorHorizontal5"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-    <!-- FIN 5eme param -->
 
     <ScrollView
         android:id="@+id/sVPilotageConf"
@@ -443,6 +109,285 @@
                 app:srcCompat="@drawable/ic_info_logo"
                 android:layout_marginTop="7dp"
                 android:id="@+id/btnInfoConf" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtDroneNom"
+        android:layout_toRightOf="@+id/sVPilotageConf"
+        android:layout_toEndOf="@+id/sVPilotageConf"
+        android:id="@+id/sVParamVideo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TitreConfPilotParam1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:text="Resolution de l'enregistrement"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"/>
+
+                <ToggleButton
+                    android:text="720p"
+                    android:textOff="720p"
+                    android:textOn="720p"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnVid720"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="1080p"
+                    android:textOff="1080p"
+                    android:textOn="1080p"
+                    android:checked="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnVid1080"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/SeparatorHorizontal1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TitreConfPilotParam2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Qualité de l'enregistrement"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="Standard"
+                    android:textOff="Standard"
+                    android:textOn="Standard"
+                    android:checked="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_width="match_parent"
+                    android:textSize="10sp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnStdr"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="Haute"
+                    android:textOff="Haute"
+                    android:textOn="Haute"
+                    android:textSize="10sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnHigh"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/SeparatorHorizontal2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TitreConfPilotParam3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Fréquence d'images"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="24 FPS"
+                    android:textOff="24 FPS"
+                    android:textOn="24 FPS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn24"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="25 FPS"
+                    android:textOff="25 FPS"
+                    android:textOn="25 FPS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn25"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="30 FPS"
+                    android:textOff="30 FPS"
+                    android:textOn="30 FPS"
+                    android:checked="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn30"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/SeparatorHorizontal3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TitreConfPilotParam4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Stabilisation des roulis"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="NON"
+                    android:textOff="NON"
+                    android:textOn="NON"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnStablN"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="OUI"
+                    android:textOff="OUI"
+                    android:textOn="OUI"
+                    android:checked="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnStabO"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/SeparatorHorizontal4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TitreConfPilotParam5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Mode d'anti-scintillement"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="50 Hz"
+                    android:textOff="50 Hz"
+                    android:textOn="50 Hz"
+                    android:textSize="11sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn50Hz"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="60 Hz"
+                    android:textOff="60 Hz"
+                    android:textOn="60 Hz"
+                    android:textSize="11sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn60Hz"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1" />
+
+                <ToggleButton
+                    android:text="AUTO"
+                    android:textOff="AUTO"
+                    android:textOn="AUTO"
+                    android:checked="true"
+                    android:textSize="11sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnAutoHz"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/SeparatorHorizontal5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
 
         </LinearLayout>
     </ScrollView>

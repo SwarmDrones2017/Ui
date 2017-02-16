@@ -5,16 +5,17 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * Classe permettant de voir la formation de l'essaim
@@ -42,6 +43,10 @@ public class EssaimView extends AppCompatActivity {
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnBackSwapView);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettingsSwapView);
+        final ToggleButton TglDrone1 = (ToggleButton) findViewById(R.id.TglDrone1);
+        final ToggleButton TglDrone2 = (ToggleButton) findViewById(R.id.TglDrone2);
+        final ToggleButton TglDrone3 = (ToggleButton) findViewById(R.id.TglDrone3);
+        final Button BtnAllDrone = (Button) findViewById(R.id.BtnAllDrone);
 
         Drone1 = (ImageView) findViewById(R.id.Drone1);
         D1ProxRedBot = (ImageView) findViewById(R.id.D1ProxRedBot);
@@ -110,7 +115,6 @@ public class EssaimView extends AppCompatActivity {
 
         density = getResources().getDisplayMetrics().density;
         densite = Float.toString(density);
-        Toast.makeText(getApplicationContext(), densite, Toast.LENGTH_LONG).show();
 
         // return 0.75 if it's LDPI
         // return 1.0 if it's MDPI
@@ -137,6 +141,16 @@ public class EssaimView extends AppCompatActivity {
             }
         });
 
+        //On gère les boutons de selection des drones
+
+        BtnAllDrone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TglDrone1.setChecked(true);
+                TglDrone2.setChecked(true);
+                TglDrone3.setChecked(true);
+            }
+        });
 
     }
 

@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         ListView list = (ListView) findViewById(R.id.listViewConnectedDrones);
         Button btnFly = (Button) findViewById(R.id.btnFly);
+        Button btnABout = (Button) findViewById(R.id.btnAbout);
+        Button btnNotice = (Button) findViewById(R.id.btnNotice);
 
 
         ArrayAdapter<DroneListeConnecte> adapter = new ArrayAdapter<DroneListeConnecte>(this, android.R.layout.simple_list_item_1, items);
@@ -68,5 +70,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnABout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
+                startActivity(AboutActivity);
+            }
+        });
+
+        btnNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
+                startActivity(NoticeActivity);
+            }
+        });
     }
 }

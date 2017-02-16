@@ -60,6 +60,15 @@ public class ServerUDP {
                                 envoi.setAddress(socket.getInetAddress());
                                 envoi.setPort(paquet.getPort());
                                 socket.send(envoi);
+
+                                //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples
+                                //et insertion de l'objet dans la liste des couples
+                                if(!GlobalCouple.raspberryExist(paquet.getAddress())) {
+
+                                    Raspberry rpi = new Raspberry(paquet.getAddress());
+                                    GlobalCouple.couples.add(new Couple(null, rpi));
+                                }
+
                                 break;
                         }
                         paquet.setLength(buffer.length);

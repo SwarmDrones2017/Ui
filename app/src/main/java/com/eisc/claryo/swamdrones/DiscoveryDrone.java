@@ -122,7 +122,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                 }
                 else {
                     //Construction
-                    MainActivity.listBebop.get(0).dispose();
+                    //MainActivity.listBebop.get(0).dispose();
                     for (int i = 0;i<deviceList.size();i++){
                         MainActivity.listBebop.add(new BebopDrone(context,deviceList.get(i)));
                         boolean isConnect = MainActivity.listBebop.get(i).connect();

@@ -9,6 +9,7 @@ public class Couple {
     Raspberry raspberry;
     boolean ok=false;
 
+
     public Couple(BebopDrone bebopDrone, Raspberry raspberry) {
         this.bebopDrone = bebopDrone;
         this.raspberry = raspberry;

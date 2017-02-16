@@ -40,7 +40,6 @@ import java.util.List;
 
 public class BebopDrone implements ARDeviceControllerStreamListener{
     private static final String TAG = "BebopDrone";
-    int totottoo;
     private static final int DEVICE_PORT = 21;
 
     @Override

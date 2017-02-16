@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * @author : sofiane :p
+     */
     private void ShowDroneList() {
         if (listDrone != null) {
             if (listDrone[0].equals(MSG_ANY_DRONES)) {

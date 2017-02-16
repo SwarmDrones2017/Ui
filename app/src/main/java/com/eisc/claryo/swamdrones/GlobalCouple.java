@@ -35,17 +35,27 @@ public class GlobalCouple {
     }
 
    static public int raspberryCorrespondante(BebopDrone drone){
-        int positionCoupleDansListe =-1;
-        for(int i=0; i<couples.size(); i++){
-            if(drone.equals(couples.get(i).getBebopDrone()))
-                positionCoupleDansListe = i;
-        }
-        return positionCoupleDansListe;
+       int positionCoupleDansListe =-1;
+       byte[] droneAdd = drone.getIP().getAddress();
+       byte droneLastOctet = droneAdd[droneAdd.length-1];
+
+       for(int i=0; i<couples.size(); i++){
+           byte[] rpiAdd = couples.get(i).getRaspberry().getAddress().getAddress();
+           byte rPiLastOctet = rpiAdd[rpiAdd.length-1];
+           if(rPiLastOctet-1 == droneLastOctet)
+               positionCoupleDansListe = i;
+       }
+       return positionCoupleDansListe;
+   }
     }
     static public int droneCorrepondant(Raspberry raspberry){
         int positionCoupleDansListe =-1;
+        byte[] rpiAdd = raspberry.getAddress().getAddress();
+        byte rPiLastOctet = rpiAdd[rpiAdd.length-1];
         for(int i=0; i<couples.size(); i++){
-            if(raspberry.equals(couples.get(i).getRaspberry()))
+            byte[] droneAdd = couples.get(i).getBebopDrone().getIP().getAddress().getAddress();
+            byte droneLastOctet = droneAdd[droneAdd.length-1];
+            if(rPiLastOctet == droneLastOctet+1)
                 positionCoupleDansListe = i;
         }
         return positionCoupleDansListe;

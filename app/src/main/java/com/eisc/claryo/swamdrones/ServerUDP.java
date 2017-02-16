@@ -62,9 +62,12 @@ public class ServerUDP {
                                 //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples
                                 //et insertion de l'objet dans la liste des couples
                                 if(!GlobalCouple.raspberryExist(paquet.getAddress())) {
-
                                     Raspberry rpi = new Raspberry(paquet.getAddress());
-                                    GlobalCouple.couples.add(new Couple(null, rpi));
+                                    int index=GlobalCouple.droneCorrepondant(rpi);
+                                    if(index!=-1)//on a trouvé un drone correspondant à la raspberry
+                                        GlobalCouple.couples.get(index).setRaspberry(rpi);
+                                    else
+                                        GlobalCouple.couples.add(new Couple(null, rpi));
                                 }
 
                                 break;

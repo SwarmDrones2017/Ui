@@ -68,12 +68,14 @@ public class Control extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                        MainActivity.listBebop.get(i).takeOff();
+                        if(GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
+                            MainActivity.listBebop.get(i).takeOff();
                     }
                 }
                 else {
                     for (int i = 0; i < MainActivity.listBebop.size(); i++) {
-                        MainActivity.listBebop.get(i).land();
+                        if(GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
+                            MainActivity.listBebop.get(i).land();
                     }
                 }
             }

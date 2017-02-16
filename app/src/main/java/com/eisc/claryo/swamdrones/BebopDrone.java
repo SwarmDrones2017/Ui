@@ -42,6 +42,15 @@ import java.util.List;
 public class BebopDrone implements ARDeviceControllerStreamListener{
     private static final String TAG = "BebopDrone";
     private static final int DEVICE_PORT = 21;
+    private boolean flyAuthorization = false;
+
+    public boolean isFlyAuthorization() {
+        return flyAuthorization;
+    }
+
+    public void setFlyAuthorization(boolean flyAuthorization) {
+        this.flyAuthorization = flyAuthorization;
+    }
 
     @Override
     public ARCONTROLLER_ERROR_ENUM configureDecoder(ARDeviceController deviceController, ARControllerCodec codec) {

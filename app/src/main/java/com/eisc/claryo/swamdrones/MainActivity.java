@@ -1,5 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import java.lang.annotation.Target;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -95,18 +97,26 @@ public class MainActivity extends AppCompatActivity {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
+
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                        startActivity(DroneDetailsActivity);
-                        break;
+                //Si aucun drone n'est connecté, cliquer sur l'item ne fera rien
+                if(!list.getAdapter().getItem(0).equals("Aucun drone connecter")){
+                    String droneClicked = (String)list.getAdapter().getItem(position);
+                    int droneSelected=-1;
+                    for(int i=0; i<GlobalCouple.couples.size(); i++){
+                        if(droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
+                            droneSelected=i;
+                    }
 
+                    Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
+                    if(droneSelected !=-1){
+                        /*A finir avec toutes les informations*/
+                        DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getdeviceService().getName());
+                    }else{
+                        DroneDetailsActivity.putExtra("Name", "Bebop non construit");
+                    }
 
+                    startActivity(DroneDetailsActivity);
                 }
 
             }

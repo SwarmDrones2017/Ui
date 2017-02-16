@@ -35,6 +35,8 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.arsdk.arutils.ARUtilsException;
 import com.parrot.arsdk.arutils.ARUtilsManager;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,7 +145,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     private ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM mFlyingState;
     private String mCurrentRunId;
 
-    private String IP;
+    private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
 
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
@@ -168,19 +170,21 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
             try
             {
-                IP = ((ARDiscoveryDeviceNetService)(deviceService.getDevice())).getIp();
-
+                String strIP = ((ARDiscoveryDeviceNetService)(deviceService.getDevice())).getIp();
+                IP = InetAddress.getByName(strIP);
                 ARUtilsManager ftpListManager = new ARUtilsManager();
                 ARUtilsManager ftpQueueManager = new ARUtilsManager();
 
-                ftpListManager.initWifiFtp(IP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
-                ftpQueueManager.initWifiFtp(IP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
+                ftpListManager.initWifiFtp(strIP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
+                ftpQueueManager.initWifiFtp(strIP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
 
 
             }
             catch (ARUtilsException e)
             {
                 Log.e(TAG, "Exception", e);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
             }
 
         } else {
@@ -188,7 +192,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         }
     }
 
-    public String getIP(){
+    public InetAddress getIP(){
         return IP;
     }
 

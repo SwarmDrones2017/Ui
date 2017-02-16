@@ -25,9 +25,10 @@ public class DroneDetails extends AppCompatActivity {
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal);
         ProgressBar ProgressBarBattery = (ProgressBar) findViewById(R.id.progressBarBattery);
         TextView TextViewBattery = (TextView) findViewById(R.id.textViewBattery);
+        Bundle extras = getIntent().getExtras();
 
         CaractDrone[] caract = {
-                new CaractDrone("Type de produit", "Bebop_648992"),
+                new CaractDrone("Type de produit", extras.getString("Name")),
                 new CaractDrone("Version materiel", "HW_02"),
                 new CaractDrone("Version logiciel", "3.9.0"),
                 new CaractDrone("Version GPS", "2.01F"),

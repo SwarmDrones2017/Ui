@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         if(listBebop == null){
             listBebop = new ArrayList<BebopDrone>();
             GlobalCouple.couples = new ArrayList<Couple>();
-            //new ServerUDP(getApplicationContext());
+            new ServerUDP(getApplicationContext());
         }
 
 

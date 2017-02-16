@@ -35,6 +35,7 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.arsdk.arutils.ARUtilsException;
 import com.parrot.arsdk.arutils.ARUtilsManager;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,7 +181,8 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     }
 
     public String getIP(){
-        return IP;
+    return IP;
+        //return new InetAddress(IP);
     }
 
     public ARDiscoveryDeviceService getdeviceService(){

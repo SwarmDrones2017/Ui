@@ -8,7 +8,10 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
 /**
@@ -25,17 +28,12 @@ public class ServerUDP {
 
     final String RPI_SMARTPHONE = "Telephone";
     final String RPI_SENSORS = "Sensor";
-    final String RPI_REPONSE = "OK\n";
-
-    void addListneur(View.OnClickListener l){
-
-    }
+    final String RPI_REPONSE = "Oui\n";
 
     ServerUDP(final Context context){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(context,"Lancement du serveur",Toast.LENGTH_LONG);
                 try {
                     DatagramSocket socket = new DatagramSocket(port);
                     DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
@@ -57,8 +55,8 @@ public class ServerUDP {
                                 //Log.d(TAG,"Message reçu : "+sframe);
                                 byte [] buf_send = RPI_REPONSE.getBytes(Charset.forName("UTF-8"));
                                 envoi = new DatagramPacket(buf_send,buf_send.length);
-                                envoi.setAddress(socket.getInetAddress());
-                                envoi.setPort(paquet.getPort());
+                                envoi.setAddress(paquet.getAddress());
+                                //envoi.setPort(paquet.getPort());
                                 socket.send(envoi);
 
                                 //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples
@@ -85,6 +83,30 @@ public class ServerUDP {
 
             }
         }).start();
+       /* new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    byte []buf = new byte[1024];
+                    DatagramSocket socket = new DatagramSocket(5300);
+                    DatagramPacket packet = new DatagramPacket(buf,buf.length);
+                    System.arraycopy("salut".getBytes(),0,buf,0,"salut".getBytes().length);
+                    packet.setAddress(InetAddress.getByName("192.168.2.30"));
+                    socket.send(packet);
+                    int i = 0;
+                    i+=20;
+                    int A = 4;
+                    A+=i;
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();*/
 
     }
 

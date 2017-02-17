@@ -35,10 +35,10 @@ public class DroneDetails extends AppCompatActivity {
         String strDurationLastFlight = String.format("%02d:%02d:%02d",hDurationLastFlight, mDurationLastFlight, rsDurationLastFlight);
 
         int durationTotalFlight = extras.getShort("TotalFlight");
-        int rsDurationTotalFlight=durationLastFlight%60;
-        int mDurationTotalFlight=durationLastFlight/60;
-        int hDurationTotalFlight=mDurationLastFlight/60;
-        mDurationLastFlight=mDurationLastFlight%60;
+        int rsDurationTotalFlight=durationTotalFlight%60;
+        int mDurationTotalFlight=durationTotalFlight/60;
+        int hDurationTotalFlight=mDurationTotalFlight/60;
+        mDurationTotalFlight=mDurationTotalFlight%60;
         String strDurationTotalFlight = String.format("%02d:%02d:%02d",hDurationTotalFlight, mDurationTotalFlight, rsDurationTotalFlight);
 
         CaractDrone[] caract = {
@@ -49,7 +49,7 @@ public class DroneDetails extends AppCompatActivity {
                 new CaractDrone("Numéro de série", extras.getString("SerialID")),
                 new CaractDrone("Vols", Short.toString(extras.getShort("nbFlight"))),
                 new CaractDrone("Dernier vol", strDurationLastFlight),
-                new CaractDrone("Temps de vol total", strDurationLastFlight),
+                new CaractDrone("Temps de vol total", strDurationTotalFlight),
         };
 
         ArrayAdapter<CaractDrone> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, caract);

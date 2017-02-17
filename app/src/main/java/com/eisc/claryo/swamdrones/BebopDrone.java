@@ -40,10 +40,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BebopDrone implements ARDeviceControllerStreamListener{
+public class BebopDrone implements ARDeviceControllerStreamListener {
     private static final String TAG = "BebopDrone";
     private static final int DEVICE_PORT = 21;
     private boolean flyAuthorization = false;
+    private InfoDrone infoDrone = new InfoDrone();
 
     public boolean isFlyAuthorization() {
         return flyAuthorization;
@@ -73,6 +74,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called when the connection to the drone changes
          * Called in the main thread
+         *
          * @param state the state of the drone
          */
         void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state);
@@ -80,6 +82,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called when the battery charge changes
          * Called in the main thread
+         *
          * @param batteryPercentage the battery remaining (in percent)
          */
         void onBatteryChargeChanged(int batteryPercentage);
@@ -87,6 +90,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called when the piloting state changes
          * Called in the main thread
+         *
          * @param state the piloting state of the drone
          */
         void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state);
@@ -94,6 +98,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called when a picture is taken
          * Called on a separate thread
+         *
          * @param error ERROR_OK if picture has been taken, otherwise describe the error
          */
         void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error);
@@ -101,6 +106,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called when the video decoder should be configured
          * Called on a separate thread
+         *
          * @param codec the codec to configure the decoder with
          */
         void configureDecoder(ARControllerCodec codec);
@@ -108,6 +114,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called when a video frame has been received
          * Called on a separate thread
+         *
          * @param frame the video frame
          */
         void onFrameReceived(ARFrame frame);
@@ -115,6 +122,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called before medias will be downloaded
          * Called in the main thread
+         *
          * @param nbMedias the number of medias that will be downloaded
          */
         void onMatchingMediasFound(int nbMedias);
@@ -122,14 +130,16 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         /**
          * Called each time the progress of a download changes
          * Called in the main thread
+         *
          * @param mediaName the name of the media
-         * @param progress the progress of its download (from 0 to 100)
+         * @param progress  the progress of its download (from 0 to 100)
          */
         void onDownloadProgressed(String mediaName, int progress);
 
         /**
          * Called when a media download has ended
          * Called in the main thread
+         *
          * @param mediaName the name of the media
          */
         void onDownloadComplete(String mediaName);
@@ -149,7 +159,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     private ARDiscoveryDeviceService deviceService;
 
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
-
+        this.deviceService = deviceService;
         mListeners = new ArrayList<>();
 
         // needed because some callbacks will be called on the main thread
@@ -168,9 +178,8 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 discoveryDevice.dispose();
             }
 
-            try
-            {
-                String strIP = ((ARDiscoveryDeviceNetService)(deviceService.getDevice())).getIp();
+            try {
+                String strIP = ((ARDiscoveryDeviceNetService) (deviceService.getDevice())).getIp();
                 IP = InetAddress.getByName(strIP);
                 ARUtilsManager ftpListManager = new ARUtilsManager();
                 ARUtilsManager ftpQueueManager = new ARUtilsManager();
@@ -179,9 +188,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 ftpQueueManager.initWifiFtp(strIP, DEVICE_PORT, ARUtilsManager.FTP_ANONYMOUS, "");
 
 
-            }
-            catch (ARUtilsException e)
-            {
+            } catch (ARUtilsException e) {
                 Log.e(TAG, "Exception", e);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
@@ -190,18 +197,18 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         } else {
             Log.e(TAG, "DeviceService type is not supported by BebopDrone");
         }
+        mDeviceController.getFeatureCommon().sendSettingsAllSettings();
     }
 
-    public InetAddress getIP(){
+    public InetAddress getIP() {
         return IP;
     }
 
-    public ARDiscoveryDeviceService getdeviceService(){
+    public ARDiscoveryDeviceService getdeviceService() {
         return deviceService;
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         if (mDeviceController != null)
             mDeviceController.dispose();
     }
@@ -218,9 +225,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     /**
      * Connect to the drone
+     *
      * @return true if operation was successful.
-     *              Returning true doesn't mean that device is connected.
-     *              You can be informed of the actual connection through {@link Listener#onDroneConnectionChanged}
+     * Returning true doesn't mean that device is connected.
+     * You can be informed of the actual connection through {@link Listener#onDroneConnectionChanged}
      */
     public boolean connect() {
         boolean success = false;
@@ -235,9 +243,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     /**
      * Disconnect from the drone
+     *
      * @return true if operation was successful.
-     *              Returning true doesn't mean that device is disconnected.
-     *              You can be informed of the actual disconnection through {@link Listener#onDroneConnectionChanged}
+     * Returning true doesn't mean that device is disconnected.
+     * You can be informed of the actual disconnection through {@link Listener#onDroneConnectionChanged}
      */
     public boolean disconnect() {
         boolean success = false;
@@ -252,6 +261,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     /**
      * Get the current connection state
+     *
      * @return the connection state of the drone
      */
     public ARCONTROLLER_DEVICE_STATE_ENUM getConnectionState() {
@@ -260,6 +270,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     /**
      * Get the current flying state
+     *
      * @return the flying state
      */
     public ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM getFlyingState() {
@@ -293,6 +304,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     /**
      * Set the forward/backward angle of the drone
      * Note that {@link BebopDrone#setFlag(byte)} should be set to 1 in order to take in account the pitch value
+     *
      * @param pitch value in percentage from -100 to 100
      */
     public void setPitch(byte pitch) {
@@ -304,6 +316,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     /**
      * Set the side angle of the drone
      * Note that {@link BebopDrone#setFlag(byte)} should be set to 1 in order to take in account the roll value
+     *
      * @param roll value in percentage from -100 to 100
      */
     public void setRoll(byte roll) {
@@ -326,6 +339,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     /**
      * Take in account or not the pitch and roll values
+     *
      * @param flag 1 if the pitch and roll values should be used, 0 otherwise
      */
     public void setFlag(byte flag) {
@@ -458,6 +472,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
                     final int battery = (Integer) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT);
+                    infoDrone.battery = battery;
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -482,10 +497,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 }
             }
             // if event received is the picture notification
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED) && (elementDictionary != null)){
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED) && (elementDictionary != null)) {
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
-                    final ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error = ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR));
+                    final ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error = ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR));
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -495,7 +510,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 }
             }
             // if event received is the run id
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED) && (elementDictionary != null)){
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED) && (elementDictionary != null)) {
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
                     final String runID = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED_RUNID);
@@ -507,6 +522,48 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                     });
                 }
             }
+            //SerialID high
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    String high = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED_HIGH);
+                    infoDrone.serialIDHigh = high;
+                }
+            }
+            //SerialID low
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    String low = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED_LOW);
+                    infoDrone.serialIDLow = low;
+                }
+            }
+            //Drone Version
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.softwareVersion = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_SOFTWARE);
+                    infoDrone.hardwareVersion = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_HARDWARE);
+                }
+            }
+            //GPS Version
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_PRODUCTGPSVERSIONCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.softwareGPSVersion = (String) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_PRODUCTGPSVERSIONCHANGED_SOFTWARE);
+
+                }
+            }
+            //motor flight status
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.nbFlights = (short) ((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_NBFLIGHTS)).intValue();
+                    infoDrone.durationLastFlight = (short) ((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_LASTFLIGHTDURATION)).intValue();
+                    infoDrone.durationTotalFlights = (int) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_TOTALFLIGHTDURATION);
+                }
+            }
+
         }
     };
 
@@ -524,6 +581,58 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         }
 
         @Override
-        public void onFrameTimeout(ARDeviceController deviceController) {}
+        public void onFrameTimeout(ARDeviceController deviceController) {
+        }
     };
+
+    public InfoDrone getInfoDrone() {
+        return infoDrone;
+    }
+
+    public class InfoDrone {
+        private String serialID;
+        private String serialIDLow;
+        private String serialIDHigh;
+        private int battery;
+        private String hardwareVersion;
+        private String softwareVersion;
+        private String softwareGPSVersion;
+        private short nbFlights;
+        private short durationLastFlight;
+        private int durationTotalFlights;
+
+        public short getNbFlights() {
+            return nbFlights;
+        }
+
+        public short getDurationLastFlight() {
+            return durationLastFlight;
+        }
+
+        public int getDurationTotalFlights() {
+            return durationTotalFlights;
+        }
+
+        public String getSoftwareGPSVersion() {
+            return softwareGPSVersion;
+        }
+
+        public String getHardwareVersion() {
+            return hardwareVersion;
+        }
+
+        public String getSoftwareVersion() {
+            return softwareVersion;
+        }
+
+        public int getBattery() {
+            return battery;
+        }
+
+        public String getSerialID() {
+            serialID = serialIDHigh + serialIDLow;
+
+            return serialID;
+        }
+    }
 }

@@ -27,22 +27,35 @@ public class DroneDetails extends AppCompatActivity {
         TextView TextViewBattery = (TextView) findViewById(R.id.textViewBattery);
         Bundle extras = getIntent().getExtras();
 
+        short durationLastFlight = extras.getShort("LastFlight");
+        int rsDurationLastFlight=durationLastFlight%60;
+        int mDurationLastFlight=durationLastFlight/60;
+        int hDurationLastFlight=mDurationLastFlight/60;
+        mDurationLastFlight=mDurationLastFlight%60;
+        String strDurationLastFlight = String.format("%02d:%02d:%02d",hDurationLastFlight, mDurationLastFlight, rsDurationLastFlight);
+
+        int durationTotalFlight = extras.getShort("TotalFlight");
+        int rsDurationTotalFlight=durationLastFlight%60;
+        int mDurationTotalFlight=durationLastFlight/60;
+        int hDurationTotalFlight=mDurationLastFlight/60;
+        mDurationLastFlight=mDurationLastFlight%60;
+        String strDurationTotalFlight = String.format("%02d:%02d:%02d",hDurationTotalFlight, mDurationTotalFlight, rsDurationTotalFlight);
+
         CaractDrone[] caract = {
                 new CaractDrone("Type de produit", extras.getString("Name")),
-                new CaractDrone("Version materiel", "HW_02"),
-                new CaractDrone("Version logiciel", "3.9.0"),
-                new CaractDrone("Version GPS", "2.01F"),
-                new CaractDrone("Numéro de série", "P1823784716485"),
-                new CaractDrone("Vols", "95"),
-                new CaractDrone("Dernier vol", "00:02:28"),
-                new CaractDrone("Temps de vol total", "00:49:55"),
+                new CaractDrone("Version materiel", extras.getString("HardVersion")),
+                new CaractDrone("Version logiciel", extras.getString("SoftVersion")),
+                new CaractDrone("Version GPS", extras.getString("GPSVersion")),
+                new CaractDrone("Numéro de série", extras.getString("SerialID")),
+                new CaractDrone("Vols", Short.toString(extras.getShort("nbFlight"))),
+                new CaractDrone("Dernier vol", strDurationLastFlight),
+                new CaractDrone("Temps de vol total", strDurationLastFlight),
         };
-
 
         ArrayAdapter<CaractDrone> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, caract);
         ListView listC = (ListView) findViewById(R.id.ListViewCaract);
         listC.setAdapter(adapter);
-
+        progress = extras.getInt("Battery");
         TextViewBattery.setText(progress + "%");
 
         ProgressBarBattery.setProgress(progress);
@@ -56,6 +69,6 @@ public class DroneDetails extends AppCompatActivity {
                 DroneDetails.this.finish();
             }
         });
-    }
 
+    }
 }

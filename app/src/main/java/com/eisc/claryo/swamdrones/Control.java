@@ -9,13 +9,22 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerCodec;
+import com.parrot.arsdk.arcontroller.ARFrame;
 
 /**
  * Classe pour l'interface de controle de vol de l'essaim
  */
 
-public class Control extends AppCompatActivity {
-
+public class Control extends AppCompatActivity implements BebopDrone.Listener{
+    private ProgressBar progressBarBatterie;
+    private ImageView batteryIndicator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +50,14 @@ public class Control extends AppCompatActivity {
 
         Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
 
-        //ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
+        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
+
+        progressBarBatterie = (ProgressBar)findViewById(R.id.batteryLevel);
+        progressBarBatterie.setProgress(progressBarBatterie.getMax());
+        progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+
+        batteryIndicator = (ImageView)findViewById(R.id.battery_indicator);
+        batteryIndicator.setImageResource(R.drawable.ic_battery_full_24dp);
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);
@@ -309,13 +325,87 @@ public class Control extends AppCompatActivity {
             }
         });
 
-       /* btnSwapView.setOnClickListener(new View.OnClickListener() {
+        btnSwapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
                 startActivity(EssaimViewActivity);
             }
-        });*/
+        });
     }
 
+    @Override
+    public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
+
+    }
+
+    @Override
+    public void onBatteryChargeChanged(int batteryPercentage) {
+        progressBarBatterie.setProgress(batteryPercentage);
+        switch (batteryPercentage){
+            case 90:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_90_24dp);
+                break;
+            case 80:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_80_24dp);
+                break;
+            case 60:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_60_24dp);
+                break;
+            case 50:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_50_24dp);
+                break;
+            case 30:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_30_24dp);
+                break;
+            case 20:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_20_24dp);
+                break;
+            case 10:
+                batteryIndicator.setImageResource(R.drawable.ic_battery_alert_24dp);
+                break;
+        }
+        if(batteryPercentage<75)
+            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+        else if(batteryPercentage<25)
+            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+        else
+            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+    }
+
+
+    @Override
+    public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
+
+    }
+
+    @Override
+    public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
+
+    }
+
+    @Override
+    public void configureDecoder(ARControllerCodec codec) {
+
+    }
+
+    @Override
+    public void onFrameReceived(ARFrame frame) {
+
+    }
+
+    @Override
+    public void onMatchingMediasFound(int nbMedias) {
+
+    }
+
+    @Override
+    public void onDownloadProgressed(String mediaName, int progress) {
+
+    }
+
+    @Override
+    public void onDownloadComplete(String mediaName) {
+
+    }
 }

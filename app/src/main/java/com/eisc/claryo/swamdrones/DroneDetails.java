@@ -16,13 +16,14 @@ import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
+import java.util.Locale;
+
 /**
  * Classe gérant les détails du drone choisit
  */
 
 public class DroneDetails extends AppCompatActivity implements BebopDrone.Listener {
 
-    int progress = 75;
     TextView TextViewBattery;
     ProgressBar ProgressBarBattery;
 
@@ -31,23 +32,23 @@ public class DroneDetails extends AppCompatActivity implements BebopDrone.Listen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drone_details);
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal);
-        ProgressBar ProgressBarBattery = (ProgressBar) findViewById(R.id.progressBarBattery);
+        ProgressBarBattery = (ProgressBar) findViewById(R.id.progressBarBattery);
         TextView TextViewBattery = (TextView) findViewById(R.id.textViewBattery);
         Bundle extras = getIntent().getExtras();
 
         short durationLastFlight = extras.getShort("LastFlight");
-        int rsDurationLastFlight=durationLastFlight%60;
-        int mDurationLastFlight=durationLastFlight/60;
-        int hDurationLastFlight=mDurationLastFlight/60;
-        mDurationLastFlight=mDurationLastFlight%60;
-        String strDurationLastFlight = String.format("%02d:%02d:%02d",hDurationLastFlight, mDurationLastFlight, rsDurationLastFlight);
+        int rsDurationLastFlight = durationLastFlight % 60;
+        int mDurationLastFlight = durationLastFlight / 60;
+        int hDurationLastFlight = mDurationLastFlight / 60;
+        mDurationLastFlight = mDurationLastFlight % 60;
+        String strDurationLastFlight = String.format(Locale.FRANCE, "%02d:%02d:%02d", hDurationLastFlight, mDurationLastFlight, rsDurationLastFlight);
 
         int durationTotalFlight = extras.getShort("TotalFlight");
-        int rsDurationTotalFlight=durationTotalFlight%60;
-        int mDurationTotalFlight=durationTotalFlight/60;
-        int hDurationTotalFlight=mDurationTotalFlight/60;
-        mDurationTotalFlight=mDurationTotalFlight%60;
-        String strDurationTotalFlight = String.format("%02d:%02d:%02d",hDurationTotalFlight, mDurationTotalFlight, rsDurationTotalFlight);
+        int rsDurationTotalFlight = durationTotalFlight % 60;
+        int mDurationTotalFlight = durationTotalFlight / 60;
+        int hDurationTotalFlight = mDurationTotalFlight / 60;
+        mDurationTotalFlight = mDurationTotalFlight % 60;
+        String strDurationTotalFlight = String.format(Locale.FRANCE, "%02d:%02d:%02d", hDurationTotalFlight, mDurationTotalFlight, rsDurationTotalFlight);
 
         CaractDrone[] caract = {
                 new CaractDrone("Type de produit", extras.getString("Name")),
@@ -63,10 +64,17 @@ public class DroneDetails extends AppCompatActivity implements BebopDrone.Listen
         ArrayAdapter<CaractDrone> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, caract);
         ListView listC = (ListView) findViewById(R.id.ListViewCaract);
         listC.setAdapter(adapter);
-        progress = extras.getInt("Battery");
-        TextViewBattery.setText(progress + "%");
-        ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+        int progress = extras.getInt("Battery");
+        String textBattery = Integer.toString(progress)+ "%";
+        TextViewBattery.setText(textBattery);
         ProgressBarBattery.setProgress(progress);
+        if (progress > 65)
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+        else if (progress > 35)
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+        else
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+
 
         Intent DroneDetailsActivity = new Intent();
         setResult(RESULT_OK, DroneDetailsActivity);
@@ -86,11 +94,12 @@ public class DroneDetails extends AppCompatActivity implements BebopDrone.Listen
 
     @Override
     public void onBatteryChargeChanged(int batteryPercentage) {
-        TextViewBattery.setText(batteryPercentage + "%");
+        String textBattery = Integer.toString(batteryPercentage)+"%";
+        TextViewBattery.setText(textBattery);
         ProgressBarBattery.setProgress(batteryPercentage);
-        if(batteryPercentage<75)
+        if (batteryPercentage < 65)
             ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
-        else if(batteryPercentage<25)
+        else if (batteryPercentage < 35)
             ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
         else
             ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));

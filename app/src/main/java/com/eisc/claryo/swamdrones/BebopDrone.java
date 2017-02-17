@@ -45,6 +45,15 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
     private static final int DEVICE_PORT = 21;
     private boolean flyAuthorization = false;
     private InfoDrone infoDrone = new InfoDrone();
+    private boolean isMaster = true;
+
+    public boolean isMaster() {
+        return isMaster;
+    }
+
+    public void setMaster(boolean master) {
+        isMaster = master;
+    }
 
     public boolean isFlyAuthorization() {
         return flyAuthorization;

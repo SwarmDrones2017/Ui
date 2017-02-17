@@ -4,9 +4,9 @@
     <item android:id="@android:id/background">
         <shape>
             <gradient
-                android:startColor="#ffffffff"
-                android:centerColor="#ffdddddd"
-                android:endColor="#ffffffff"/>
+                android:startColor="#FFFFFF"
+                android:centerColor="#FFFFFF"
+                android:endColor="#FFFFFF"/>
         </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">

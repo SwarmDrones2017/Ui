@@ -22,9 +22,10 @@ import com.parrot.arsdk.arcontroller.ARFrame;
  * Classe pour l'interface de controle de vol de l'essaim
  */
 
-public class Control extends AppCompatActivity implements BebopDrone.Listener{
+public class Control extends AppCompatActivity implements BebopDrone.Listener {
     private ProgressBar progressBarBatterie;
     private ImageView batteryIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +53,39 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener{
 
         ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
-        progressBarBatterie = (ProgressBar)findViewById(R.id.batteryLevel);
-        progressBarBatterie.setProgress(progressBarBatterie.getMax());
-        progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+        progressBarBatterie = (ProgressBar) findViewById(R.id.batteryLevel);
+        int positionMaster = -1;
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
+                positionMaster = i;
+        }
+        int progress = GlobalCouple.couples.get(positionMaster).getBebopDrone().getInfoDrone().getBattery();
+        if (progress > 65)
+            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+        else if (progress > 35)
+            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+        else
+            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
 
-        batteryIndicator = (ImageView)findViewById(R.id.battery_indicator);
-        batteryIndicator.setImageResource(R.drawable.ic_battery_full_24dp);
+        batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
+        if (progress > 97)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_full_24dp);
+        else if (progress > 90)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_90_24dp);
+        else if (progress > 80)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_80_24dp);
+        else if (progress > 60)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_60_24dp);
+        else if (progress > 50)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_50_24dp);
+        else if (progress > 30)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_30_24dp);
+        else if (progress > 20)
+            batteryIndicator.setImageResource(R.drawable.ic_battery_20_24dp);
+        else
+            batteryIndicator.setImageResource(R.drawable.ic_battery_alert_24dp);
+
+        progressBarBatterie.setProgress(progress);
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);
@@ -82,15 +110,14 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener{
         toggle_takeoff_land.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if(GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
+                        if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
                             GlobalCouple.couples.get(i).getBebopDrone().takeOff();
                     }
-                }
-                else {
+                } else {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if(GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
+                        if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
                             GlobalCouple.couples.get(i).getBebopDrone().land();
                     }
                 }
@@ -342,7 +369,7 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener{
     @Override
     public void onBatteryChargeChanged(int batteryPercentage) {
         progressBarBatterie.setProgress(batteryPercentage);
-        switch (batteryPercentage){
+        switch (batteryPercentage) {
             case 90:
                 batteryIndicator.setImageResource(R.drawable.ic_battery_90_24dp);
                 break;
@@ -365,9 +392,9 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener{
                 batteryIndicator.setImageResource(R.drawable.ic_battery_alert_24dp);
                 break;
         }
-        if(batteryPercentage<75)
+        if (batteryPercentage < 65)
             progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
-        else if(batteryPercentage<25)
+        else if (batteryPercentage < 35)
             progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
         else
             progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));

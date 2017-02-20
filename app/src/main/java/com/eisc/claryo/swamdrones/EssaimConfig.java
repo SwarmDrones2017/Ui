@@ -11,9 +11,9 @@ import android.widget.ToggleButton;
 
 /**
  * Classe permettant la configuration de l'essaim
- *      - paramètres communs ou pas
- *      - Liste des drones et choix du drone "maitre" ainsi que possibilité d'acceder
- *        aux paramètres des drones
+ * - paramètres communs ou pas
+ * - Liste des drones et choix du drone "maitre" ainsi que possibilité d'acceder
+ * aux paramètres des drones
  */
 
 public class EssaimConfig extends AppCompatActivity {
@@ -32,6 +32,7 @@ public class EssaimConfig extends AppCompatActivity {
         setResult(RESULT_OK, EssaimConfigActivity);
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
+        ImageButton btnSettingsSwarm = (ImageButton) findViewById(R.id.btnSettingsSwarm);
         final ToggleButton btnDrone1 = (ToggleButton) findViewById(R.id.tglBtnDrone1);
         final ToggleButton btnDrone2 = (ToggleButton) findViewById(R.id.tglBtnDrone2);
         final ToggleButton btnDrone3 = (ToggleButton) findViewById(R.id.tglBtnDrone3);
@@ -66,19 +67,15 @@ public class EssaimConfig extends AppCompatActivity {
         btnDrone5.setTextOn(MainActivity.items[4].getname());
         btnDrone5.setTextOff(MainActivity.items[4].getname());
 
-        if(btnDrone1.isChecked()){
+        if (btnDrone1.isChecked()) {
             btnDrone1.setClickable(false);
-        }
-        else if(btnDrone2.isChecked()){
+        } else if (btnDrone2.isChecked()) {
             btnDrone2.setClickable(false);
-        }
-        else if(btnDrone3.isChecked()){
+        } else if (btnDrone3.isChecked()) {
             btnDrone3.setClickable(false);
-        }
-        else if(btnDrone4.isChecked()){
+        } else if (btnDrone4.isChecked()) {
             btnDrone4.setClickable(false);
-        }
-        else if(btnDrone5.isChecked()){
+        } else if (btnDrone5.isChecked()) {
             btnDrone5.setClickable(false);
         }
 
@@ -91,8 +88,7 @@ public class EssaimConfig extends AppCompatActivity {
                     btnDrone4.setChecked(false);
                     btnDrone5.setChecked(false);
                     btnDrone1.setClickable(false);
-                }
-                else {
+                } else {
                     btnDrone1.setClickable(true);
                 }
             }
@@ -107,8 +103,7 @@ public class EssaimConfig extends AppCompatActivity {
                     btnDrone4.setChecked(false);
                     btnDrone5.setChecked(false);
                     btnDrone2.setClickable(false);
-                }
-                else {
+                } else {
                     btnDrone2.setClickable(true);
                 }
             }
@@ -123,8 +118,7 @@ public class EssaimConfig extends AppCompatActivity {
                     btnDrone4.setChecked(false);
                     btnDrone5.setChecked(false);
                     btnDrone3.setClickable(false);
-                }
-                else {
+                } else {
                     btnDrone3.setClickable(true);
                 }
             }
@@ -139,8 +133,7 @@ public class EssaimConfig extends AppCompatActivity {
                     btnDrone1.setChecked(false);
                     btnDrone5.setChecked(false);
                     btnDrone4.setClickable(false);
-                }
-                else {
+                } else {
                     btnDrone4.setClickable(true);
                 }
             }
@@ -155,8 +148,7 @@ public class EssaimConfig extends AppCompatActivity {
                     btnDrone4.setChecked(false);
                     btnDrone1.setChecked(false);
                     btnDrone5.setClickable(false);
-                }
-                else {
+                } else {
                     btnDrone5.setClickable(true);
                 }
             }
@@ -171,12 +163,22 @@ public class EssaimConfig extends AppCompatActivity {
             }
         });
 
+        //On gère le passage au paramétrage de l'essaim
+
+        btnSettingsSwarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                startActivity(PilotageConfActivity);
+            }
+        });
+
         //On gère le passage au paramétrage des drones
 
         btnSet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 0;
             }
@@ -185,7 +187,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 1;
             }
@@ -194,7 +196,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 2;
             }
@@ -203,7 +205,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 3;
             }
@@ -212,7 +214,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 4;
             }

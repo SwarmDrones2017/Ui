@@ -50,7 +50,7 @@ public class GlobalCouple {
         return positionCoupleDansListe;
     }
 
-    static public int droneCorrepondant(Raspberry raspberry) {
+    static public int droneCorrespondant(Raspberry raspberry) {
         int positionCoupleDansListe = -1;
         byte[] rpiAdd = raspberry.getAddress().getAddress();
         byte rPiLastOctet = rpiAdd[rpiAdd.length-1];
@@ -61,6 +61,10 @@ public class GlobalCouple {
                 positionCoupleDansListe = i;
         }
         return positionCoupleDansListe;
+    }
+
+    static public int droneNameCorrespondant(String name){
+        return 0;
     }
 
 }

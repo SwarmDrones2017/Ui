@@ -388,6 +388,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         return deviceController;
     }
 
+
     //region notify listener block
     private void notifyConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
         List<Listener> listenersCpy = new ArrayList<>(mListeners);

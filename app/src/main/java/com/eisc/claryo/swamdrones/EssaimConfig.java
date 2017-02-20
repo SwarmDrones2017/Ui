@@ -25,6 +25,8 @@ import android.widget.ToggleButton;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.microedition.khronos.opengles.GL;
+
 /**
  * Classe permettant la configuration de l'essaim
  * - paramètres communs ou pas
@@ -96,160 +98,45 @@ public class EssaimConfig extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParamsR = new LinearLayout.LayoutParams(500, 150);
         layoutParamsR.setMarginStart(layoutParamsD.getMarginEnd());
 */
-        for (int i = 0; i < 3; i++) {
-            //if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
-            RadioButton drone = new RadioButton(this);
-            drone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        //TODO Le maitre
-                    } else {
-                        //TODO Il n'est plus maitre
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                RadioButton radiodrone = new RadioButton(this);
+                radiodrone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            //TODO Le maitre
+                            //GlobalCouple.couples.get(i).getBebopDrone().setMaster(true);
+                            buttonView.getText();
+                        } else {
+                            //TODO Il n'est plus maitre
+                            //GlobalCouple.couples.get(finalI).getBebopDrone().setMaster(false);
+                        }
                     }
-                }
-            });
-            ImageButton setting = new ImageButton(this);
-            setting.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO lancer l'activity correspondant
-                    Intent PositionConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                    startActivity(PositionConfActivity);
-                }
-            });
-            //Bitmap resizedBitmap = Bitmap.createScaledBitmap(b,drone.getWidth(),drone.getHeight(),false);
-            //drone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
-            drone.setText("Bebop");
-            setting.setImageBitmap(b);
-            linearLayoutB.addView(setting);
-            ViewGroup.LayoutParams params = setting.getLayoutParams();
-            //params.height = setting.getHeight();
-            drone.setLayoutParams(params);
+                });
+                ImageButton setting = new ImageButton(this);
+                setting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO lancer l'activity correspondant
+                        Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                        startActivity(PilotageConfActivity);
+                        //TODO ne pas oublier le putextra extra
+                    }
+                });
+                //Bitmap resizedBitmap = Bitmap.createScaledBitmap(b,drone.getWidth(),drone.getHeight(),false);
+                //drone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
+                radiodrone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
+                setting.setImageBitmap(b);
+                linearLayoutB.addView(setting);
+                ViewGroup.LayoutParams params = setting.getLayoutParams();
+                //params.height = setting.getHeight();
+                radiodrone.setLayoutParams(params);
 
-            radioGroup.addView(drone);
+                radioGroup.addView(radiodrone);
 
-            //}
-        }
-
-
-        //On gère le fonctionnement des toggleButton du choix du drone "maitre"
-/*
-        btnDrone1.setText(MainActivity.items[0].getname());
-        btnDrone1.setTextOn(MainActivity.items[0].getname());
-        btnDrone1.setTextOff(MainActivity.items[0].getname());
-
-        btnDrone2.setText(MainActivity.items[1].getname());
-        btnDrone2.setTextOn(MainActivity.items[1].getname());
-        btnDrone2.setTextOff(MainActivity.items[1].getname());
-
-        btnDrone3.setText(MainActivity.items[2].getname());
-        btnDrone3.setTextOn(MainActivity.items[2].getname());
-        btnDrone3.setTextOff(MainActivity.items[2].getname());
-
-        btnDrone4.setText(MainActivity.items[3].getname());
-        btnDrone4.setTextOn(MainActivity.items[3].getname());
-        btnDrone4.setTextOff(MainActivity.items[3].getname());
-
-        btnDrone5.setText(MainActivity.items[4].getname());
-        btnDrone5.setTextOn(MainActivity.items[4].getname());
-        btnDrone5.setTextOff(MainActivity.items[4].getname());
-
-        if(btnDrone1.isChecked()){
-            btnDrone1.setClickable(false);
-        }
-        else if(btnDrone2.isChecked()){
-            btnDrone2.setClickable(false);
-        }
-        else if(btnDrone3.isChecked()){
-            btnDrone3.setClickable(false);
-        }
-        else if(btnDrone4.isChecked()){
-            btnDrone4.setClickable(false);
-        }
-        else if(btnDrone5.isChecked()){
-            btnDrone5.setClickable(false);
-        }
-
-        btnDrone1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (btnDrone1.isChecked()) {
-                    btnDrone2.setChecked(false);
-                    btnDrone3.setChecked(false);
-                    btnDrone4.setChecked(false);
-                    btnDrone5.setChecked(false);
-                    btnDrone1.setClickable(false);
-                }
-                else {
-                    btnDrone1.setClickable(true);
-                }
             }
-        });
-
-        btnDrone2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (btnDrone2.isChecked()) {
-                    btnDrone1.setChecked(false);
-                    btnDrone3.setChecked(false);
-                    btnDrone4.setChecked(false);
-                    btnDrone5.setChecked(false);
-                    btnDrone2.setClickable(false);
-                }
-                else {
-                    btnDrone2.setClickable(true);
-                }
-            }
-        });
-
-        btnDrone3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (btnDrone3.isChecked()) {
-                    btnDrone2.setChecked(false);
-                    btnDrone1.setChecked(false);
-                    btnDrone4.setChecked(false);
-                    btnDrone5.setChecked(false);
-                    btnDrone3.setClickable(false);
-                }
-                else {
-                    btnDrone3.setClickable(true);
-                }
-            }
-        });
-
-        btnDrone4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (btnDrone4.isChecked()) {
-                    btnDrone2.setChecked(false);
-                    btnDrone3.setChecked(false);
-                    btnDrone1.setChecked(false);
-                    btnDrone5.setChecked(false);
-                    btnDrone4.setClickable(false);
-                }
-                else {
-                    btnDrone4.setClickable(true);
-                }
-            }
-        });
-
-        btnDrone5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (btnDrone5.isChecked()) {
-                    btnDrone2.setChecked(false);
-                    btnDrone3.setChecked(false);
-                    btnDrone4.setChecked(false);
-                    btnDrone1.setChecked(false);
-                    btnDrone5.setClickable(false);
-                }
-                else {
-                    btnDrone5.setClickable(true);
-                }
-            }
-        });*/
+        }
 
         //On gère le retour à l'état initial de l'interface
 /*

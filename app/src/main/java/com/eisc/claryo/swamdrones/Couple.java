@@ -5,6 +5,35 @@ package com.eisc.claryo.swamdrones;
  */
 
 public class Couple {
-    BebopDrone bebopDrone;
+    private BebopDrone bebopDrone;
+    private Raspberry raspberry;
+    boolean couplageOk =false;
+
+
+    public Couple(BebopDrone bebopDrone, Raspberry raspberry) {
+        this.bebopDrone = bebopDrone;
+        this.raspberry = raspberry;
+    }
+
+    public BebopDrone getBebopDrone() {
+        return bebopDrone;
+    }
+
+    public void setBebopDrone(BebopDrone bebopDrone) {
+        this.bebopDrone = bebopDrone;
+        if(this.raspberry !=null)
+            couplageOk =true;
+    }
+
+    public Raspberry getRaspberry() {
+
+        return raspberry;
+    }
+
+    public void setRaspberry(Raspberry raspberry) {
+        this.raspberry = raspberry;
+        if(this.bebopDrone != null)
+            couplageOk = true;
+    }
 
 }

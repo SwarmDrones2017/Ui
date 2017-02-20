@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/batteryLevel"
-        style="?android:progressBarStyleHorizontal"
+        style="@style/CustomProgressBarHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
         android:layout_alignParentBottom="true"
         android:max="100"
         android:minHeight="0dp"
-        tools:progress="90"/>
+        tools:progress="90" />
 
     <!-- Décollage et atterissage -->
-    <ImageButton
-        android:id="@+id/btn_takeoff_land"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:contentDescription="take_off"
-        app:srcCompat="@drawable/takeoff_land"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 
     <!-- Atterrissage d'urgence -->
     <Button
@@ -39,316 +31,329 @@
     <!-- Contrôles -->
     <ImageButton
         android:id="@+id/btn_yaw_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="false"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:contentDescription="movement_right"
-        android:src="@drawable/ic_turn_right_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_turn_right_24dp" />
 
     <ImageButton
         android:id="@+id/btn_roll_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="movement_left"
-        android:src="@drawable/ic_move_left_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_move_left_24dp" />
 
     <ImageButton
         android:id="@+id/btn_yaw_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/btn_gaz_up"
         android:layout_toLeftOf="@+id/btn_gaz_up"
         android:layout_toStartOf="@+id/btn_gaz_up"
         android:contentDescription="yaw_left"
-        android:src="@drawable/ic_turn_left_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_turn_left_24dp" />
 
     <ImageButton
         android:id="@+id/btn_roll_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/btn_back"
         android:layout_toEndOf="@+id/btn_back"
         android:layout_toRightOf="@+id/btn_back"
         android:contentDescription="movement_right"
-        android:src="@drawable/ic_move_right_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_move_right_24dp" />
 
     <ImageButton
         android:id="@+id/btn_gaz_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/btn_yaw_right"
         android:layout_toLeftOf="@+id/btn_yaw_right"
         android:layout_toStartOf="@+id/btn_yaw_right"
         android:contentDescription="movement_up"
-        android:src="@drawable/ic_gaz_up_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_gaz_up_24dp" />
 
     <ImageButton
         android:id="@+id/btn_gaz_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/btn_yaw_right"
         android:layout_toEndOf="@+id/btn_yaw_left"
         android:layout_toRightOf="@+id/btn_yaw_left"
         android:contentDescription="movement_down"
-        android:src="@drawable/ic_gaz_down_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_gaz_down_24dp" />
 
     <ImageButton
         android:id="@+id/btn_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_gaz_up"
         android:layout_toEndOf="@+id/btn_roll_left"
         android:layout_toRightOf="@+id/btn_roll_left"
         android:contentDescription="movement_forward"
-        android:src="@drawable/ic_move_forward_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_move_forward_24dp" />
 
     <ImageButton
         android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/btn_roll_left"
         android:layout_toEndOf="@+id/btn_roll_left"
         android:layout_toRightOf="@+id/btn_roll_left"
         android:contentDescription="movement_back"
-        android:src="@drawable/ic_move_back_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_move_back_24dp" />
 
     <ImageButton
         android:id="@+id/btnRetourMenuPrincipal1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/battery_indicator"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        app:srcCompat="@drawable/ic_back_btn"
+        android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/battery_indicator"
-        android:layout_alignEnd="@+id/battery_indicator" />
+        app:srcCompat="@drawable/ic_back_btn" />
 
     <ImageButton
+        android:id="@+id/btnSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_settings"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/btnSettings" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/ic_settings" />
 
     <!-- Alerte proximité jaune-->
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
         android:id="@+id/ProxJauneGauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/btn_roll_right"
-        android:layout_toEndOf="@+id/btn_roll_right"
         android:layout_marginLeft="29dp"
-        android:layout_marginStart="29dp" />
+        android:layout_marginStart="29dp"
+        android:layout_toEndOf="@+id/btn_roll_right"
+        android:layout_toRightOf="@+id/btn_roll_right"
+        app:srcCompat="@android:color/holo_orange_light" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
         android:id="@+id/ProxJauneDroite"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxJauneGauche"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
         android:layout_toLeftOf="@+id/btn_yaw_left"
         android:layout_toStartOf="@+id/btn_yaw_left"
-        android:layout_marginRight="29dp"
-        android:layout_marginEnd="29dp" />
+        app:srcCompat="@android:color/holo_orange_light" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
         android:id="@+id/ProxJauneDevant"
         android:layout_width="100dp"
         android:layout_height="8dp"
-        android:layout_below="@+id/btnSettings"
         android:layout_alignLeft="@+id/ProxJauneDerriere"
-        android:layout_alignStart="@+id/ProxJauneDerriere" />
+        android:layout_alignStart="@+id/ProxJauneDerriere"
+        android:layout_below="@+id/btnSettings"
+        app:srcCompat="@android:color/holo_orange_light" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_light"
         android:id="@+id/ProxJauneDerriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
+        android:layout_above="@+id/toggle_takeoff_land"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
-        android:layout_above="@+id/btn_takeoff_land"
-        android:layout_centerHorizontal="true" />
+        app:srcCompat="@android:color/holo_orange_light" />
 
     <!--Alerte proximité orange-->
     <ImageView
-        app:srcCompat="@android:color/holo_orange_dark"
         android:id="@+id/ProxOrangeGauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
+        android:layout_alignTop="@+id/ProxJauneGauche"
         android:layout_marginLeft="7dp"
         android:layout_marginStart="7dp"
-        android:layout_alignTop="@+id/ProxJauneGauche"
+        android:layout_toEndOf="@+id/ProxJauneGauche"
         android:layout_toRightOf="@+id/ProxJauneGauche"
-        android:layout_toEndOf="@+id/ProxJauneGauche" />
+        app:srcCompat="@android:color/holo_orange_dark" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_dark"
         android:id="@+id/ProxOrangeDroite"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxJauneDroite"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
         android:layout_toLeftOf="@+id/ProxJauneDroite"
         android:layout_toStartOf="@+id/ProxJauneDroite"
-        android:layout_marginRight="7dp"
-        android:layout_marginEnd="7dp" />
+        app:srcCompat="@android:color/holo_orange_dark" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_dark"
         android:id="@+id/ProxOrangeDerriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
-        android:layout_marginBottom="7dp"
         android:layout_above="@+id/ProxJauneDerriere"
         android:layout_alignLeft="@+id/ProxJauneDerriere"
-        android:layout_alignStart="@+id/ProxJauneDerriere" />
+        android:layout_alignStart="@+id/ProxJauneDerriere"
+        android:layout_marginBottom="7dp"
+        app:srcCompat="@android:color/holo_orange_dark" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_orange_dark"
         android:id="@+id/ProxOrangeDevant"
         android:layout_width="100dp"
         android:layout_height="8dp"
-        android:layout_marginTop="7dp"
-        android:layout_below="@+id/ProxJauneDevant"
         android:layout_alignLeft="@+id/ProxJauneDevant"
-        android:layout_alignStart="@+id/ProxJauneDevant" />
+        android:layout_alignStart="@+id/ProxJauneDevant"
+        android:layout_below="@+id/ProxJauneDevant"
+        android:layout_marginTop="7dp"
+        app:srcCompat="@android:color/holo_orange_dark" />
 
     <!--Alerte Proximité Rouge-->
     <ImageView
-        app:srcCompat="@android:color/holo_red_dark"
         android:id="@+id/ProxRougeDerriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
-        android:layout_marginBottom="7dp"
         android:layout_above="@+id/ProxOrangeDerriere"
         android:layout_alignLeft="@+id/ProxOrangeDerriere"
-        android:layout_alignStart="@+id/ProxOrangeDerriere" />
+        android:layout_alignStart="@+id/ProxOrangeDerriere"
+        android:layout_marginBottom="7dp"
+        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_red_dark"
         android:id="@+id/ProxRougeDevant"
         android:layout_width="100dp"
         android:layout_height="8dp"
-        android:layout_marginTop="7dp"
-        android:layout_below="@+id/ProxOrangeDevant"
         android:layout_alignLeft="@+id/ProxOrangeDevant"
-        android:layout_alignStart="@+id/ProxOrangeDevant" />
+        android:layout_alignStart="@+id/ProxOrangeDevant"
+        android:layout_below="@+id/ProxOrangeDevant"
+        android:layout_marginTop="7dp"
+        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_red_dark"
         android:id="@+id/ProxRougeDroite"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxOrangeDroite"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
         android:layout_toLeftOf="@+id/ProxOrangeDroite"
         android:layout_toStartOf="@+id/ProxOrangeDroite"
-        android:layout_marginRight="7dp"
-        android:layout_marginEnd="7dp" />
+        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
-        app:srcCompat="@android:color/holo_red_dark"
         android:id="@+id/ProxRougeGauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxOrangeGauche"
-        android:layout_toRightOf="@+id/ProxOrangeGauche"
-        android:layout_toEndOf="@+id/ProxOrangeGauche"
         android:layout_marginLeft="7dp"
-        android:layout_marginStart="7dp" />
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/ProxOrangeGauche"
+        android:layout_toRightOf="@+id/ProxOrangeGauche"
+        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
         android:id="@+id/battery_indicator"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:contentDescription="battery_level_indicator"
-        android:tint="@android:color/black"
-        app:srcCompat="@drawable/battery_state_list"
-        android:layout_marginLeft="16dp"
-        android:layout_below="@+id/ProxJauneDerriere"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="16dp" />
+        android:layout_below="@+id/ProxJauneDerriere"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="battery_level_indicator"
+        android:tint="@android:color/black"
+        app:srcCompat="@drawable/battery_state_list" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_swap_view"
         android:id="@+id/btnSwapView"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_height"
-        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/Height" />
+        app:srcCompat="@drawable/ic_swap_view" />
 
     <ImageView
-        android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_red_dark"
+        android:id="@+id/Height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_height" />
+
+    <ImageView
         android:id="@+id/ProxRougeAbove"
         android:layout_width="25dp"
+        android:layout_height="8dp"
         android:layout_above="@+id/Height"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
-        android:layout_centerHorizontal="true" />
+        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
-        android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_orange_dark"
         android:id="@+id/ProxOrangeAbove"
         android:layout_width="25dp"
+        android:layout_height="8dp"
         android:layout_above="@+id/ProxRougeAbove"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="7dp" />
+        android:layout_marginBottom="7dp"
+        app:srcCompat="@android:color/holo_orange_dark" />
 
     <ImageView
-        android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_orange_light"
         android:id="@+id/ProxJauneAbove"
         android:layout_width="25dp"
+        android:layout_height="8dp"
         android:layout_above="@+id/ProxOrangeAbove"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="7dp"/>
+        android:layout_marginBottom="7dp"
+        app:srcCompat="@android:color/holo_orange_light" />
 
     <ImageView
-        android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_red_dark"
         android:id="@+id/ProxRougeBelow"
         android:layout_width="25dp"
+        android:layout_height="8dp"
         android:layout_below="@+id/Height"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp"
-        android:layout_centerHorizontal="true" />
+        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
-        android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_orange_dark"
         android:id="@+id/ProxOrangeBelow"
         android:layout_width="25dp"
+        android:layout_height="8dp"
         android:layout_below="@+id/ProxRougeBelow"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp" />
+        android:layout_marginTop="7dp"
+        app:srcCompat="@android:color/holo_orange_dark" />
 
     <ImageView
-        android:layout_height="8dp"
-        app:srcCompat="@android:color/holo_orange_light"
         android:id="@+id/ProxJauneBelow"
         android:layout_width="25dp"
-        android:layout_marginTop="7dp"
+        android:layout_height="8dp"
         android:layout_below="@+id/ProxOrangeBelow"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ToggleButton
+        android:id="@+id/toggle_takeoff_land"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/check"
+        android:textOn=""
+        android:textOff=""
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

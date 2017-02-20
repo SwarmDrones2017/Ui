@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/custom_progress_bar_horizontal</item>
+        <item name="android:minHeight">1dip</item>
+        <item name="android:maxHeight">5dip</item>
+    </style>
+    <style name="CustomProgressBarHorizontalYellow" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/custom_progress_bar_horizontal_orange</item>
+        <item name="android:minHeight">1dip</item>
+        <item name="android:maxHeight">5dip</item>
+    </style>
+    <style name="CustomProgressBarHorizontalRed" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/custom_progress_bar_horizontal_red</item>
+        <item name="android:minHeight">1dip</item>
+        <item name="android:maxHeight">5dip</item>
+    </style>
 </resources>

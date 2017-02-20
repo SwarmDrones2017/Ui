@@ -29,7 +29,6 @@ public class InfoConf extends AppCompatActivity {
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
         TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
 
-        ImageButton btnPilotConf = (ImageButton) findViewById(R.id.btnPilotConf);
         ImageButton btnPositConf = (ImageButton) findViewById(R.id.btnPositConf);
         ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
 
@@ -42,14 +41,6 @@ public class InfoConf extends AppCompatActivity {
         }
 
         //On gère le passage aux autres menus
-
-        btnPilotConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(InfoConf.this, PilotageConf.class);
-                startActivity(PilotageConfActivity);
-            }
-        });
 
         btnPositConf.setOnClickListener(new View.OnClickListener() {
             @Override

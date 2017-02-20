@@ -30,11 +30,6 @@ public class PilotageConf extends AppCompatActivity {
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
         Button btnReset = (Button) findViewById(R.id.btnResetPilotDrones);
-        TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
-
-        ImageButton btnPositConf = (ImageButton) findViewById(R.id.btnPositConf);
-        ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
-        ImageButton btnInfoConf = (ImageButton) findViewById(R.id.btnInfoConf);
 
         final SeekBar sBInclinMax = (SeekBar) findViewById(R.id.sBInclinMax);
         final SeekBar sBInclinSpeed = (SeekBar) findViewById(R.id.sBInclinSpeed);
@@ -45,14 +40,6 @@ public class PilotageConf extends AppCompatActivity {
         final TextView txtsBInclinSpeed = (TextView) findViewById(R.id.txtValeursBInclinSpeed);
         final TextView txtsBVerticalSpeed = (TextView) findViewById(R.id.txtValeursBVerticalSpeed);
         final TextView txtsBRotatSpeed = (TextView) findViewById(R.id.txtValeursBRotatSpeed);
-
-        //Gerer le nom du drone à afficher dans le réglages des paramètres
-
-        for(int i=0; i<5; i++){
-            if(NumeroDrone == i) {
-                txtDroneNom.setText(MainActivity.items[i].getname());
-            }
-        }
 
         //On gère la plage de valeur des seekbars
 
@@ -152,30 +139,6 @@ public class PilotageConf extends AppCompatActivity {
         });
 
         //On gère le passage aux autres menus
-
-        btnPositConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PositionConfActivity = new Intent(PilotageConf.this, PositionConf.class);
-                startActivity(PositionConfActivity);
-            }
-        });
-
-        btnVideoConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent VideoConfActivity = new Intent(PilotageConf.this, VideoConf.class);
-                startActivity(VideoConfActivity);
-            }
-        });
-
-        btnInfoConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent InfoConfActivity = new Intent(PilotageConf.this, InfoConf.class);
-                startActivity(InfoConfActivity);
-            }
-        });
 
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override

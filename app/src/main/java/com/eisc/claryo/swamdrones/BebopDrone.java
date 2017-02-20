@@ -6,7 +6,9 @@ package com.eisc.claryo.swamdrones;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -43,7 +45,7 @@ import java.util.List;
 public class BebopDrone implements ARDeviceControllerStreamListener {
     private static final String TAG = "BebopDrone";
     private static final int DEVICE_PORT = 21;
-    private boolean flyAuthorization = false;
+    private boolean flyAuthorization = true;
     private InfoDrone infoDrone = new InfoDrone();
     private boolean isMaster = true;
 
@@ -157,7 +159,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
     private final List<Listener> mListeners;
 
     private final Handler mHandler;
-
+    private Handler handlerBattery;
     private ARDeviceController mDeviceController;
 
     private ARCONTROLLER_DEVICE_STATE_ENUM mState;
@@ -166,6 +168,14 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
 
     private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
+
+    public void setHandlerBattery(Handler handler) {
+        this.handlerBattery = handler;
+    }
+
+    public Handler getHandlerBattery() {
+        return handlerBattery;
+    }
 
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
         this.deviceService = deviceService;
@@ -185,6 +195,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
             if (discoveryDevice != null) {
                 mDeviceController = createDeviceController(discoveryDevice);
                 discoveryDevice.dispose();
+                mDeviceController.getFeatureCommon().sendSettingsAllSettings();
             }
 
             try {
@@ -206,7 +217,6 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         } else {
             Log.e(TAG, "DeviceService type is not supported by BebopDrone");
         }
-        mDeviceController.getFeatureCommon().sendSettingsAllSettings();
     }
 
     public InetAddress getIP() {
@@ -396,11 +406,13 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         }
     }
 
+
     private void notifyBatteryChanged(int battery) {
         List<Listener> listenersCpy = new ArrayList<>(mListeners);
         for (Listener listener : listenersCpy) {
             listener.onBatteryChargeChanged(battery);
         }
+
     }
 
     private void notifyPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
@@ -474,6 +486,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         public void onExtensionStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARDISCOVERY_PRODUCT_ENUM product, String name, ARCONTROLLER_ERROR_ENUM error) {
         }
 
+
         @Override
         public void onCommandReceived(ARDeviceController deviceController, ARCONTROLLER_DICTIONARY_KEY_ENUM commandKey, ARControllerDictionary elementDictionary) {
             // if event received is the battery update
@@ -488,6 +501,14 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
                             notifyBatteryChanged(battery);
                         }
                     });
+
+                    if(handlerBattery != null) {
+                        Bundle messageBundle = new Bundle();
+                        Message msg = handlerBattery.obtainMessage();
+                        messageBundle.putInt(MessageHandler.BATTERYLEVEL, battery);
+                        msg.setData(messageBundle);
+                        handlerBattery.sendMessage(msg);
+                    }
                 }
             }
             // if event received is the flying state update

@@ -92,15 +92,16 @@ public class MainActivity extends AppCompatActivity {
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
                     if(droneSelected !=-1){
 
-                        DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getdeviceService().getName());
-                        DroneDetailsActivity.putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID());
-                        DroneDetailsActivity.putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery());
-                        DroneDetailsActivity.putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion());
-                        DroneDetailsActivity.putExtra("SoftVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareVersion());
-                        DroneDetailsActivity.putExtra("GPSVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareGPSVersion());
-                        DroneDetailsActivity.putExtra("nbFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getNbFlights());
-                        DroneDetailsActivity.putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight());
-                        DroneDetailsActivity.putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
+                        DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getdeviceService().getName())
+                        .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
+                        .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
+                        .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())
+                        .putExtra("SoftVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareVersion())
+                        .putExtra("GPSVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareGPSVersion())
+                        .putExtra("nbFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getNbFlights())
+                        .putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight())
+                        .putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
+
 
                     }else{
                         DroneDetailsActivity.putExtra("Name", "null");

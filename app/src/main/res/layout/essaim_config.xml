@@ -79,132 +79,37 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@+id/btnResetConfDrones"
+        android:layout_alignRight="@+id/btnResetConfDrones"
         android:layout_below="@+id/TitreConfParam2"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
         android:layout_toRightOf="@+id/SeparatorVertical">
 
         <LinearLayout
+            android:id="@+id/linearLayoutH"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-
-            <LinearLayout
-                android:id="@+id/Ligne1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ToggleButton
-                    android:id="@+id/tglBtnDrone1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="ToggleButton" />
-
-                <ImageButton
-                    android:id="@+id/btn_Drone1_Setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_settings" />
-            </LinearLayout>
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+            </RadioGroup>
 
             <LinearLayout
-                android:id="@+id/Ligne2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:id="@+id/linearLayoutB"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
 
-
-                <ToggleButton
-                    android:id="@+id/tglBtnDrone2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="false"
-                    android:text="ToggleButton" />
-
-                <ImageButton
-                    android:id="@+id/btn_Drone2_Setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_settings" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/Ligne3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ToggleButton
-                    android:id="@+id/tglBtnDrone3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="false"
-                    android:text="ToggleButton" />
-
-                <ImageButton
-                    android:id="@+id/btn_Drone3_Setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_settings" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/Ligne4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ToggleButton
-                    android:id="@+id/tglBtnDrone4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="false"
-                    android:text="ToggleButton" />
-
-                <ImageButton
-                    android:id="@+id/btn_Drone4_Setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_settings" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/Ligne5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ToggleButton
-                    android:id="@+id/tglBtnDrone5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    android:text="ToggleButton" />
-
-                <ImageButton
-                    android:id="@+id/btn_Drone5_Setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_settings" />
-            </LinearLayout>
 
         </LinearLayout>
-
     </ScrollView>
 
 </RelativeLayout>

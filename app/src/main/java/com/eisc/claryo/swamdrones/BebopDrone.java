@@ -150,6 +150,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
 
+        this.deviceService = deviceService;
         mListeners = new ArrayList<>();
 
         // needed because some callbacks will be called on the main thread

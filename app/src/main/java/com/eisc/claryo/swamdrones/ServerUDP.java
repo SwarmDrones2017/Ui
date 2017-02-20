@@ -49,6 +49,7 @@ public class ServerUDP {
                         switch (scmd){
                             case RPI_SENSORS :
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
+
                                 break;
                             case RPI_SMARTPHONE :
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
@@ -56,7 +57,7 @@ public class ServerUDP {
                                 byte [] buf_send = RPI_REPONSE.getBytes(Charset.forName("UTF-8"));
                                 envoi = new DatagramPacket(buf_send,buf_send.length);
                                 envoi.setAddress(paquet.getAddress());
-                                //envoi.setPort(paquet.getPort());
+                                envoi.setPort(paquet.getPort());
                                 socket.send(envoi);
 
                                 //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples

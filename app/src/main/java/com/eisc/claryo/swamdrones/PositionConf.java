@@ -43,13 +43,13 @@ public class PositionConf extends AppCompatActivity {
         final SeekBar sBDistMax = (SeekBar) findViewById(R.id.sBDistMax);
 
         //Gerer le nom du drone à afficher dans le réglages des paramètres
-
+/*
         for(int i=0; i<5; i++){
             if(NumeroDrone == i) {
                 txtDroneNom.setText(MainActivity.items[i].getname());
             }
         }
-
+*/
         //On gère la plage de valeurs des seekbars
 
         sBAltiMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

@@ -10,42 +10,71 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerCodec;
+import com.parrot.arsdk.arcontroller.ARFrame;
+
+import java.util.Locale;
+
 /**
  * Classe gérant les détails du drone choisit
  */
 
-public class DroneDetails extends AppCompatActivity {
+public class DroneDetails extends AppCompatActivity implements BebopDrone.Listener {
 
-    int progress = 75;
+    TextView TextViewBattery;
+    ProgressBar ProgressBarBattery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drone_details);
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal);
-        ProgressBar ProgressBarBattery = (ProgressBar) findViewById(R.id.progressBarBattery);
+        ProgressBarBattery = (ProgressBar) findViewById(R.id.progressBarBattery);
         TextView TextViewBattery = (TextView) findViewById(R.id.textViewBattery);
         Bundle extras = getIntent().getExtras();
 
+        short durationLastFlight = extras.getShort("LastFlight");
+        int rsDurationLastFlight = durationLastFlight % 60;
+        int mDurationLastFlight = durationLastFlight / 60;
+        int hDurationLastFlight = mDurationLastFlight / 60;
+        mDurationLastFlight = mDurationLastFlight % 60;
+        String strDurationLastFlight = String.format(Locale.FRANCE, "%02d:%02d:%02d", hDurationLastFlight, mDurationLastFlight, rsDurationLastFlight);
+
+        int durationTotalFlight = extras.getShort("TotalFlight");
+        int rsDurationTotalFlight = durationTotalFlight % 60;
+        int mDurationTotalFlight = durationTotalFlight / 60;
+        int hDurationTotalFlight = mDurationTotalFlight / 60;
+        mDurationTotalFlight = mDurationTotalFlight % 60;
+        String strDurationTotalFlight = String.format(Locale.FRANCE, "%02d:%02d:%02d", hDurationTotalFlight, mDurationTotalFlight, rsDurationTotalFlight);
+
         CaractDrone[] caract = {
                 new CaractDrone("Type de produit", extras.getString("Name")),
-                new CaractDrone("Version materiel", "HW_02"),
-                new CaractDrone("Version logiciel", "3.9.0"),
-                new CaractDrone("Version GPS", "2.01F"),
-                new CaractDrone("Numéro de série", "P1823784716485"),
-                new CaractDrone("Vols", "95"),
-                new CaractDrone("Dernier vol", "00:02:28"),
-                new CaractDrone("Temps de vol total", "00:49:55"),
+                new CaractDrone("Version materiel", extras.getString("HardVersion")),
+                new CaractDrone("Version logiciel", extras.getString("SoftVersion")),
+                new CaractDrone("Version GPS", extras.getString("GPSVersion")),
+                new CaractDrone("Numéro de série", extras.getString("SerialID")),
+                new CaractDrone("Vols", Short.toString(extras.getShort("nbFlight"))),
+                new CaractDrone("Dernier vol", strDurationLastFlight),
+                new CaractDrone("Temps de vol total", strDurationTotalFlight),
         };
-
 
         ArrayAdapter<CaractDrone> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, caract);
         ListView listC = (ListView) findViewById(R.id.ListViewCaract);
         listC.setAdapter(adapter);
-
-        TextViewBattery.setText(progress + "%");
-
+        int progress = extras.getInt("Battery");
+        String textBattery = Integer.toString(progress)+ "%";
+        TextViewBattery.setText(textBattery);
         ProgressBarBattery.setProgress(progress);
+        if (progress > 65)
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+        else if (progress > 35)
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+        else
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+
 
         Intent DroneDetailsActivity = new Intent();
         setResult(RESULT_OK, DroneDetailsActivity);
@@ -58,4 +87,56 @@ public class DroneDetails extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
+
+    }
+
+    @Override
+    public void onBatteryChargeChanged(int batteryPercentage) {
+        String textBattery = Integer.toString(batteryPercentage)+"%";
+        TextViewBattery.setText(textBattery);
+        ProgressBarBattery.setProgress(batteryPercentage);
+        if (batteryPercentage < 65)
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+        else if (batteryPercentage < 35)
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+        else
+            ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+    }
+
+    @Override
+    public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
+
+    }
+
+    @Override
+    public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
+
+    }
+
+    @Override
+    public void configureDecoder(ARControllerCodec codec) {
+
+    }
+
+    @Override
+    public void onFrameReceived(ARFrame frame) {
+
+    }
+
+    @Override
+    public void onMatchingMediasFound(int nbMedias) {
+
+    }
+
+    @Override
+    public void onDownloadProgressed(String mediaName, int progress) {
+
+    }
+
+    @Override
+    public void onDownloadComplete(String mediaName) {
+
+    }
 }

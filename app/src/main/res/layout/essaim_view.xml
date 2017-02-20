@@ -6,6 +6,7 @@
     android:background="@drawable/grille">
 
     <ImageButton
+        android:id="@+id/btnBackSwapView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

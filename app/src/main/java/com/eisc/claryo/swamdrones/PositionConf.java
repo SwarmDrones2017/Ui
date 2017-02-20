@@ -32,7 +32,6 @@ public class PositionConf extends AppCompatActivity {
         Button btnReset = (Button) findViewById(R.id.btnResetPilotDrones);
         TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
 
-        ImageButton btnPilotConf = (ImageButton) findViewById(R.id.btnPilotConf);
         ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
         ImageButton btnInfoConf = (ImageButton) findViewById(R.id.btnInfoConf);
 
@@ -109,14 +108,6 @@ public class PositionConf extends AppCompatActivity {
         });
 
         //On gère le passage aux autres menus
-
-        btnPilotConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(PositionConf.this, PilotageConf.class);
-                startActivity(PilotageConfActivity);
-            }
-        });
 
         btnVideoConf.setOnClickListener(new View.OnClickListener() {
             @Override

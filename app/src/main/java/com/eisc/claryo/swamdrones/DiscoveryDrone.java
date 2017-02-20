@@ -121,13 +121,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                     //GlobalCouple.couples.clear();
                 } else {
                     //Construction
-                    //MainActivity.listBebop.get(0).dispose();
                     for (int i = 0; i < deviceList.size(); i++) {
-                        /*
-                        à modifier pour insérer dans GlobalCouple
-                        MainActivity.listBebop.add(new BebopDrone(context,deviceList.get(i)));
-                        boolean isConnect = MainActivity.listBebop.get(i).connect();
-                        */
                         BebopDrone bebop = new BebopDrone(context, deviceList.get(i));
                         if (GlobalCouple.droneExist(bebop)) {
                             bebop = null; //si le drone existait déjà, je supprime ce nouvel objet

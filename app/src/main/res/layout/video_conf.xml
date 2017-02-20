@@ -87,12 +87,6 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_pilotage_control"
-                android:id="@+id/btnPilotConf" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_position_logo"
                 android:id="@+id/btnPositConf" />
 

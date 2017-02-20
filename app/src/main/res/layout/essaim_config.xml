@@ -65,11 +65,52 @@
         android:layout_marginTop="8dp"
         android:text="Reset" />
 
+    <View
+        android:id="@+id/SeparatorHorizontal1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/SeparatorHorizontal"
+        android:layout_marginTop="66dp"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:background="@android:color/black" />
+
+    <TextView
+        android:id="@+id/TitreConfDronesParam1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal1"
+        android:layout_alignLeft="@+id/SeparatorVertical"
+        android:layout_alignStart="@+id/SeparatorVertical"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/SeparatorVertical"
+        android:layout_toEndOf="@+id/SeparatorVertical"
+        android:gravity="center_vertical"
+        android:text="Réglages de l'essaim" />
+
+    <ImageButton
+        android:id="@+id/btnSettingsSwarm"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SeparatorHorizontal1"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
+        android:layout_margin="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:checked="true"
+        app:srcCompat="@drawable/ic_settings" />
+
     <TextView
         android:id="@+id/TitreConfParam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/SeparatorHorizontal"
+        android:layout_below="@+id/SeparatorHorizontal1"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

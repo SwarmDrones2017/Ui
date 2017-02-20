@@ -38,18 +38,6 @@
         android:layout_alignLeft="@+id/TitreConfPilotParam1"
         android:layout_alignStart="@+id/TitreConfPilotParam1" />
 
-    <TextView
-        android:text="Bebop_XXXX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/btnResetPilotDrones"
-        android:layout_toStartOf="@+id/btnResetPilotDrones"
-        android:id="@+id/txtDroneNom"
-        android:layout_alignBottom="@+id/SeparatorHorizontal"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:layout_alignParentTop="true" />
-
     <Button
         android:id="@+id/btnResetPilotDrones"
         android:layout_width="75dp"
@@ -315,25 +303,6 @@
                 app:srcCompat="@drawable/ic_pilotage_control"
                 android:id="@+id/btnPilotConf"
                 android:backgroundTint="@color/colorPrimary" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_position_logo"
-                android:id="@+id/btnPositConf" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_video_logo"
-                android:id="@+id/btnVideoConf" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_info_logo"
-                android:layout_marginTop="7dp"
-                android:id="@+id/btnInfoConf" />
 
         </LinearLayout>
     </ScrollView>

@@ -33,7 +33,6 @@ public class VideoConf extends AppCompatActivity {
         TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
         Button btnReset = (Button) findViewById(R.id.btnResetVideoDrones);
 
-        ImageButton btnPilotConf = (ImageButton) findViewById(R.id.btnPilotConf);
         ImageButton btnPositConf = (ImageButton) findViewById(R.id.btnPositConf);
         ImageButton btnInfoConf = (ImageButton) findViewById(R.id.btnInfoConf);
 
@@ -281,14 +280,6 @@ public class VideoConf extends AppCompatActivity {
         });
 
         //On gère le passage aux autres menus
-
-        btnPilotConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(VideoConf.this, PilotageConf.class);
-                startActivity(PilotageConfActivity);
-            }
-        });
 
         btnPositConf.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -261,12 +261,22 @@ public class EssaimConfig extends AppCompatActivity {
             }
         });
 
+        //On gère le passage au paramétrage de l'essaim
+
+        btnSettingsSwarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                startActivity(PilotageConfActivity);
+            }
+        });
+
         //On gère le passage au paramétrage des drones
 
         btnSet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 0;
             }
@@ -275,7 +285,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 1;
             }
@@ -284,7 +294,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 2;
             }
@@ -293,7 +303,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 3;
             }
@@ -302,7 +312,7 @@ public class EssaimConfig extends AppCompatActivity {
         btnSet5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
+                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
                 startActivity(PilotageConfActivity);
                 NumeroDrone = 4;
             }

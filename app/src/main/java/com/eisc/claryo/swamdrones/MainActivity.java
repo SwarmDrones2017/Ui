@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
         Button btnFly = (Button) findViewById(R.id.btnFly);
+        Button btnABout = (Button) findViewById(R.id.btnAbout);
+        Button btnNotice = (Button) findViewById(R.id.btnNotice);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
 
         ShowDroneList();
@@ -115,8 +117,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ControlActivity);
             }
         });
+        btnABout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
+                startActivity(AboutActivity);
+            }
+        });
 
+        btnNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
+                startActivity(NoticeActivity);
+            }
+        });
         new DiscoveryDrone(getApplicationContext(), handler);
+
     }
 }
 

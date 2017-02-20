@@ -59,33 +59,36 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener {
             if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                 positionMaster = i;
         }
-        int progress = GlobalCouple.couples.get(positionMaster).getBebopDrone().getInfoDrone().getBattery();
-        if (progress > 65)
-            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
-        else if (progress > 35)
-            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
-        else
-            progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+        if (positionMaster != -1) {
+            int progress = GlobalCouple.couples.get(positionMaster).getBebopDrone().getInfoDrone().getBattery();
+            if (progress > 65)
+                progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+            else if (progress > 35)
+                progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+            else
+                progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
 
-        batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
-        if (progress > 97)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_full_24dp);
-        else if (progress > 90)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_90_24dp);
-        else if (progress > 80)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_80_24dp);
-        else if (progress > 60)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_60_24dp);
-        else if (progress > 50)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_50_24dp);
-        else if (progress > 30)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_30_24dp);
-        else if (progress > 20)
-            batteryIndicator.setImageResource(R.drawable.ic_battery_20_24dp);
-        else
-            batteryIndicator.setImageResource(R.drawable.ic_battery_alert_24dp);
+            batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
+            if (progress > 97)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_full_24dp);
+            else if (progress > 90)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_90_24dp);
+            else if (progress > 80)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_80_24dp);
+            else if (progress > 60)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_60_24dp);
+            else if (progress > 50)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_50_24dp);
+            else if (progress > 30)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_30_24dp);
+            else if (progress > 20)
+                batteryIndicator.setImageResource(R.drawable.ic_battery_20_24dp);
+            else
+                batteryIndicator.setImageResource(R.drawable.ic_battery_alert_24dp);
 
-        progressBarBatterie.setProgress(progress);
+            progressBarBatterie.setProgress(progress);
+        }
+
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);

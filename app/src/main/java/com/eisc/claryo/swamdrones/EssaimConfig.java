@@ -96,35 +96,40 @@ public class EssaimConfig extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParamsR = new LinearLayout.LayoutParams(500, 150);
         layoutParamsR.setMarginStart(layoutParamsD.getMarginEnd());
 */
-        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
-                RadioButton drone = new RadioButton(this);
-                drone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            //TODO Le maitre
-                        } else {
-                            //TODO Il n'est plus maitre
-                        }
+        for (int i = 0; i < 3; i++) {
+            //if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+            RadioButton drone = new RadioButton(this);
+            drone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        //TODO Le maitre
+                    } else {
+                        //TODO Il n'est plus maitre
                     }
-                });
-                ImageButton setting = new ImageButton(this);
-                setting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO lancer l'activity correspondant
-                        Intent PositionConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                        startActivity(PositionConfActivity);
-                    }
-                });
-                //Bitmap resizedBitmap = Bitmap.createScaledBitmap(b,drone.getWidth(),drone.getHeight(),false);
-                drone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
-                setting.setImageBitmap(b);
+                }
+            });
+            ImageButton setting = new ImageButton(this);
+            setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO lancer l'activity correspondant
+                    Intent PositionConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
+                    startActivity(PositionConfActivity);
+                }
+            });
+            //Bitmap resizedBitmap = Bitmap.createScaledBitmap(b,drone.getWidth(),drone.getHeight(),false);
+            //drone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
+            drone.setText("Bebop");
+            setting.setImageBitmap(b);
+            linearLayoutB.addView(setting);
+            ViewGroup.LayoutParams params = setting.getLayoutParams();
+            //params.height = setting.getHeight();
+            drone.setLayoutParams(params);
 
-                linearLayoutB.addView(setting);
-                radioGroup.addView(drone);
-            }
+            radioGroup.addView(drone);
+
+            //}
         }
 
 

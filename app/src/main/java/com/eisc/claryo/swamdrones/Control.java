@@ -1,6 +1,7 @@
 package com.eisc.claryo.swamdrones;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,11 @@ import android.widget.ToggleButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
 
@@ -34,6 +40,11 @@ public class Control extends AppCompatActivity {
             updateLevelBattery();
         }
     };
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     private void updateLevelBattery() {
         Log.i("updateBattery", "UpdateBattery");
@@ -98,13 +109,13 @@ public class Control extends AppCompatActivity {
             if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                 positionMaster = i;
 
-            if(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery()<batteryPercentage)
+            if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)
                 batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
             if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
                 GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
         }
-        Log.i("PositionMaster", "Position Master : "+positionMaster);
+        Log.i("PositionMaster", "Position Master : " + positionMaster);
 
         updateLevelBattery();
 
@@ -131,6 +142,13 @@ public class Control extends AppCompatActivity {
         toggle_takeoff_land.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    try {
+                        Log.i("mDeviceController", "mDeviceController : " + GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().getState());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (isChecked) {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                         if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
@@ -380,5 +398,44 @@ public class Control extends AppCompatActivity {
                 startActivity(EssaimViewActivity);
             }
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Control Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }

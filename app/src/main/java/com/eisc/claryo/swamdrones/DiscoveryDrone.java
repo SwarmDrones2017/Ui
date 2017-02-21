@@ -131,6 +131,10 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                             if (isConnect == false) {
                                 Toast.makeText(context, "Probleme de connection", Toast.LENGTH_LONG);
                             } else {
+                                int whoismaster = GlobalCouple.whoIsMaster();
+                                if(whoismaster == -1){
+                                    bebop.setMaster(true);
+                                }
                                 int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop);
                                 if (positionRpiCorres == -1) {
                                     GlobalCouple.couples.add(new Couple(bebop, null));

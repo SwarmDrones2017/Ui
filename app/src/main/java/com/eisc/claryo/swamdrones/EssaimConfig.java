@@ -1,16 +1,9 @@
 package com.eisc.claryo.swamdrones;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +13,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ToggleButton;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.microedition.khronos.opengles.GL;
+import java.util.ArrayList;
 
 /**
  * Classe permettant la configuration de l'essaim
@@ -39,7 +28,6 @@ public class EssaimConfig extends AppCompatActivity {
     static int NumeroDrone = 0;
 
     @Override
-    @TargetApi(android.os.Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int UI_OPTIONS = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
@@ -51,67 +39,38 @@ public class EssaimConfig extends AppCompatActivity {
         setResult(RESULT_OK, EssaimConfigActivity);
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
-        /*final ToggleButton btnDrone1 = (ToggleButton) findViewById(R.id.tglBtnDrone1);
-        final ToggleButton btnDrone2 = (ToggleButton) findViewById(R.id.tglBtnDrone2);
-        final ToggleButton btnDrone3 = (ToggleButton) findViewById(R.id.tglBtnDrone3);
-        final ToggleButton btnDrone4 = (ToggleButton) findViewById(R.id.tglBtnDrone4);
-        final ToggleButton btnDrone5 = (ToggleButton) findViewById(R.id.tglBtnDrone5);*/
-        final Button btnReset = (Button) findViewById(R.id.btnResetConfDrones);
-        /*final ImageButton btnSet1 = (ImageButton) findViewById(R.id.btn_Drone1_Setting);
-        final ImageButton btnSet2 = (ImageButton) findViewById(R.id.btn_Drone2_Setting);
-        final ImageButton btnSet3 = (ImageButton) findViewById(R.id.btn_Drone3_Setting);
-        final ImageButton btnSet4 = (ImageButton) findViewById(R.id.btn_Drone4_Setting);
-        final ImageButton btnSet5 = (ImageButton) findViewById(R.id.btn_Drone5_Setting);*/
 
-        // Récupérer l'AssetManager
-        /*AssetManager manager = getAssets();
-        Bitmap bitmap = null;
-        try {
-            InputStream img_setting = manager.open("ic_settings");
-            bitmap = BitmapFactory.decodeStream(img_setting);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+        final Button btnReset = (Button) findViewById(R.id.btnResetConfDrones);
+
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_settings);
 
-        //LinearLayout listtoggledrone = (LinearLayout) findViewById(R.id.listtoggledrone);
-        //LinearLayout listbutton = (LinearLayout) findViewById(R.id.listbutton);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        LinearLayout linearLayoutB = (LinearLayout) findViewById(R.id.linearLayoutB);
+        final LinearLayout linearLayoutB = (LinearLayout) findViewById(R.id.linearLayoutB);
         LinearLayout linearLayoutH = (LinearLayout) findViewById(R.id.linearLayoutH);
 
-        /*for(int i = 0;i<GlobalCouple.couples.size();i++){
-            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                ToggleButton drone = new ToggleButton(this);
-                String name = GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName();
-                drone.setText(name);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(500,150);
-                layoutParams.setMargins(5,3,0,0);
-                drone.setLayoutParams(layoutParams);
-                listtoggledrone.addView(drone);
-            }
-        }
-        */
-        /*LinearLayout.LayoutParams layoutParamsD = new LinearLayout.LayoutParams(500, 150);
-        layoutParamsD.setMargins(5, 3, 0, 0);
-        LinearLayout.LayoutParams layoutParamsR = new LinearLayout.LayoutParams(500, 150);
-        layoutParamsR.setMarginStart(layoutParamsD.getMarginEnd());
-*/
+        final ArrayList<Listdronereglage> listbutton = new ArrayList<Listdronereglage>();
+        int whoismaster = GlobalCouple.whoIsMaster();
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
                 RadioButton radiodrone = new RadioButton(this);
                 radiodrone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                         if (isChecked) {
-                            //TODO Le maitre
-                            //GlobalCouple.couples.get(i).getBebopDrone().setMaster(true);
-                            buttonView.getText();
-                        } else {
-                            //TODO Il n'est plus maitre
-                            //GlobalCouple.couples.get(finalI).getBebopDrone().setMaster(false);
+                            //Le maitre
+                            for (int j = 0; j < listbutton.size(); j++) {
+                                if (buttonView == listbutton.get(j).getRadiodrone()) {
+                                    GlobalCouple.couples.get(j).getBebopDrone().setMaster(true);
+                                    buttonView.setChecked(true);
+                                } else {
+                                    GlobalCouple.couples.get(j).getBebopDrone().setMaster(false);
+                                    buttonView.setChecked(false);
+                                }
+                            }
                         }
+
+
                     }
                 });
                 ImageButton setting = new ImageButton(this);
@@ -123,6 +82,7 @@ public class EssaimConfig extends AppCompatActivity {
                         startActivity(PilotageConfActivity);
                         //TODO ne pas oublier le putextra extra
                     }
+
                 });
                 //Bitmap resizedBitmap = Bitmap.createScaledBitmap(b,drone.getWidth(),drone.getHeight(),false);
                 //drone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
@@ -132,9 +92,12 @@ public class EssaimConfig extends AppCompatActivity {
                 ViewGroup.LayoutParams params = setting.getLayoutParams();
                 //params.height = setting.getHeight();
                 radiodrone.setLayoutParams(params);
+                if (whoismaster == i) {
+                    radiodrone.setChecked(true);
+                }
 
                 radioGroup.addView(radiodrone);
-
+                listbutton.add(new Listdronereglage(radiodrone, setting));
             }
         }
 
@@ -214,5 +177,26 @@ public class EssaimConfig extends AppCompatActivity {
             }
         });
     }
+
+}
+
+class Listdronereglage {
+
+    private RadioButton radiodrone;
+    private ImageButton setting;
+
+    Listdronereglage(RadioButton radiodrone, ImageButton setting) {
+        this.radiodrone = radiodrone;
+        this.setting = setting;
+    }
+
+    public RadioButton getRadiodrone() {
+        return radiodrone;
+    }
+
+    public ImageButton getSetting() {
+        return setting;
+    }
+
 
 }

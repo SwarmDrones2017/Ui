@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 
-import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
 
 /**
  * Classe pour l'interface de controle de vol de l'essaim
@@ -30,7 +29,7 @@ public class Control extends AppCompatActivity {
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            batteryPercentage = msg.getData().getInt(BATTERYLEVEL);
+            batteryPercentage = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
             updateLevelBattery();
         }
     };

@@ -23,8 +23,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.eisc.claryo.swamdrones.MessageHandler.LISTDRONEUPDATE;
-import static com.eisc.claryo.swamdrones.MessageHandler.NOTDRONE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            listDrone = msg.getData().getStringArray(LISTDRONEUPDATE);
+            listDrone = msg.getData().getStringArray(MessageKEY.LISTDRONEUPDATE);
             ShowDroneList();
         }
     };
@@ -102,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
                     if(droneSelected !=-1){
 
-                        DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
+                        DroneDetailsActivity.putExtra(MessageKEY.NAME, GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
                         .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
                         .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
                         .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())

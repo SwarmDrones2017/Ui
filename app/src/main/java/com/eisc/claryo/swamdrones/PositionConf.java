@@ -1,7 +1,10 @@
 package com.eisc.claryo.swamdrones;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +31,9 @@ public class PositionConf extends AppCompatActivity {
         Intent PositionConfActivity = new Intent();
         setResult(RESULT_OK, PositionConfActivity);
 
+        Bundle extras = getIntent().getExtras();
+        final int correspondant = extras.getInt(MessageKEY.POSITIONCOUPLE);
+
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
         Button btnReset = (Button) findViewById(R.id.btnResetPilotDrones);
         TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
@@ -41,8 +47,11 @@ public class PositionConf extends AppCompatActivity {
         final SeekBar sBAltiMax = (SeekBar) findViewById(R.id.sBAltiMax);
         final SeekBar sBDistMax = (SeekBar) findViewById(R.id.sBDistMax);
 
+
+
         //Gerer le nom du drone à afficher dans le réglages des paramètres
-/*
+        txtDroneNom.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDroneName());
+        /*
         for(int i=0; i<5; i++){
             if(NumeroDrone == i) {
                 txtDroneNom.setText(MainActivity.items[i].getname());
@@ -50,6 +59,7 @@ public class PositionConf extends AppCompatActivity {
         }
 */
         //On gère la plage de valeurs des seekbars
+        sBAltiMax.setProgress((int) GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getAltitude_max());
 
         sBAltiMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 5;
@@ -61,6 +71,7 @@ public class PositionConf extends AppCompatActivity {
                 temp = (double)progressChanged/10;
                 String valeurFinale = String.valueOf(temp);
                 txtsBAltiMax.setText(valeurFinale + "m");
+                GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAltitude_max(new Float(valeurFinale));
             }
 
             @Override
@@ -74,6 +85,7 @@ public class PositionConf extends AppCompatActivity {
             }
         });
 
+        sBDistMax.setProgress((int) GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDistance_max());
         sBDistMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 10;
             double temp = 0;
@@ -84,6 +96,7 @@ public class PositionConf extends AppCompatActivity {
                 temp = (double)progressChanged;
                 String valeurFinale = String.valueOf(temp);
                 txtsBDistMax.setText(valeurFinale + "m");
+                GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setDistance_max(new Float(valeurFinale));
             }
 
             @Override
@@ -113,6 +126,7 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent VideoConfActivity = new Intent(PositionConf.this, VideoConf.class);
+                VideoConfActivity.putExtra(MessageKEY.POSITIONCOUPLE,correspondant);
                 startActivity(VideoConfActivity);
             }
         });

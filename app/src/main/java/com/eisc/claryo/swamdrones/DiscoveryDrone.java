@@ -147,7 +147,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                         }
                     }
                 }
-                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
+                messageBundle.putStringArray(MessageKEY.LISTDRONEUPDATE, listDrone);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handler.sendMessage(myMessage);

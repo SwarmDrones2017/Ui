@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
@@ -88,10 +90,16 @@ public class EssaimConfig extends AppCompatActivity {
                 setting.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int correspondant = -1;
+                        for (int i = 0; i < listbutton.size();i++){
+                            if(v == listbutton.get(i).getSetting()){
+                                correspondant = i;
+                                break;
+                            }
+                        }
                         Intent PositionConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                        //PositionConfActivity.putExtra()
+                        PositionConfActivity.putExtra(MessageKEY.POSITIONCOUPLE,correspondant);
                         startActivity(PositionConfActivity);
-                        //TODO ne pas oublier le putextra extra
                     }
 
                 });
@@ -131,54 +139,9 @@ public class EssaimConfig extends AppCompatActivity {
                 startActivity(PilotageConfActivity);
             }
         });
-
+*/
         //On gère le passage au paramétrage des drones
 
-        btnSet1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                startActivity(PilotageConfActivity);
-                NumeroDrone = 0;
-            }
-        });
-
-        btnSet2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                startActivity(PilotageConfActivity);
-                NumeroDrone = 1;
-            }
-        });
-
-        btnSet3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                startActivity(PilotageConfActivity);
-                NumeroDrone = 2;
-            }
-        });
-
-        btnSet4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                startActivity(PilotageConfActivity);
-                NumeroDrone = 3;
-            }
-        });
-
-        btnSet5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent PilotageConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
-                startActivity(PilotageConfActivity);
-                NumeroDrone = 4;
-            }
-        });
-*/
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

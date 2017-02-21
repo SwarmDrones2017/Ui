@@ -27,7 +27,7 @@ public class DroneDetails extends AppCompatActivity {
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            progress = msg.getData().getInt(MessageHandler.BATTERYLEVEL);
+            progress = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
             updateBatteryLevel();
         }
     };

@@ -34,7 +34,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:checked="true" />
+        android:checked="true"
+        android:visibility="gone" />
 
     <ToggleButton
         android:id="@+id/TglDrone2"
@@ -46,7 +47,8 @@
         android:layout_width="60dp"
         android:layout_toRightOf="@+id/TglDrone1"
         android:layout_alignParentBottom="true"
-        android:checked="true" />
+        android:checked="true"
+        android:visibility="gone" />
 
     <ToggleButton
         android:id="@+id/TglDrone3"
@@ -58,7 +60,8 @@
         android:layout_width="60dp"
         android:layout_toRightOf="@+id/TglDrone2"
         android:layout_alignParentBottom="true"
-        android:checked="true" />
+        android:checked="true"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/BtnAllDrone"
@@ -69,7 +72,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:checked="true" />
+        android:checked="true"
+        android:visibility="gone" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -81,7 +85,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/LayoutDrone1">
+        android:id="@+id/LayoutDrone1"
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -198,7 +203,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/LayoutDrone2">
+        android:id="@+id/LayoutDrone2"
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -316,7 +322,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/LayoutDrone3">
+        android:id="@+id/LayoutDrone3"
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -441,7 +448,8 @@
             android:layout_x="90dp"
             android:layout_y="204dp"
             android:id="@+id/D1ProxOrDown"
-            android:tint="@android:color/holo_orange_dark" />
+            android:tint="@android:color/holo_orange_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -450,7 +458,8 @@
             android:layout_x="90dp"
             android:layout_y="200dp"
             android:id="@+id/D1ProxRedDown"
-            android:tint="@android:color/holo_red_dark" />
+            android:tint="@android:color/holo_red_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -459,7 +468,8 @@
             android:layout_x="90dp"
             android:layout_y="208dp"
             android:id="@+id/D1ProxJauDown"
-            android:tint="#F2EE1A" />
+            android:tint="#F2EE1A"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/Drone1"
@@ -470,7 +480,8 @@
             app:srcCompat="@drawable/ic_drone"
             android:layout_x="80dp"
             android:layout_y="182dp"
-            android:tint="@android:color/holo_green_dark" />
+            android:tint="@android:color/holo_green_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxRedBot"
@@ -478,7 +489,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="85dp"
             android:layout_y="228dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxOrBot"
@@ -487,7 +499,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="85dp"
             android:layout_y="233dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxJauBot"
@@ -496,7 +509,8 @@
             android:tint="#F2EE1A"
             android:layout_x="85dp"
             android:layout_y="238dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxRedTop"
@@ -504,7 +518,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="85dp"
             android:layout_y="182dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxOrTop"
@@ -513,7 +528,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="85dp"
             android:layout_y="177dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxJauTop"
@@ -522,7 +538,8 @@
             android:tint="#F2EE1A"
             android:layout_x="85dp"
             android:layout_y="172dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxRedRight"
@@ -530,7 +547,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="125dp"
             android:layout_y="187dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxOrRight"
@@ -539,7 +557,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="130dp"
             android:layout_y="187dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxJauRight"
@@ -548,7 +567,8 @@
             android:tint="#F2EE1A"
             android:layout_x="135dp"
             android:layout_y="187dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxRedLeft"
@@ -556,7 +576,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="81dp"
             android:layout_y="187dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxOrLeft"
@@ -565,7 +586,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="76dp"
             android:layout_y="187dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D1ProxJauLeft"
@@ -574,7 +596,8 @@
             android:tint="#F2EE1A"
             android:layout_x="71dp"
             android:layout_y="187dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -583,7 +606,8 @@
             android:layout_x="90dp"
             android:layout_y="186dp"
             android:id="@+id/D1ProxRedUp"
-            android:tint="@android:color/holo_red_dark" />
+            android:tint="@android:color/holo_red_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -592,7 +616,8 @@
             android:layout_x="90dp"
             android:layout_y="182dp"
             android:id="@+id/D1ProxOrUp"
-            android:tint="@android:color/holo_orange_dark" />
+            android:tint="@android:color/holo_orange_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -601,7 +626,8 @@
             android:layout_x="90dp"
             android:layout_y="178dp"
             android:id="@+id/D1ProxJauUp"
-            android:tint="#F2EE1A" />
+            android:tint="#F2EE1A"
+            android:visibility="gone" />
 
         <!-- FIN LayoutDrone1 -->
 
@@ -614,7 +640,8 @@
             android:layout_x="460dp"
             android:layout_y="122dp"
             android:id="@+id/D2ProxOrDown"
-            android:tint="@android:color/holo_orange_dark" />
+            android:tint="@android:color/holo_orange_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -623,7 +650,8 @@
             android:layout_x="460dp"
             android:layout_y="118dp"
             android:id="@+id/D2ProxRedDown"
-            android:tint="@android:color/holo_red_dark" />
+            android:tint="@android:color/holo_red_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -632,7 +660,8 @@
             android:layout_x="460dp"
             android:layout_y="126dp"
             android:id="@+id/D2ProxJauDown"
-            android:tint="#F2EE1A" />
+            android:tint="#F2EE1A"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/Drone2"
@@ -643,7 +672,8 @@
             android:layout_y="100dp"
             android:background="@null"
             app:srcCompat="@drawable/ic_drone"
-            android:tint="@android:color/holo_blue_dark" />
+            android:tint="@android:color/holo_blue_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxRedTop"
@@ -651,7 +681,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="455dp"
             android:layout_y="100dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxOrTop"
@@ -660,7 +691,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="455dp"
             android:layout_y="95dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxJauTop"
@@ -669,7 +701,8 @@
             android:tint="#F2EE1A"
             android:layout_x="455dp"
             android:layout_y="90dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxRedBot"
@@ -677,7 +710,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="455dp"
             android:layout_y="146dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxOrBot"
@@ -686,7 +720,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="455dp"
             android:layout_y="151dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxJauBot"
@@ -695,7 +730,8 @@
             android:tint="#F2EE1A"
             android:layout_x="455dp"
             android:layout_y="156dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxRedRight"
@@ -703,7 +739,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="495dp"
             android:layout_y="105dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxOrRight"
@@ -712,7 +749,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="500dp"
             android:layout_y="105dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxJauRight"
@@ -721,7 +759,8 @@
             android:tint="#F2EE1A"
             android:layout_x="505dp"
             android:layout_y="105dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxRedLeft"
@@ -729,7 +768,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="451dp"
             android:layout_y="105dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxOrLeft"
@@ -738,7 +778,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="446dp"
             android:layout_y="105dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D2ProxJauLeft"
@@ -747,7 +788,8 @@
             android:tint="#F2EE1A"
             android:layout_x="441dp"
             android:layout_y="105dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -756,7 +798,8 @@
             android:layout_x="460dp"
             android:layout_y="104dp"
             android:id="@+id/D2ProxRedUp"
-            android:tint="@android:color/holo_red_dark" />
+            android:tint="@android:color/holo_red_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -765,7 +808,8 @@
             android:layout_x="460dp"
             android:layout_y="100dp"
             android:id="@+id/D2ProxOrUp"
-            android:tint="@android:color/holo_orange_dark" />
+            android:tint="@android:color/holo_orange_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -774,7 +818,8 @@
             android:layout_x="460dp"
             android:layout_y="96dp"
             android:id="@+id/D2ProxJauUp"
-            android:tint="#F2EE1A" />
+            android:tint="#F2EE1A"
+            android:visibility="gone" />
 
         <!-- FIN LayoutDrone2 -->
 
@@ -787,7 +832,8 @@
             android:layout_x="280dp"
             android:layout_y="222dp"
             android:id="@+id/D3ProxOrDown"
-            android:tint="@android:color/holo_orange_dark" />
+            android:tint="@android:color/holo_orange_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -796,7 +842,8 @@
             android:layout_x="280dp"
             android:layout_y="218dp"
             android:id="@+id/D3ProxRedDown"
-            android:tint="@android:color/holo_red_dark" />
+            android:tint="@android:color/holo_red_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -805,7 +852,8 @@
             android:layout_x="280dp"
             android:layout_y="226dp"
             android:id="@+id/D3ProxJauDown"
-            android:tint="#F2EE1A" />
+            android:tint="#F2EE1A"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/Drone3"
@@ -816,7 +864,8 @@
             android:layout_y="200dp"
             android:background="@null"
             app:srcCompat="@drawable/ic_drone"
-            android:tint="@android:color/black" />
+            android:tint="@android:color/black"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxRedTop"
@@ -824,7 +873,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="275dp"
             android:layout_y="200dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxOrTop"
@@ -833,7 +883,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="275dp"
             android:layout_y="195dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxJauTop"
@@ -842,7 +893,8 @@
             android:tint="#F2EE1A"
             android:layout_x="275dp"
             android:layout_y="190dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxRedBot"
@@ -850,7 +902,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="275dp"
             android:layout_y="246dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxOrBot"
@@ -859,7 +912,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="275dp"
             android:layout_y="251dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxJauBot"
@@ -868,7 +922,8 @@
             android:tint="#F2EE1A"
             android:layout_x="275dp"
             android:layout_y="256dp"
-            android:layout_width="40dp" />
+            android:layout_width="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxRedRight"
@@ -876,7 +931,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="315dp"
             android:layout_y="205dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxOrRight"
@@ -885,7 +941,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="320dp"
             android:layout_y="205dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxJauRight"
@@ -894,7 +951,8 @@
             android:tint="#F2EE1A"
             android:layout_x="325dp"
             android:layout_y="205dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxRedLeft"
@@ -902,7 +960,8 @@
             app:srcCompat="@android:color/holo_red_dark"
             android:layout_x="271dp"
             android:layout_y="205dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxOrLeft"
@@ -911,7 +970,8 @@
             app:srcCompat="@android:color/holo_orange_dark"
             android:layout_x="266dp"
             android:layout_y="205dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/D3ProxJauLeft"
@@ -920,7 +980,8 @@
             android:tint="#F2EE1A"
             android:layout_x="261dp"
             android:layout_y="205dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -929,7 +990,8 @@
             android:layout_x="280dp"
             android:layout_y="204dp"
             android:id="@+id/D3ProxRedUp"
-            android:tint="@android:color/holo_red_dark" />
+            android:tint="@android:color/holo_red_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -938,7 +1000,8 @@
             android:layout_x="280dp"
             android:layout_y="200dp"
             android:id="@+id/D3ProxOrUp"
-            android:tint="@android:color/holo_orange_dark" />
+            android:tint="@android:color/holo_orange_dark"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="30dp"
@@ -947,7 +1010,8 @@
             android:layout_x="280dp"
             android:layout_y="196dp"
             android:id="@+id/D3ProxJauUp"
-            android:tint="#F2EE1A" />
+            android:tint="#F2EE1A"
+            android:visibility="gone" />
 
         <!-- FIN LayoutDrone3 -->
 

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ListView list;
     private TextView textViewNbDrones;
+    private TextView textViewDrones;
     private MainActivity ici = this;
     static private String[] listDrone;
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (listDrone != null) {
             if (listDrone[0].equals(MSG_ANY_DRONES)) {
                 textViewNbDrones.setText(MSG_ANY_DRONES);
+                textViewDrones.setText("drone");
                 list.setVisibility(View.INVISIBLE);
             } else {
                 textViewNbDrones.setText("" + listDrone.length);
@@ -57,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 list.setAdapter(listitems);
                 list.setVisibility(View.VISIBLE);
             }
+            if (listDrone.length == 1)
+                textViewDrones.setText("drone");
+            else
+                textViewDrones.setText("drones");
 
         }
     }
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnABout = (Button) findViewById(R.id.btnAbout);
         Button btnNotice = (Button) findViewById(R.id.btnNotice);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
+        textViewDrones = (TextView) findViewById(R.id.textViewDrones);
 
         ShowDroneList();
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -34,6 +35,10 @@ public class Control extends AppCompatActivity {
             updateLevelBattery();
         }
     };
+
+    private ImageView ProxJauneGauche, ProxOrangeGauche, ProxRougeGauche, ProxJauneDroite, ProxOrangeDroite,
+            ProxRougeDroite, ProxJauneDevant, ProxOrangeDevant, ProxRougeDevant, ProxJauneDerriere, ProxOrangeDerriere,
+            ProxRougeDerriere, ProxJauneAbove, ProxOrangeAbove, ProxRougeAbove, ProxJauneBelow, ProxOrangeBelow, ProxRougeBelow;
 
     private void updateLevelBattery() {
         Log.i("updateBattery", "UpdateBattery");
@@ -67,6 +72,145 @@ public class Control extends AppCompatActivity {
     }
 
 
+    protected void proxyBars(){
+        //Gérer l'apparition des lignes de proximité
+
+        int ProxGauche = 121;
+        int ProxDroite = 34;
+        int ProxDevant = 74;
+        int ProxDerriere = 500;
+        int ProxBelow = 5000;
+        int ProxAbove = 86;
+        Toast.makeText(getApplicationContext(),"G:"+ProxGauche+" D:"+ProxDroite+" Dv:"+ProxDevant+" Dr:"+ProxDerriere,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"A:"+ProxAbove+" B:"+ProxBelow,Toast.LENGTH_LONG).show();
+
+        if(ProxGauche > 100){
+            ProxJauneGauche.setVisibility(View.INVISIBLE);
+            ProxOrangeGauche.setVisibility(View.INVISIBLE);
+            ProxRougeGauche.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxGauche <= 100 && ProxGauche > 75){
+            ProxJauneGauche.setVisibility(View.VISIBLE);
+            ProxOrangeGauche.setVisibility(View.INVISIBLE);
+            ProxRougeGauche.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxGauche <= 75 && ProxGauche > 50){
+            ProxJauneGauche.setVisibility(View.VISIBLE);
+            ProxOrangeGauche.setVisibility(View.VISIBLE);
+            ProxRougeGauche.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxGauche <= 50){
+            ProxJauneGauche.setVisibility(View.VISIBLE);
+            ProxOrangeGauche.setVisibility(View.VISIBLE);
+            ProxRougeGauche.setVisibility(View.VISIBLE);
+        }
+
+        if(ProxDroite > 100){
+            ProxJauneDroite.setVisibility(View.INVISIBLE);
+            ProxOrangeDroite.setVisibility(View.INVISIBLE);
+            ProxRougeDroite.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDroite <= 100 && ProxDroite > 75){
+            ProxJauneDroite.setVisibility(View.VISIBLE);
+            ProxOrangeDroite.setVisibility(View.INVISIBLE);
+            ProxRougeDroite.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDroite <= 75 && ProxDroite > 50){
+            ProxJauneDroite.setVisibility(View.VISIBLE);
+            ProxOrangeDroite.setVisibility(View.VISIBLE);
+            ProxRougeDroite.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDroite <= 50){
+            ProxJauneDroite.setVisibility(View.VISIBLE);
+            ProxOrangeDroite.setVisibility(View.VISIBLE);
+            ProxRougeDroite.setVisibility(View.VISIBLE);
+        }
+
+        if(ProxDevant > 100){
+            ProxJauneDevant.setVisibility(View.INVISIBLE);
+            ProxOrangeDevant.setVisibility(View.INVISIBLE);
+            ProxRougeDevant.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDevant <= 100 && ProxDevant > 75){
+            ProxJauneDevant.setVisibility(View.VISIBLE);
+            ProxOrangeDevant.setVisibility(View.INVISIBLE);
+            ProxRougeDevant.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDevant <= 75 && ProxDevant > 50){
+            ProxJauneDevant.setVisibility(View.VISIBLE);
+            ProxOrangeDevant.setVisibility(View.VISIBLE);
+            ProxRougeDevant.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDevant <= 50){
+            ProxJauneDevant.setVisibility(View.VISIBLE);
+            ProxOrangeDevant.setVisibility(View.VISIBLE);
+            ProxRougeDevant.setVisibility(View.VISIBLE);
+        }
+
+        if(ProxDerriere > 100){
+            ProxJauneDerriere.setVisibility(View.INVISIBLE);
+            ProxOrangeDerriere.setVisibility(View.INVISIBLE);
+            ProxRougeDerriere.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDerriere <= 100 && ProxDerriere > 75){
+            ProxJauneDerriere.setVisibility(View.VISIBLE);
+            ProxOrangeDerriere.setVisibility(View.INVISIBLE);
+            ProxRougeDerriere.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDerriere <= 75 && ProxDerriere > 50){
+            ProxJauneDerriere.setVisibility(View.VISIBLE);
+            ProxOrangeDerriere.setVisibility(View.VISIBLE);
+            ProxRougeDerriere.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxDerriere <= 50){
+            ProxJauneDerriere.setVisibility(View.VISIBLE);
+            ProxOrangeDerriere.setVisibility(View.VISIBLE);
+            ProxRougeDerriere.setVisibility(View.VISIBLE);
+        }
+
+        if(ProxBelow > 100){
+            ProxJauneBelow.setVisibility(View.INVISIBLE);
+            ProxOrangeBelow.setVisibility(View.INVISIBLE);
+            ProxRougeBelow.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxBelow <= 100 && ProxBelow > 75){
+            ProxJauneBelow.setVisibility(View.VISIBLE);
+            ProxOrangeBelow.setVisibility(View.INVISIBLE);
+            ProxRougeBelow.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxBelow <= 75 && ProxBelow > 50){
+            ProxJauneBelow.setVisibility(View.VISIBLE);
+            ProxOrangeBelow.setVisibility(View.VISIBLE);
+            ProxRougeBelow.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxBelow <= 50){
+            ProxJauneBelow.setVisibility(View.VISIBLE);
+            ProxOrangeBelow.setVisibility(View.VISIBLE);
+            ProxRougeBelow.setVisibility(View.VISIBLE);
+        }
+
+        if(ProxAbove > 100){
+            ProxJauneAbove.setVisibility(View.INVISIBLE);
+            ProxOrangeAbove.setVisibility(View.INVISIBLE);
+            ProxRougeAbove.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxAbove <= 100 && ProxAbove > 75){
+            ProxJauneAbove.setVisibility(View.VISIBLE);
+            ProxOrangeAbove.setVisibility(View.INVISIBLE);
+            ProxRougeAbove.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxAbove <= 75 && ProxAbove > 50){
+            ProxJauneAbove.setVisibility(View.VISIBLE);
+            ProxOrangeAbove.setVisibility(View.VISIBLE);
+            ProxRougeAbove.setVisibility(View.INVISIBLE);
+        }
+        else if(ProxAbove <= 50){
+            ProxJauneAbove.setVisibility(View.VISIBLE);
+            ProxOrangeAbove.setVisibility(View.VISIBLE);
+            ProxRougeAbove.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +235,30 @@ public class Control extends AppCompatActivity {
 
         Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
 
+        ProxJauneGauche = (ImageView) findViewById(R.id.ProxJauneGauche);
+        ProxOrangeGauche = (ImageView) findViewById(R.id.ProxOrangeGauche);
+        ProxRougeGauche = (ImageView) findViewById(R.id.ProxRougeGauche);
+
+        ProxJauneDroite = (ImageView) findViewById(R.id.ProxJauneDroite);
+        ProxOrangeDroite = (ImageView) findViewById(R.id.ProxOrangeDroite);
+        ProxRougeDroite = (ImageView) findViewById(R.id.ProxRougeDroite);
+
+        ProxJauneDevant = (ImageView) findViewById(R.id.ProxJauneDevant);
+        ProxOrangeDevant = (ImageView) findViewById(R.id.ProxOrangeDevant);
+        ProxRougeDevant = (ImageView) findViewById(R.id.ProxRougeDevant);
+
+        ProxJauneDerriere = (ImageView) findViewById(R.id.ProxJauneDerriere);
+        ProxOrangeDerriere = (ImageView) findViewById(R.id.ProxOrangeDerriere);
+        ProxRougeDerriere = (ImageView) findViewById(R.id.ProxRougeDerriere);
+
+        ProxJauneAbove = (ImageView) findViewById(R.id.ProxJauneAbove);
+        ProxOrangeAbove = (ImageView) findViewById(R.id.ProxOrangeAbove);
+        ProxRougeAbove = (ImageView) findViewById(R.id.ProxRougeAbove);
+
+        ProxJauneBelow = (ImageView) findViewById(R.id.ProxJauneBelow);
+        ProxOrangeBelow = (ImageView) findViewById(R.id.ProxOrangeBelow);
+        ProxRougeBelow = (ImageView) findViewById(R.id.ProxRougeBelow);
+
         ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
         positionMaster = -1;
@@ -107,6 +275,8 @@ public class Control extends AppCompatActivity {
         batteryPercentage = GlobalCouple.couples.get(positionMaster).getBebopDrone().getInfoDrone().getBattery();
         batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
         updateLevelBattery();
+
+        proxyBars();
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);

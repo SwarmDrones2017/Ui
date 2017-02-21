@@ -214,24 +214,28 @@ public class Control extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         int UI_OPTIONS = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         getWindow().getDecorView().setSystemUiVisibility(UI_OPTIONS);
 
         setContentView(R.layout.control_drones);
 
+        progressBarBatterie = (ProgressBar) findViewById(R.id.batteryLevel);
+        batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
+
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
-
         ImageButton btn_forward = (ImageButton) findViewById(R.id.btn_forward);
         ImageButton btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
         ImageButton btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
-
+        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
         ImageButton btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
         ImageButton btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
         ImageButton btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
         ImageButton btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+
+        ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
 
         Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
 
@@ -262,18 +266,19 @@ public class Control extends AppCompatActivity {
         ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
         positionMaster = -1;
+        batteryPercentage = 100;
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                 positionMaster = i;
+
+            if(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery()<batteryPercentage)
+                batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
             if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
                 GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
         }
         Log.i("PositionMaster", "Position Master : "+positionMaster);
-        progressBarBatterie = (ProgressBar) findViewById(R.id.batteryLevel);
 
-        batteryPercentage = GlobalCouple.couples.get(positionMaster).getBebopDrone().getInfoDrone().getBattery();
-        batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
         updateLevelBattery();
 
         proxyBars();

@@ -63,7 +63,18 @@ public class EssaimConfig extends AppCompatActivity {
                                 if (buttonView == listbutton.get(j).getRadiodrone()) {
                                     GlobalCouple.couples.get(j).getBebopDrone().setMaster(true);
                                     buttonView.setChecked(true);
-                                } else {
+                                    for(int k = 0; k < listbutton.size();k++){
+                                        if(k!=j){
+                                            listbutton.get(k).getRadiodrone().setChecked(false);
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        else {//innutilisé peut être
+                            for (int j = 0; j < listbutton.size(); j++) {
+                                if (buttonView == listbutton.get(j).getRadiodrone()) {
                                     GlobalCouple.couples.get(j).getBebopDrone().setMaster(false);
                                     buttonView.setChecked(false);
                                 }
@@ -77,9 +88,9 @@ public class EssaimConfig extends AppCompatActivity {
                 setting.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO lancer l'activity correspondant
-                        Intent PilotageConfActivity = new Intent(EssaimConfig.this, PilotageConf.class);
-                        startActivity(PilotageConfActivity);
+                        Intent PositionConfActivity = new Intent(EssaimConfig.this, PositionConf.class);
+                        //PositionConfActivity.putExtra()
+                        startActivity(PositionConfActivity);
                         //TODO ne pas oublier le putextra extra
                     }
 

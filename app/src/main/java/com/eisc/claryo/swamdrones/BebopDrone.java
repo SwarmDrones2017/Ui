@@ -42,7 +42,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BebopDrone implements ARDeviceControllerStreamListener {
+public class BebopDrone implements ARDeviceControllerStreamListener{
     private static final String TAG = "BebopDrone";
     private static final int DEVICE_PORT = 21;
     private boolean flyAuthorization = true;
@@ -169,6 +169,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
     private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
 
+    public ARDeviceController getmDeviceController() {
+        return mDeviceController;
+    }
+
     public void setHandlerBattery(Handler handler) {
         this.handlerBattery = handler;
     }
@@ -177,7 +181,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         return handlerBattery;
     }
 
-    public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
+    public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) throws ARControllerException {
         this.deviceService = deviceService;
         mListeners = new ArrayList<>();
 
@@ -195,12 +199,12 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
             if (discoveryDevice != null) {
                 mDeviceController = createDeviceController(discoveryDevice);
                 discoveryDevice.dispose();
-                mDeviceController.getFeatureCommon().sendSettingsAllSettings();
             }
 
             try {
                 String strIP = ((ARDiscoveryDeviceNetService) (deviceService.getDevice())).getIp();
                 IP = InetAddress.getByName(strIP);
+                infoDrone.droneName = this.deviceService.getName();
                 ARUtilsManager ftpListManager = new ARUtilsManager();
                 ARUtilsManager ftpQueueManager = new ARUtilsManager();
 
@@ -470,11 +474,22 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         @Override
         public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
             mState = newState;
-            if (ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING.equals(mState)) {
-                mDeviceController.getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
-            } else if (ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED.equals(mState)) {
-                //mSDCardModule.cancelGetFlightMedias();
+            switch (newState)
+            {
+                case ARCONTROLLER_DEVICE_STATE_RUNNING:
+                    mDeviceController.getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
+                    break;
+                case ARCONTROLLER_DEVICE_STATE_STOPPED:
+                    break;
+                case ARCONTROLLER_DEVICE_STATE_STARTING:
+                    break;
+                case ARCONTROLLER_DEVICE_STATE_STOPPING:
+                    break;
+
+                default:
+                    break;
             }
+
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -621,16 +636,21 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
     }
 
     public class InfoDrone {
-        private String serialID;
-        private String serialIDLow;
-        private String serialIDHigh;
-        private int battery;
-        private String hardwareVersion;
-        private String softwareVersion;
-        private String softwareGPSVersion;
-        private short nbFlights;
-        private short durationLastFlight;
-        private int durationTotalFlights;
+        protected String serialID;
+        protected String serialIDLow;
+        protected String serialIDHigh;
+        protected int battery;
+        protected String hardwareVersion;
+        protected String softwareVersion;
+        protected String softwareGPSVersion;
+        protected short nbFlights;
+        protected short durationLastFlight;
+        protected int durationTotalFlights;
+        protected String droneName;
+
+        public String getDroneName() {
+            return droneName;
+        }
 
         public short getNbFlights() {
             return nbFlights;

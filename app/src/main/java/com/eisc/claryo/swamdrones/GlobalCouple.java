@@ -22,12 +22,12 @@ public class GlobalCouple {
         return exist;
     }
 
-    static public boolean droneExist(BebopDrone drone) {
-        BebopDrone tmp;
+    static public boolean droneExist(String nameDrone) {
+        String tmp;
         boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            tmp = couples.get(i).getBebopDrone();
-            if (tmp.equals(drone)) {
+            tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
+            if (tmp.equals(nameDrone)) {
                 exist = true;
             }
         }

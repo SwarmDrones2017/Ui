@@ -12,16 +12,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARControllerCodec;
-import com.parrot.arsdk.arcontroller.ARFrame;
-
 import java.util.Locale;
 
-import static com.eisc.claryo.swamdrones.MessageHandler.LISTDRONEUPDATE;
 
 /**
  * Classe gérant les détails du drone choisit
@@ -92,7 +84,7 @@ public class DroneDetails extends AppCompatActivity {
             };
             progress = 0;
         }
-        Intent DroneDetailsActivity = new Intent();
+        final Intent DroneDetailsActivity = new Intent();
         setResult(RESULT_OK, DroneDetailsActivity);
 
         btnRetour.setOnClickListener(new View.OnClickListener() {

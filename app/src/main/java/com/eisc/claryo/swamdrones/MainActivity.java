@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewNbDrones;
     private MainActivity ici = this;
     static private String[] listDrone;
+    private ImageButton btnRefresh;
+    private Button btnFly;
 
     private Handler handler = new Handler() {
         @Override
@@ -44,23 +47,26 @@ public class MainActivity extends AppCompatActivity {
     };
 
     /**
-     * @author : sofiane :p
+     * @author : Sofiane
      */
     private void ShowDroneList() {
         if (listDrone != null) {
             if (listDrone[0].equals(MSG_ANY_DRONES)) {
                 textViewNbDrones.setText(MSG_ANY_DRONES);
                 list.setVisibility(View.INVISIBLE);
+                btnFly.setVisibility(View.INVISIBLE);
             } else {
                 textViewNbDrones.setText("" + listDrone.length);
                 ArrayAdapter<String> listitems = new ArrayAdapter<String>(ici, android.R.layout.simple_list_item_1, listDrone);
                 list.setAdapter(listitems);
                 list.setVisibility(View.VISIBLE);
+                btnFly.setVisibility(View.VISIBLE);
             }
 
         }
     }
 
+    //TODO Créer un bouton refresh pour relancer un scan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +78,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
-        Button btnFly = (Button) findViewById(R.id.btnFly);
+        btnFly = (Button) findViewById(R.id.btnFly);
+        btnFly.setVisibility(View.INVISIBLE);
         Button btnABout = (Button) findViewById(R.id.btnAbout);
         Button btnNotice = (Button) findViewById(R.id.btnNotice);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
+        btnRefresh = (ImageButton) findViewById(R.id.BtnMainActivityRefresh);
 
         ShowDroneList();
 
@@ -94,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
                     if(droneSelected !=-1){
 
-                        DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getdeviceService().getName())
+                        DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
                         .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
                         .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
                         .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())
@@ -119,7 +127,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DiscoveryDrone(getApplicationContext(), handler);
+            }
+        });
         btnFly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +157,16 @@ public class MainActivity extends AppCompatActivity {
         });
         new DiscoveryDrone(getApplicationContext(), handler);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
 

@@ -1,5 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.MediaCodec;
 import android.media.MediaFormat;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
+@TargetApi(17)
 public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "BebopVideoView";

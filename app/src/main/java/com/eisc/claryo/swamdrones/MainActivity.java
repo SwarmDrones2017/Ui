@@ -1,9 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,15 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
-import java.lang.annotation.Target;
-import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.eisc.claryo.swamdrones.MessageHandler.LISTDRONEUPDATE;
-import static com.eisc.claryo.swamdrones.MessageHandler.NOTDRONE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //TODO Créer un bouton refresh pour relancer un scan
+    //TODO Vérifier le bon fonctionnement du bouton Refresh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

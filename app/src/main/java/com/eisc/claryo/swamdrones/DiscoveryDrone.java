@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.parrot.arsdk.ARSDK;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_ERROR_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerException;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
@@ -114,10 +115,6 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
 
                 }
 
-                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
-                myMessage.setData(messageBundle);
-                //Envoyer le message
-                handler.sendMessage(myMessage);
                 if (deviceList.size() == 0) {
                     //GlobalCouple.couples.clear();
                 } else {
@@ -129,32 +126,32 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                         } catch (ARControllerException e) {
                             e.printStackTrace();
                         }
-                        if (GlobalCouple.droneExist(bebop)) {
+                        if (GlobalCouple.droneExist(bebop.getdeviceService().getName())) {
                             bebop = null; //si le drone existait déjà, je supprime ce nouvel objet
                         } else {
-                            boolean isConnect = bebop.connect();
-
-                            if (isConnect == false) {
-                                Toast.makeText(context, "Probleme de connection", Toast.LENGTH_LONG);
-                            } else {
-                                int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop);
-                                if (positionRpiCorres == -1) {
-                                    GlobalCouple.couples.add(new Couple(bebop, null));
-                                } else {
-                                    GlobalCouple.couples.get(positionRpiCorres).setBebopDrone(bebop);
-                                }
+                            if (bebop != null) { //si l'objet bebop n'est pas détruit c'est qu'il n'existait pas avant, donc je fais un connect avant de l'ajouter à la liste
+                                if (bebop.connect())
+                                    Toast.makeText(context, "Problème de connexion du drone", Toast.LENGTH_SHORT);
+                                else
+                                    bebop.getmDeviceController().getFeatureCommon().sendSettingsAllSettings();
+                            }
+                            int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop); //verification sur l'IP
+                            if (positionRpiCorres == -1) {
+                                GlobalCouple.couples.add(new Couple(bebop, null));
+                            } else { //si une rpi correspondante a été trouvé
+                                GlobalCouple.couples.get(positionRpiCorres).setBebopDrone(bebop);
                             }
                         }
                     }
                 }
-                //messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
-                //messageBundle.putParcelableArrayList(MessageHandler.LISTDRONEUPDATE,deviceList.toArray());
-
+                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
+                myMessage.setData(messageBundle);
+                //Envoyer le message
+                handler.sendMessage(myMessage);
             }
-
         }
-
     }
+
 
     DiscoveryDrone(Context context, Handler handler) {
         this.context = context;

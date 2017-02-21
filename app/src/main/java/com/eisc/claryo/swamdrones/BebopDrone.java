@@ -169,6 +169,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
 
+    public ARDeviceController getmDeviceController() {
+        return mDeviceController;
+    }
+
     public void setHandlerBattery(Handler handler) {
         this.handlerBattery = handler;
     }
@@ -200,6 +204,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
             try {
                 String strIP = ((ARDiscoveryDeviceNetService) (deviceService.getDevice())).getIp();
                 IP = InetAddress.getByName(strIP);
+                infoDrone.droneName = this.deviceService.getName();
                 ARUtilsManager ftpListManager = new ARUtilsManager();
                 ARUtilsManager ftpQueueManager = new ARUtilsManager();
 
@@ -477,7 +482,6 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 case ARCONTROLLER_DEVICE_STATE_STOPPED:
                     break;
                 case ARCONTROLLER_DEVICE_STATE_STARTING:
-                    mDeviceController.getFeatureCommon().sendSettingsAllSettings();
                     break;
                 case ARCONTROLLER_DEVICE_STATE_STOPPING:
                     break;
@@ -632,16 +636,21 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     }
 
     public class InfoDrone {
-        private String serialID;
-        private String serialIDLow;
-        private String serialIDHigh;
-        private int battery;
-        private String hardwareVersion;
-        private String softwareVersion;
-        private String softwareGPSVersion;
-        private short nbFlights;
-        private short durationLastFlight;
-        private int durationTotalFlights;
+        protected String serialID;
+        protected String serialIDLow;
+        protected String serialIDHigh;
+        protected int battery;
+        protected String hardwareVersion;
+        protected String softwareVersion;
+        protected String softwareGPSVersion;
+        protected short nbFlights;
+        protected short durationLastFlight;
+        protected int durationTotalFlights;
+        protected String droneName;
+
+        public String getDroneName() {
+            return droneName;
+        }
 
         public short getNbFlights() {
             return nbFlights;

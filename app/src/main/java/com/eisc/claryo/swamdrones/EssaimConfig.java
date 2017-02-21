@@ -126,7 +126,7 @@ public class EssaimConfig extends AppCompatActivity {
                 });
                 //Bitmap resizedBitmap = Bitmap.createScaledBitmap(b,drone.getWidth(),drone.getHeight(),false);
                 //drone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
-                radiodrone.setText(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName());
+                radiodrone.setText(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
                 setting.setImageBitmap(b);
                 linearLayoutB.addView(setting);
                 ViewGroup.LayoutParams params = setting.getLayoutParams();

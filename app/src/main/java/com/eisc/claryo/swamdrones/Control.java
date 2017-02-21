@@ -263,8 +263,6 @@ public class Control extends AppCompatActivity {
         ProxOrangeBelow = (ImageView) findViewById(R.id.ProxOrangeBelow);
         ProxRougeBelow = (ImageView) findViewById(R.id.ProxRougeBelow);
 
-        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
-
         positionMaster = -1;
         batteryPercentage = 100;
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {

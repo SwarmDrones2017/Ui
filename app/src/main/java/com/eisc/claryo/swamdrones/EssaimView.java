@@ -4,7 +4,10 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 /**
@@ -33,6 +38,50 @@ public class EssaimView extends AppCompatActivity {
     ToggleButton TglDrone1, TglDrone2, TglDrone3;
     Button BtnAllDrone;
     LinearLayout LayoutDrone1, LayoutDrone2, LayoutDrone3;
+    TextView NomDrone1, NomDrone2, NomDrone3, batteryDrone1txt, batteryDrone2txt, batteryDrone3txt;
+    TextView []TabNomDrone;
+    TextView []TabBatterieDronetxt;
+    ImageView []TabBatterieDrone;
+    int batteryPercentage;
+    ImageView batteryDrone1, batteryDrone2, batteryDrone3;
+
+    private Handler handlerBattery = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            batteryPercentage = msg.getData().getInt(MessageHandler.BATTERYLEVEL);
+            updateBatterieLevel();
+        }
+    };
+
+    private void updateBatterieLevel() {
+        Log.i("updateBattery", "UpdateBatteryView");
+
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
+
+            if (batteryPercentage > 97)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_full_24dp);
+            else if (batteryPercentage > 90)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_90_24dp);
+            else if (batteryPercentage > 80)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_80_24dp);
+            else if (batteryPercentage > 60)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_60_24dp);
+            else if (batteryPercentage > 50)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_50_24dp);
+            else if (batteryPercentage > 30)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_30_24dp);
+            else if (batteryPercentage > 20)
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_20_24dp);
+            else
+                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
+
+
+            TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage)+"%");
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +101,30 @@ public class EssaimView extends AppCompatActivity {
         LayoutDrone1 = (LinearLayout) findViewById(R.id.LayoutDrone1);
         LayoutDrone2 = (LinearLayout) findViewById(R.id.LayoutDrone2);
         LayoutDrone3 = (LinearLayout) findViewById(R.id.LayoutDrone3);
+
+        NomDrone1 = (TextView) findViewById(R.id.NomDrone1);
+        NomDrone2 = (TextView) findViewById(R.id.NomDrone2);
+        NomDrone3 = (TextView) findViewById(R.id.NomDrone3);
+        TabNomDrone = new TextView[3];
+        TabNomDrone[0] = NomDrone1;
+        TabNomDrone[1] = NomDrone2;
+        TabNomDrone[2] = NomDrone3;
+
+        batteryDrone1 = (ImageView) findViewById(R.id.Batterie1);
+        batteryDrone2 = (ImageView) findViewById(R.id.Batterie2);
+        batteryDrone3 = (ImageView) findViewById(R.id.Batterie3);
+        TabBatterieDrone = new ImageView[3];
+        TabBatterieDrone[0] = batteryDrone1;
+        TabBatterieDrone[1] = batteryDrone2;
+        TabBatterieDrone[2] = batteryDrone3;
+
+        batteryDrone1txt = (TextView) findViewById(R.id.Batterie1txt);
+        batteryDrone2txt = (TextView) findViewById(R.id.Batterie2txt);
+        batteryDrone3txt = (TextView) findViewById(R.id.Batterie3txt);
+        TabBatterieDronetxt = new TextView[3];
+        TabBatterieDronetxt[0] = batteryDrone1txt;
+        TabBatterieDronetxt[1] = batteryDrone2txt;
+        TabBatterieDronetxt[2] = batteryDrone3txt;
 
         Drone1 = (ImageView) findViewById(R.id.Drone1);
         D1ProxRedBot = (ImageView) findViewById(R.id.D1ProxRedBot);
@@ -118,6 +191,12 @@ public class EssaimView extends AppCompatActivity {
         Drone3.setOnTouchListener(new MyTouchListener3());
         findViewById(R.id.Ecran).setOnDragListener(new MyDragListener());
 
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+
+            if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
+                GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
+        }
+
         density = getResources().getDisplayMetrics().density;
         densite = Float.toString(density);
 
@@ -128,6 +207,10 @@ public class EssaimView extends AppCompatActivity {
         // return 3.0 if it's XXHDPI
         // return 4.0 if it's XXXHDPI
 
+        layoutDrone();
+
+        updateBatterieLevel();
+
         proxyBarsView();
 
         btnRetour.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +218,10 @@ public class EssaimView extends AppCompatActivity {
             public void onClick(View v) {
                 EssaimView.this.finish();
                 Intent ControlActivity = new Intent(EssaimView.this, Control.class);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
                 startActivity(ControlActivity);
             }
         });
@@ -142,7 +229,12 @@ public class EssaimView extends AppCompatActivity {
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EssaimView.this.finish();
                 Intent EssaimConfigActivity = new Intent(EssaimView.this, EssaimConfig.class);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
                 startActivity(EssaimConfigActivity);
             }
         });
@@ -158,6 +250,14 @@ public class EssaimView extends AppCompatActivity {
             }
         });
 
+    }
+
+    protected void layoutDrone(){
+
+        for(int i = 0 ; i < GlobalCouple.couples.size() ; i++){
+            Toast.makeText(getApplicationContext(), GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), Toast.LENGTH_SHORT).show();
+            TabNomDrone[i].setText(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+        }
     }
 
     protected void proxyBarsView(){
@@ -305,6 +405,7 @@ public class EssaimView extends AppCompatActivity {
             case 2:
 
                 Drone2.setVisibility(View.VISIBLE);
+                TglDrone1.setVisibility(View.VISIBLE);
                 TglDrone2.setVisibility(View.VISIBLE);
                 LayoutDrone2.setVisibility(View.VISIBLE);
                 BtnAllDrone.setVisibility(View.VISIBLE);
@@ -420,7 +521,6 @@ public class EssaimView extends AppCompatActivity {
             case 1:
 
                 Drone1.setVisibility(View.VISIBLE);
-                TglDrone1.setVisibility(View.VISIBLE);
                 LayoutDrone1.setVisibility(View.VISIBLE);
 
                 if (D1ProxGauche > 100) {

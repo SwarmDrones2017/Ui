@@ -91,6 +91,10 @@ public class DroneDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DroneDetails.this.finish();
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
             }
         });
     }

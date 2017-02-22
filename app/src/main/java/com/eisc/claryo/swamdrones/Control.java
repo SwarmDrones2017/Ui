@@ -41,7 +41,7 @@ public class Control extends AppCompatActivity {
             ProxRougeDerriere, ProxJauneAbove, ProxOrangeAbove, ProxRougeAbove, ProxJauneBelow, ProxOrangeBelow, ProxRougeBelow;
 
     private void updateLevelBattery() {
-        Log.i("updateBattery", "UpdateBattery");
+        Log.i("updateBattery", "UpdateBatteryControl");
         if (batteryPercentage > 65)
             progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
         else if (batteryPercentage > 35)
@@ -81,8 +81,6 @@ public class Control extends AppCompatActivity {
         int ProxDerriere = 500;
         int ProxBelow = 5000;
         int ProxAbove = 86;
-        Toast.makeText(getApplicationContext(),"G:"+ProxGauche+" D:"+ProxDroite+" Dv:"+ProxDevant+" Dr:"+ProxDerriere,Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(),"A:"+ProxAbove+" B:"+ProxBelow,Toast.LENGTH_LONG).show();
 
         if(ProxGauche > 100){
             ProxJauneGauche.setVisibility(View.INVISIBLE);
@@ -289,6 +287,10 @@ public class Control extends AppCompatActivity {
             public void onClick(View v) {
                 Control.this.finish();
                 Intent MainActivity = new Intent(Control.this, MainActivity.class);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
                 startActivity(MainActivity);
             }
         });
@@ -296,7 +298,12 @@ public class Control extends AppCompatActivity {
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Control.this.finish();
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
                 startActivity(EssaimConfigActivity);
             }
         });
@@ -549,7 +556,12 @@ public class Control extends AppCompatActivity {
         btnSwapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Control.this.finish();
                 Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
                 startActivity(EssaimViewActivity);
             }
         });

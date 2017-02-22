@@ -170,27 +170,6 @@
                 android:gravity="center" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/LigneRaspi1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_raspi"
-                android:id="@+id/Raspi1"
-                android:layout_weight="1" />
-
-            <TextView
-                android:text="72%"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/Raspitxt1"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -289,27 +268,6 @@
                 android:gravity="center" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/LigneRaspi2">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_raspi"
-                android:id="@+id/Raspi2"
-                android:layout_weight="1" />
-
-            <TextView
-                android:text="72%"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/Raspitxt2"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -407,27 +365,6 @@
                 android:gravity="center" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/LigneRaspi3">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_raspi"
-                android:id="@+id/Raspi3"
-                android:layout_weight="1" />
-
-            <TextView
-                android:text="72%"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/Raspitxt3"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
     </LinearLayout>
 
     <AbsoluteLayout

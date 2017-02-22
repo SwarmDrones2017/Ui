@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (listDrone.length == 1)
                 textViewDrones.setText("drone");
-            else
+            else if (listDrone.length > 1)
                 textViewDrones.setText("drones");
 
         }

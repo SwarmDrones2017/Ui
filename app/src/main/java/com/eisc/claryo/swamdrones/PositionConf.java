@@ -130,6 +130,7 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent InfoConfActivity = new Intent(PositionConf.this, InfoConf.class);
+                InfoConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
                 startActivity(InfoConfActivity);
             }
         });

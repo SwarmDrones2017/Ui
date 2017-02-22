@@ -12,9 +12,14 @@ import android.widget.ToggleButton;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM;
 
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_AUTO;
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_FIXEDFIFTYHERTZ;
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_FIXEDSIXTYHERTZ;
 import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_24_FPS;
 import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_25_FPS;
 import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_30_FPS;
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_NONE;
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ROLL_PITCH;
 
 /**
  * Classe permettant de régler les paramètres vidéo d'un/des drone(s)
@@ -55,33 +60,24 @@ public class VideoConf extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         final int correspondant = extras.getInt(MessageKEY.POSITIONCOUPLE);
-        if (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution() != null) {
-            switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution()) {
-                case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_MAX:
-                case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC1080_STREAM480:
-                    btn1080p.setChecked(true);
-                    btn1080p.setClickable(false);
-                    btn720p.setChecked(false);
-                    break;
-                case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC720_STREAM720:
-                    btn1080p.setChecked(false);
-                    btn720p.setChecked(true);
-                    btn720p.setClickable(false);
-                    break;
-                default:
-                case eARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_UNKNOWN_ENUM_VALUE:
-                    btn1080p.setChecked(false);
-                    btn720p.setChecked(false);
-                    break;
-            }
+        switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution()) {
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_MAX:
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC1080_STREAM480:
+                btn1080p.setChecked(true);
+                btn1080p.setClickable(false);
+                btn720p.setChecked(false);
+                break;
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC720_STREAM720:
+                btn1080p.setChecked(false);
+                btn720p.setChecked(true);
+                btn720p.setClickable(false);
+                break;
+            default:
+            case eARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_UNKNOWN_ENUM_VALUE:
+                btn1080p.setChecked(false);
+                btn720p.setChecked(false);
+                break;
         }
-        else {
-            btn1080p.setChecked(false);
-            btn1080p.setClickable(false);
-            btn720p.setChecked(false);
-            btn720p.setClickable(false);
-        }
-
 
         switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getFramerate()) {
             case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_24_FPS:
@@ -123,8 +119,8 @@ public class VideoConf extends AppCompatActivity {
                 break;
             case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ROLL:
             case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_PITCH:
-//TODO je ne sais pas quoi faire dans cette situation
-                break;
+                //TODO je ne sais pas quoi faire dans cette situation
+                //break;
             case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_NONE:
                 btnStabNon.setChecked(true);
                 btnStabNon.setClickable(false);
@@ -134,6 +130,33 @@ public class VideoConf extends AppCompatActivity {
             case eARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_UNKNOWN_ENUM_VALUE:
 
         }
+
+        //Anti-scintillement
+        switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getAntiflickering()) {
+            case ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_AUTO:
+                btnAutoHz.setChecked(true);
+                btnAutoHz.setClickable(false);
+                btn50Hz.setChecked(false);
+                btn60Hz.setChecked(false);
+                break;
+            case ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_FIXEDFIFTYHERTZ:
+                btn50Hz.setChecked(true);
+                btn50Hz.setClickable(false);
+                btnAutoHz.setChecked(false);
+                btn60Hz.setChecked(false);
+                break;
+            case ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_MAX:
+            case ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_FIXEDSIXTYHERTZ:
+                btn60Hz.setChecked(true);
+                btn60Hz.setClickable(false);
+                btn50Hz.setChecked(false);
+                btnAutoHz.setChecked(false);
+                break;
+            default:
+            case eARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_UNKNOWN_ENUM_VALUE:
+
+        }
+
         //Résolution de l'enregistrement
 
         btn1080p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -144,6 +167,8 @@ public class VideoConf extends AppCompatActivity {
                     if (test == true) {
                         btn720p.setChecked(false);
                         btn1080p.setClickable(false);
+                    } else {
+                        btn1080p.setChecked(false);
                     }
                 } else {
                     btn720p.setChecked(true);
@@ -160,6 +185,8 @@ public class VideoConf extends AppCompatActivity {
                     if (test == true) {
                         btn1080p.setChecked(false);
                         btn720p.setClickable(false);
+                    } else {
+                        btn720p.setChecked(false);
                     }
                 } else {
                     btn1080p.setChecked(true);
@@ -169,7 +196,7 @@ public class VideoConf extends AppCompatActivity {
         });
 
         //Qualité de l'enregistrement
-
+        //TODO Cela ne sert à rien c'est de l'illusion
         btnStdr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -182,7 +209,7 @@ public class VideoConf extends AppCompatActivity {
                 }
             }
         });
-
+        //TODO Cela ne sert à rien c'est de l'illusion
         btnHigh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -207,6 +234,8 @@ public class VideoConf extends AppCompatActivity {
                         btn25fps.setChecked(false);
                         btn30fps.setChecked(false);
                         btn24fps.setClickable(false);
+                    } else {
+                        btn24fps.setChecked(false);
                     }
                 } else {
                     btn24fps.setClickable(true);
@@ -223,6 +252,8 @@ public class VideoConf extends AppCompatActivity {
                         btn24fps.setChecked(false);
                         btn30fps.setChecked(false);
                         btn25fps.setClickable(false);
+                    } else {
+                        btn25fps.setChecked(false);
                     }
                 } else {
                     btn25fps.setClickable(true);
@@ -239,6 +270,8 @@ public class VideoConf extends AppCompatActivity {
                         btn24fps.setChecked(false);
                         btn25fps.setChecked(false);
                         btn30fps.setClickable(false);
+                    } else {
+                        btn30fps.setChecked(false);
                     }
                 } else {
                     btn30fps.setClickable(true);
@@ -252,8 +285,13 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btnStabNon.isChecked()) {
-                    btnStabOui.setChecked(false);
-                    btnStabNon.setClickable(false);
+                    boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_NONE);
+                    if (test == true) {
+                        btnStabOui.setChecked(false);
+                        btnStabNon.setClickable(false);
+                    } else {
+                        btnStabNon.setChecked(false);
+                    }
                 } else {
                     btnStabOui.setChecked(true);
                     btnStabNon.setClickable(true);
@@ -265,8 +303,13 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btnStabOui.isChecked()) {
-                    btnStabNon.setChecked(false);
-                    btnStabOui.setClickable(false);
+                    boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ROLL_PITCH);
+                    if (test == true) {
+                        btnStabNon.setChecked(false);
+                        btnStabOui.setClickable(false);
+                    } else {
+                        btnStabOui.setChecked(false);
+                    }
                 } else {
                     btnStabNon.setChecked(true);
                     btnStabOui.setClickable(true);
@@ -280,9 +323,14 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn50Hz.isChecked()) {
-                    btn60Hz.setChecked(false);
-                    btnAutoHz.setChecked(false);
-                    btn50Hz.setClickable(false);
+                    boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_FIXEDFIFTYHERTZ);
+                    if (test == true) {
+                        btn60Hz.setChecked(false);
+                        btnAutoHz.setChecked(false);
+                        btn50Hz.setClickable(false);
+                    } else {
+                        btn50Hz.setChecked(false);
+                    }
                 } else {
                     btn50Hz.setClickable(true);
                 }
@@ -293,9 +341,15 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn60Hz.isChecked()) {
-                    btn50Hz.setChecked(false);
-                    btnAutoHz.setChecked(false);
-                    btn50Hz.setClickable(false);
+                    boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_FIXEDSIXTYHERTZ);
+                    if (test == true) {
+                        btn50Hz.setChecked(false);
+                        btnAutoHz.setChecked(false);
+                        btn50Hz.setClickable(false);
+                    }
+                    else {
+                        btn60Hz.setChecked(false);
+                    }
                 } else {
                     btn50Hz.setClickable(true);
                 }
@@ -306,9 +360,15 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btnAutoHz.isChecked()) {
-                    btn50Hz.setChecked(false);
-                    btn60Hz.setChecked(false);
-                    btnAutoHz.setClickable(false);
+                    boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_AUTO);
+                    if (test == true){
+                        btn50Hz.setChecked(false);
+                        btn60Hz.setChecked(false);
+                        btnAutoHz.setClickable(false);
+                    }
+                    else {
+                        btnAutoHz.setChecked(false);
+                    }
                 } else {
                     btnAutoHz.setClickable(true);
                 }
@@ -339,7 +399,7 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent PositionConfActivity = new Intent(VideoConf.this, PositionConf.class);
-                PositionConfActivity.putExtra(MessageKEY.POSITIONCOUPLE,correspondant);
+                PositionConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
                 startActivity(PositionConfActivity);
             }
         });
@@ -348,6 +408,7 @@ public class VideoConf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent InfoConfActivity = new Intent(VideoConf.this, InfoConf.class);
+                InfoConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
                 startActivity(InfoConfActivity);
             }
         });

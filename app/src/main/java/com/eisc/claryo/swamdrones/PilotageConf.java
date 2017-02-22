@@ -9,8 +9,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import static com.eisc.claryo.swamdrones.EssaimConfig.NumeroDrone;
-
 /**
  * Classe permettant de régler les paramètres de pilotage d'un/des drone(s)
  */
@@ -36,8 +34,8 @@ public class PilotageConf extends AppCompatActivity {
         final SeekBar sBVerticalSpeed = (SeekBar) findViewById(R.id.sBVerticalSpeed);
         final SeekBar sBRotatSpeed = (SeekBar) findViewById(R.id.sBRotatSpeed);
 
-        final TextView txtsBInclinMax = (TextView) findViewById(R.id.txtValeursBInclin);
-        final TextView txtsBInclinSpeed = (TextView) findViewById(R.id.txtValeursBInclinSpeed);
+        final TextView txtsBInclinMax = (TextView) findViewById(R.id.txtVerSoft);
+        final TextView txtsBInclinSpeed = (TextView) findViewById(R.id.txtVerMat);
         final TextView txtsBVerticalSpeed = (TextView) findViewById(R.id.txtValeursBVerticalSpeed);
         final TextView txtsBRotatSpeed = (TextView) findViewById(R.id.txtValeursBRotatSpeed);
 

@@ -35,8 +35,8 @@
         android:gravity="center_vertical"
         android:text="PARAMETRES DE POSITION"
         android:layout_toLeftOf="@+id/txtDroneNom"
-        android:layout_alignLeft="@+id/TitreConfPilotParam1"
-        android:layout_alignStart="@+id/TitreConfPilotParam1" />
+        android:layout_alignLeft="@+id/TitreConfPilotParam2"
+        android:layout_alignStart="@+id/TitreConfPilotParam2" />
 
     <TextView
         android:text="Bebop_XXXX"
@@ -63,51 +63,8 @@
         android:layout_marginTop="8dp"
         android:text="Reset" />
 
-    <View
-        android:id="@+id/SeparatorHorizontal1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal"
-        android:layout_marginTop="66dp"
-        android:layout_toEndOf="@+id/SeparatorVertical"
-        android:layout_toRightOf="@+id/SeparatorVertical"
-        android:background="@android:color/black" />
+    <!-- 1er param -->
 
-<!-- 1er param -->
-
-    <TextView
-        android:id="@+id/TitreConfPilotParam1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignLeft="@+id/SeparatorVertical"
-        android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical"
-        android:text="Calibration" />
-
-    <!-- FIN 1er param -->
-
-    <Button
-        android:text="Calibrer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnCalibrate"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/TitreConfPilotParam1"
-        android:layout_toEndOf="@+id/TitreConfPilotParam1"
-        android:layout_alignBottom="@+id/SeparatorHorizontal1"
-        android:layout_alignTop="@+id/SeparatorHorizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"/>
 
     <View
         android:id="@+id/SeparatorHorizontal2"
@@ -115,7 +72,7 @@
         android:layout_height="1dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/SeparatorHorizontal1"
+        android:layout_below="@+id/SeparatorHorizontal"
         android:layout_marginTop="66dp"
         android:layout_toEndOf="@+id/SeparatorVertical"
         android:layout_toRightOf="@+id/SeparatorVertical"
@@ -130,7 +87,7 @@
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:layout_alignLeft="@+id/SeparatorVertical"
         android:layout_alignStart="@+id/SeparatorVertical"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
         android:text="Altitude max" />
@@ -142,7 +99,7 @@
         android:id="@+id/txtValeursBAltiMax"
         android:layout_toRightOf="@+id/TitreConfPilotParam2"
         android:layout_toEndOf="@+id/TitreConfPilotParam2"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:gravity="center"
         android:layout_centerHorizontal="true" />
@@ -153,7 +110,7 @@
         android:id="@+id/sBAltiMax"
         android:max="1495"
         android:progress="295"
-        android:layout_alignTop="@+id/SeparatorHorizontal1"
+        android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_alignBottom="@+id/SeparatorHorizontal2"
         android:layout_toRightOf="@+id/txtValeursBAltiMax"
         android:layout_toEndOf="@+id/txtValeursBAltiMax"

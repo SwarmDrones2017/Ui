@@ -245,7 +245,7 @@
         android:layout_alignTop="@+id/SeparatorHorizontal3"
         android:layout_margin="8dp"
         android:gravity="center_vertical"
-        android:text="Vitesse verticale max" />
+        android:text="Vitesse rotation max" />
 
     <TextView
         android:text="100°/s"

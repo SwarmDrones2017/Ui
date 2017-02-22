@@ -656,10 +656,38 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 }
             }
             //Anti-scintillement
-            else     if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED) && (elementDictionary != null)){
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED) && (elementDictionary != null)){
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
                     infoDrone.antiflickering = ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE));
+                }
+            }
+            //Tilt inclinaison
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.tiltmax = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //speed tilt
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    float speedtilt = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Max vertical speed
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.speedverticale = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Max rotation speed
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.speedrotation = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
                 }
             }
         }
@@ -704,6 +732,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM video_resolution;
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM framerate;
         private ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM antiflickering;
+        private float tiltmax;
+        private float speedtilt;
+        private float speedverticale;
+        private float speedrotation;
 
         public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM getVideostabilization() {
             return videostabilization;
@@ -826,6 +858,38 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
             else{
                 return false;
             }
+        }
+
+        public float getTiltmax() {
+            return tiltmax;
+        }
+
+        public void setTiltmax(float tiltmax) {
+            mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxTilt(tiltmax);
+        }
+
+        public float getSpeedtilt() {
+            return speedtilt;
+        }
+
+        public void setSpeedtilt(float speedtilt) {
+            mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxPitchRollRotationSpeed(speedtilt);
+        }
+
+        public float getSpeedverticale() {
+            return speedverticale;
+        }
+
+        public void setSpeedverticale(float speedverticale) {
+            mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxVerticalSpeed(speedverticale);
+        }
+
+        public float getSpeedrotation() {
+            return speedrotation;
+        }
+
+        public void setSpeedrotation(float speedrotation) {
+            mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxRotationSpeed(speedrotation);
         }
     }
 }

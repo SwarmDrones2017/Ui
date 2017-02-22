@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 public class PilotageConf extends AppCompatActivity {
 
+    private final static String TILT = "°";
+    private final static String SPEEDTILT = "°/s";
+    private final static String SPEEDDISTANCE = "m/s";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,8 @@ public class PilotageConf extends AppCompatActivity {
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
         Button btnReset = (Button) findViewById(R.id.btnResetPilotDrones);
 
+        int master = GlobalCouple.whoIsMaster();
+
         final SeekBar sBInclinMax = (SeekBar) findViewById(R.id.sBInclinMax);
         final SeekBar sBInclinSpeed = (SeekBar) findViewById(R.id.sBInclinSpeed);
         final SeekBar sBVerticalSpeed = (SeekBar) findViewById(R.id.sBVerticalSpeed);
@@ -41,13 +46,20 @@ public class PilotageConf extends AppCompatActivity {
 
         //On gère la plage de valeur des seekbars
 
+        sBInclinMax.setProgress((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getTiltmax());
+        txtsBInclinMax.setText(String.valueOf((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getTiltmax()) + TILT);
         sBInclinMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 5;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = 5 + progress;
-                txtsBInclinMax.setText(String.valueOf(progressChanged) + "°");
+                txtsBInclinMax.setText(String.valueOf(progressChanged) + TILT);
+                for (int i = 0;i< GlobalCouple.couples.size();i++){
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().setTiltmax(progressChanged);
+                    }
+                }
             }
 
             @Override
@@ -61,13 +73,20 @@ public class PilotageConf extends AppCompatActivity {
             }
         });
 
+        sBInclinSpeed.setProgress((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getSpeedtilt());
+        txtsBInclinSpeed.setText(String.valueOf((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getSpeedtilt()) + SPEEDTILT);
         sBInclinSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 80;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = 80 + progress;
-                txtsBInclinSpeed.setText(String.valueOf(progressChanged) + "°/s");
+                txtsBInclinSpeed.setText(String.valueOf(progressChanged) + SPEEDTILT);
+                for (int i = 0;i< GlobalCouple.couples.size();i++){
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().setSpeedtilt(progressChanged);
+                    }
+                }
             }
 
             @Override
@@ -81,16 +100,23 @@ public class PilotageConf extends AppCompatActivity {
             }
         });
 
+        sBVerticalSpeed.setProgress((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getSpeedverticale());
+        txtsBVerticalSpeed.setText((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getSpeedverticale() + SPEEDDISTANCE);
         sBVerticalSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 5;
-            double temp = 0;
+            float temp = 0;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((5 + progress));
-                temp = (double)progressChanged/10;
+                temp = progressChanged/10;
                 String valeurFinale = String.valueOf(temp);
-                txtsBVerticalSpeed.setText(valeurFinale + "°/s");
+                txtsBVerticalSpeed.setText(valeurFinale + SPEEDDISTANCE);
+                for (int i = 0;i< GlobalCouple.couples.size();i++){
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().setSpeedverticale(temp);
+                    }
+                }
             }
 
             @Override
@@ -104,13 +130,20 @@ public class PilotageConf extends AppCompatActivity {
             }
         });
 
+        sBRotatSpeed.setProgress((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getSpeedrotation());
+        txtsBRotatSpeed.setText((int)GlobalCouple.couples.get(master).getBebopDrone().getInfoDrone().getSpeedrotation() + SPEEDTILT);
         sBRotatSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 10;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = 10 + progress;
-                txtsBRotatSpeed.setText(progressChanged + "°/s");
+                txtsBRotatSpeed.setText(progressChanged + SPEEDTILT);
+                for (int i = 0;i< GlobalCouple.couples.size();i++){
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().setSpeedrotation(progressChanged);
+                    }
+                }
             }
 
             @Override

@@ -55,24 +55,31 @@ public class VideoConf extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         final int correspondant = extras.getInt(MessageKEY.POSITIONCOUPLE);
-
-        switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution()) {
-            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_MAX:
-            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC1080_STREAM480:
-                btn1080p.setChecked(true);
-                btn1080p.setClickable(false);
-                btn720p.setChecked(false);
-                break;
-            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC720_STREAM720:
-                btn1080p.setChecked(false);
-                btn720p.setChecked(true);
-                btn720p.setClickable(false);
-                break;
-            default:
-            case eARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_UNKNOWN_ENUM_VALUE:
-                btn1080p.setChecked(false);
-                btn720p.setChecked(false);
-                break;
+        if (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution() != null) {
+            switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution()) {
+                case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_MAX:
+                case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC1080_STREAM480:
+                    btn1080p.setChecked(true);
+                    btn1080p.setClickable(false);
+                    btn720p.setChecked(false);
+                    break;
+                case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_REC720_STREAM720:
+                    btn1080p.setChecked(false);
+                    btn720p.setChecked(true);
+                    btn720p.setClickable(false);
+                    break;
+                default:
+                case eARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_UNKNOWN_ENUM_VALUE:
+                    btn1080p.setChecked(false);
+                    btn720p.setChecked(false);
+                    break;
+            }
+        }
+        else {
+            btn1080p.setChecked(false);
+            btn1080p.setClickable(false);
+            btn720p.setChecked(false);
+            btn720p.setClickable(false);
         }
 
 
@@ -106,39 +113,27 @@ public class VideoConf extends AppCompatActivity {
                 btn30fps.setChecked(false);
         }
 
+        //Nous avons le type pitch et roll, mais on decide que la stabilisation c'est pitch et roll
+        switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideostabilization()) {
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_MAX:
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ROLL_PITCH:
+                btnStabOui.setChecked(true);
+                btnStabOui.setClickable(false);
+                btnStabNon.setChecked(false);
+                break;
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ROLL:
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_PITCH:
+//TODO je ne sais pas quoi faire dans cette situation
+                break;
+            case ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_NONE:
+                btnStabNon.setChecked(true);
+                btnStabNon.setClickable(false);
+                btnStabOui.setChecked(false);
+                break;
+            default:
+            case eARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_UNKNOWN_ENUM_VALUE:
 
-//TODO je ne sais pas à quoi sa sert ce qui il y a ecrit en dessous, ce n'est pas moi qui l'ai ecrit (soso)
-        if (btn720p.isChecked())
-            btn720p.setClickable(false);
-        else if (btn1080p.isChecked())
-            btn1080p.setClickable(false);
-
-        if (btnStdr.isChecked())
-            btnStdr.setClickable(false);
-        else if (btnHigh.isChecked())
-            btnHigh.setClickable(false);
-
-        if (btn24fps.isChecked())
-            btn24fps.setClickable(false);
-        else if (btn25fps.isChecked())
-            btn25fps.setClickable(false);
-        else if (btn30fps.isChecked())
-            btn30fps.setClickable(false);
-
-        if (btnStabNon.isChecked())
-            btnStabNon.setClickable(false);
-        else if (btnStabOui.isChecked())
-            btnStabOui.setClickable(false);
-
-        if (btn50Hz.isChecked())
-            btn50Hz.setClickable(false);
-        else if (btn60Hz.isChecked())
-            btn60Hz.setClickable(false);
-        else if (btnAutoHz.isChecked())
-            btnAutoHz.setClickable(false);
-
-        //Gerer le fonctionnement des boutons
-
+        }
         //Résolution de l'enregistrement
 
         btn1080p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -343,8 +338,9 @@ public class VideoConf extends AppCompatActivity {
         btnPositConf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent VideoConfActivity = new Intent(VideoConf.this, PositionConf.class);
-                startActivity(VideoConfActivity);
+                Intent PositionConfActivity = new Intent(VideoConf.this, PositionConf.class);
+                PositionConfActivity.putExtra(MessageKEY.POSITIONCOUPLE,correspondant);
+                startActivity(PositionConfActivity);
             }
         });
 

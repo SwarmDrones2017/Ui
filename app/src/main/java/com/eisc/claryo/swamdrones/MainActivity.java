@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //TODO Vérifier le bon fonctionnement du bouton Refresh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                                 .putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight())
                                 .putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
 
-
                     } else {
                         DroneDetailsActivity.putExtra("Name", "null");
                     }
@@ -126,85 +124,44 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("LongLogTag")
             @Override
             public void onClick(View v) {
-                //TODO Le refresh fonctionne de temps en temps mais le drone a souvent le buffer plein pour renvoyer les informations et donc l'ID pour le commander (et il construit mais ne démarre pas le deviceController)
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().getFeatureARDrone3().dispose(); //test
-                    GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().stop();
-                    GlobalCouple.couples.get(i).getBebopDrone().disconnect();
-                    GlobalCouple.couples.get(i).setBebopDrone(null);
-                    if (GlobalCouple.couples.get(i).getBebopDrone() == null && GlobalCouple.couples.get(i).getRaspberry() == null)
-                        GlobalCouple.couples.remove(i);
-                }
-                listDrone = null;
-                list.setVisibility(View.INVISIBLE);
-                btnFly.setVisibility(View.INVISIBLE);
-                textViewNbDrones.setText(MSG_ANY_DRONES);
-
                 if (discoveryDrone == null) {
                     discoveryDrone = new DiscoveryDrone(getApplication(), handler);
                 } else {
                     discoveryDrone.onServicesDevicesListUpdated();
                 }
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    try {
-                        // while (GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().getState()!=ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STARTING) {
-                        //while(GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().)
-                        GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().start();
-
-                        //}
-                        Log.e("mDeviceControllerRefres", "mDeviceController : " + GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().getState());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getHardwareVersion() != null) {
-                        Toast.makeText(getApplicationContext(), "Liste mise à jour", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                Toast.makeText(getApplicationContext(), "Liste mise à jour", Toast.LENGTH_SHORT).show();
 
             }
         });
         btnFly.setOnClickListener(new View.OnClickListener()
 
-                                  {
-                                      @Override
-                                      public void onClick(View v) {
-                                          Intent ControlActivity = new Intent(MainActivity.this, Control.class);
-                                          startActivity(ControlActivity);
-                                      }
-                                  }
-
-        );
+        {
+            @Override
+            public void onClick(View v) {
+                Intent ControlActivity = new Intent(MainActivity.this, Control.class);
+                startActivity(ControlActivity);
+            }
+        });
         btnABout.setOnClickListener(new View.OnClickListener()
 
-                                    {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
-                                            startActivity(AboutActivity);
-                                        }
-                                    }
-
-        );
+        {
+            @Override
+            public void onClick(View v) {
+                Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
+                startActivity(AboutActivity);
+            }
+        });
 
         btnNotice.setOnClickListener(new View.OnClickListener()
 
-                                     {
-                                         @Override
-                                         public void onClick(View v) {
-                                             Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
-                                             startActivity(NoticeActivity);
-                                         }
-                                     }
-
-        );
-        discoveryDrone = new
-
-                DiscoveryDrone(getApplicationContext(), handler
-
-        );
-
+        {
+            @Override
+            public void onClick(View v) {
+                Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
+                startActivity(NoticeActivity);
+            }
+        });
+        discoveryDrone = new DiscoveryDrone(getApplicationContext(), handler);
     }
 
     @Override

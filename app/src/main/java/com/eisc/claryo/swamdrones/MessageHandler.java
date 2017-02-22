@@ -8,4 +8,5 @@ public class MessageHandler {
     static final String NOTDRONE = "Aucun drone connecté";
     static final String LISTDRONEUPDATE = "Liste de drone mise à jour";
     static final String BATTERYLEVEL = "Batterie mise à jour";
+    static final String FRAMERECEIVED = "Frame reçu";
 }

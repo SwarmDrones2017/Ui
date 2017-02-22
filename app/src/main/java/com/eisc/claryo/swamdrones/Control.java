@@ -21,6 +21,12 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_STREAM_CODEC_TYPE_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerCodec;
+import com.parrot.arsdk.arcontroller.ARFrame;
 
 import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
 
@@ -28,11 +34,20 @@ import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
  * Classe pour l'interface de controle de vol de l'essaim
  */
 
-public class Control extends AppCompatActivity {
+public class Control extends AppCompatActivity{
     private ProgressBar progressBarBatterie;
     private ImageView batteryIndicator;
     private int batteryPercentage;
     int positionMaster;
+    byte[] frameReceived;
+
+//    private Handler handlerVideo = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            frameReceived = msg.getData().getByteArray(MessageHandler.FRAMERECEIVED);
+//            streamVideo();
+//        }
+//    };
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -40,11 +55,6 @@ public class Control extends AppCompatActivity {
             updateLevelBattery();
         }
     };
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     private void updateLevelBattery() {
         Log.i("updateBattery", "UpdateBattery");
@@ -117,14 +127,26 @@ public class Control extends AppCompatActivity {
         }
         Log.i("PositionMaster", "Position Master : " + positionMaster);
 
+        //affichage batterie
         updateLevelBattery();
 
-        Intent ControlActivity = new Intent();
-        setResult(RESULT_OK, ControlActivity);
+//        //set video handler
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte)1);
 
+//        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
+//        if (GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView() ==null){
+//            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(new ARControllerCodec(ARCONTROLLER_STREAM_CODEC_TYPE_ENUM.ARCONTROLLER_STREAM_CODEC_TYPE_H264));
+//        }
+//        GlobalCouple.couples.get(positionMaster).getBebopDrone().setHandlerVideo(handlerVideo);
+        /**
+         Gestion des boutons
+         */
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte)0);
                 Control.this.finish();
                 Intent MainActivity = new Intent(Control.this, MainActivity.class);
                 startActivity(MainActivity);
@@ -134,6 +156,7 @@ public class Control extends AppCompatActivity {
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
                 startActivity(EssaimConfigActivity);
             }
@@ -142,13 +165,6 @@ public class Control extends AppCompatActivity {
         toggle_takeoff_land.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    try {
-                        Log.i("mDeviceController", "mDeviceController : " + GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().getState());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
                 if (isChecked) {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                         if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
@@ -394,48 +410,73 @@ public class Control extends AppCompatActivity {
         btnSwapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte)0);
                 Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
                 startActivity(EssaimViewActivity);
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        Intent ControlActivity = new Intent();
+        setResult(RESULT_OK, ControlActivity);
+
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Control Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
+    private final BebopDrone.Listener mBebopListener = new BebopDrone.Listener(){
 
-    @Override
-    public void onStart() {
-        super.onStart();
+        @Override
+        public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
+        }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+        @Override
+        public void onBatteryChargeChanged(int batteryPercentage) {
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
+        }
+
+        @Override
+        public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
+
+        }
+
+        @Override
+        public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
+
+        }
+
+        @Override
+        public void configureDecoder(ARControllerCodec codec) {
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(codec);
+        }
+
+        @Override
+        public void onFrameReceived(ARFrame frame) {
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
+        }
+
+        @Override
+        public void onMatchingMediasFound(int nbMedias) {
+
+        }
+
+        @Override
+        public void onDownloadProgressed(String mediaName, int progress) {
+
+        }
+
+        @Override
+        public void onDownloadComplete(String mediaName) {
+
+        }
+    };
+//    private void streamVideo() {
+//        //Gestion video
+//
+//        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmStreamListener().onFrameReceived(
+//                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController(),
+//                GlobalCouple.couples.get(positionMaster).getBebopDrone().getFrameReceived()
+//        );
+//        GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(
+//                GlobalCouple.couples.get(positionMaster).getBebopDrone().getFrameReceived()
+//        );
+//    }
 }

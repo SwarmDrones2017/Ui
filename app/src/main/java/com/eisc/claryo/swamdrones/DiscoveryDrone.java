@@ -98,9 +98,6 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
         if (mArdiscoveryService != null) {
             deviceList = mArdiscoveryService.getDeviceServicesArray();
 
-            Bundle messageBundle = new Bundle();
-            Message myMessage = handler.obtainMessage();
-
             // Do what you want with the device list
             String[] listDrone;
             if (deviceList != null) {
@@ -145,6 +142,8 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                         }
                     }
                 }
+                Bundle messageBundle = new Bundle();
+                Message myMessage = handler.obtainMessage();
                 messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
                 myMessage.setData(messageBundle);
                 //Envoyer le message

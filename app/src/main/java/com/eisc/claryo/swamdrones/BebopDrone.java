@@ -42,12 +42,21 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BebopDrone implements ARDeviceControllerStreamListener{
+public class BebopDrone {
     private static final String TAG = "BebopDrone";
     private static final int DEVICE_PORT = 21;
     private boolean flyAuthorization = true;
     private InfoDrone infoDrone = new InfoDrone();
     private boolean isMaster = true;
+    private BebopVideoView bebopVideoView;
+
+    public BebopVideoView getBebopVideoView() {
+        return bebopVideoView;
+    }
+
+    public void setBebopVideoView(BebopVideoView bebopVideoView) {
+        this.bebopVideoView = bebopVideoView;
+    }
 
     public boolean isMaster() {
         return isMaster;
@@ -63,22 +72,6 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     public void setFlyAuthorization(boolean flyAuthorization) {
         this.flyAuthorization = flyAuthorization;
-    }
-
-    @Override
-    public ARCONTROLLER_ERROR_ENUM configureDecoder(ARDeviceController deviceController, ARControllerCodec codec) {
-
-        return null;
-    }
-
-    @Override
-    public ARCONTROLLER_ERROR_ENUM onFrameReceived(ARDeviceController deviceController, ARFrame frame) {
-        return null;
-    }
-
-    @Override
-    public void onFrameTimeout(ARDeviceController deviceController) {
-
     }
 
     public interface Listener {
@@ -160,6 +153,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     private final Handler mHandler;
     private Handler handlerBattery;
+    private Handler handlerVideo;
     private ARDeviceController mDeviceController;
 
     private ARCONTROLLER_DEVICE_STATE_ENUM mState;
@@ -168,6 +162,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
+
 
     public ARDeviceController getmDeviceController() {
         return mDeviceController;
@@ -184,7 +179,6 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) throws ARControllerException {
         this.deviceService = deviceService;
         mListeners = new ArrayList<>();
-
         // needed because some callbacks will be called on the main thread
         mHandler = new Handler(context.getMainLooper());
 
@@ -388,6 +382,10 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         return device;
     }
 
+    public ARDeviceControllerStreamListener getmStreamListener() {
+        return mStreamListener;
+    }
+
     private ARDeviceController createDeviceController(@NonNull ARDiscoveryDevice discoveryDevice) {
         ARDeviceController deviceController = null;
         try {
@@ -440,7 +438,6 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
             listener.configureDecoder(codec);
         }
     }
-
     private void notifyFrameReceived(ARFrame frame) {
         List<Listener> listenersCpy = new ArrayList<>(mListeners);
         for (Listener listener : listenersCpy) {
@@ -474,10 +471,9 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
         @Override
         public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
             mState = newState;
-            switch (newState)
-            {
+            Log.i("State", ""+mState);
+            switch (newState) {
                 case ARCONTROLLER_DEVICE_STATE_RUNNING:
-                    mDeviceController.getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
                     break;
                 case ARCONTROLLER_DEVICE_STATE_STOPPED:
                     break;
@@ -489,7 +485,6 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                 default:
                     break;
             }
-
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -518,7 +513,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
                         }
                     });
 
-                    if(handlerBattery != null) {
+                    if (handlerBattery != null) {
                         Bundle messageBundle = new Bundle();
                         Message msg = handlerBattery.obtainMessage();
                         messageBundle.putInt(MessageHandler.BATTERYLEVEL, battery);

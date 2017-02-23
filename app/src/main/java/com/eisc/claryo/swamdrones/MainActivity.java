@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
+                MainActivity.this.finish();
                 Intent ControlActivity = new Intent(MainActivity.this, Control.class);
                 startActivity(ControlActivity);
             }
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
+                MainActivity.this.finish();
                 Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
                 startActivity(AboutActivity);
             }
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
+                MainActivity.this.finish();
                 Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
                 startActivity(NoticeActivity);
             }

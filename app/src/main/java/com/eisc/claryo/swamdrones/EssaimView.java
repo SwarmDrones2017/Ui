@@ -136,6 +136,7 @@ public class EssaimView extends AppCompatActivity {
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EssaimView.this.finish();
                 Intent EssaimConfigActivity = new Intent(EssaimView.this, EssaimConfig.class);
                 startActivity(EssaimConfigActivity);
             }

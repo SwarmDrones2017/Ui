@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DICTIONARY_KEY_ENUM;
@@ -153,7 +154,7 @@ public class BebopDrone {
 
     private final Handler mHandler;
     private Handler handlerBattery;
-    private Handler handlerVideo;
+
     private ARDeviceController mDeviceController;
 
     private ARCONTROLLER_DEVICE_STATE_ENUM mState;
@@ -604,6 +605,13 @@ public class BebopDrone {
                     infoDrone.durationTotalFlights = (int) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_TOTALFLIGHTDURATION);
                 }
             }
+            //Video State
+            else     if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM enabled = ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED));
+                }
+            }
 
         }
     };
@@ -631,17 +639,22 @@ public class BebopDrone {
     }
 
     public class InfoDrone {
-        protected String serialID;
-        protected String serialIDLow;
-        protected String serialIDHigh;
-        protected int battery;
-        protected String hardwareVersion;
-        protected String softwareVersion;
-        protected String softwareGPSVersion;
-        protected short nbFlights;
-        protected short durationLastFlight;
-        protected int durationTotalFlights;
-        protected String droneName;
+        private String serialID;
+        private String serialIDLow;
+        private String serialIDHigh;
+        private int battery;
+        private String hardwareVersion;
+        private String softwareVersion;
+        private String softwareGPSVersion;
+        private short nbFlights;
+        private short durationLastFlight;
+        private int durationTotalFlights;
+        private String droneName;
+        private ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM videoState;
+
+        public ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM getVideoState() {
+            return videoState;
+        }
 
         public String getDroneName() {
             return droneName;

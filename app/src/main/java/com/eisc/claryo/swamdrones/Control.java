@@ -22,6 +22,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_STREAM_CODEC_TYPE_ENUM;
@@ -34,20 +35,27 @@ import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
  * Classe pour l'interface de controle de vol de l'essaim
  */
 
-public class Control extends AppCompatActivity{
+public class Control extends AppCompatActivity {
     private ProgressBar progressBarBatterie;
     private ImageView batteryIndicator;
     private int batteryPercentage;
     int positionMaster;
-    byte[] frameReceived;
+    private ImageButton btnRetour;
+    private ImageButton btnSettings;
+    private ImageButton btnSwapView;
 
-//    private Handler handlerVideo = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            frameReceived = msg.getData().getByteArray(MessageHandler.FRAMERECEIVED);
-//            streamVideo();
-//        }
-//    };
+    private ImageButton btn_forward;
+    private ImageButton btn_roll_left;
+    private ImageButton btn_roll_right;
+    private ImageButton btn_back;
+    private ImageButton btn_gaz_up;
+    private ImageButton btn_gaz_down;
+    private ImageButton btn_yaw_left;
+    private ImageButton btn_yaw_right;
+
+    private Button btn_emergency;
+    private ToggleButton toggle_takeoff_land;
+
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -97,21 +105,20 @@ public class Control extends AppCompatActivity{
         progressBarBatterie = (ProgressBar) findViewById(R.id.batteryLevel);
         batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
 
-        ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
-        ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        ImageButton btn_forward = (ImageButton) findViewById(R.id.btn_forward);
-        ImageButton btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
-        ImageButton btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
-        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
-        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
-        ImageButton btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
-        ImageButton btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
-        ImageButton btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
-        ImageButton btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+        btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
 
-        ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
-
-        Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
+        btn_forward = (ImageButton) findViewById(R.id.btn_forward);
+        btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
+        btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
+        btn_back = (ImageButton) findViewById(R.id.btn_back);
+        btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
+        btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
+        btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
+        btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+        toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
+        btn_emergency = (Button) findViewById(R.id.btn_emergency);
 
         positionMaster = -1;
         batteryPercentage = 100;
@@ -130,23 +137,21 @@ public class Control extends AppCompatActivity{
         //affichage batterie
         updateLevelBattery();
 
-//        //set video handler
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte)1);
+//        //set video 
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
+        startVideo(); //on lance la vidéo
 
-//        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
-//        if (GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView() ==null){
-//            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(new ARControllerCodec(ARCONTROLLER_STREAM_CODEC_TYPE_ENUM.ARCONTROLLER_STREAM_CODEC_TYPE_H264));
-//        }
-//        GlobalCouple.couples.get(positionMaster).getBebopDrone().setHandlerVideo(handlerVideo);
         /**
          Gestion des boutons
          */
+        /*Boutons pour changer de vue*/
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte)0);
+                stopVideo();
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
                 Control.this.finish();
                 Intent MainActivity = new Intent(Control.this, MainActivity.class);
                 startActivity(MainActivity);
@@ -156,12 +161,28 @@ public class Control extends AppCompatActivity{
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
+                stopVideo();
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                Control.this.finish();
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
                 startActivity(EssaimConfigActivity);
             }
         });
 
+        btnSwapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopVideo();
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                Control.this.finish();
+                Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
+                startActivity(EssaimViewActivity);
+            }
+        });
+
+        /*Boutons de pilotage*/
         toggle_takeoff_land.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -206,12 +227,9 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
         });
@@ -234,12 +252,9 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
 
@@ -256,7 +271,6 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
                         }
                         break;
-
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
@@ -264,12 +278,9 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
         });
@@ -293,12 +304,9 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
         });
@@ -312,19 +320,15 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) -50);
                         }
                         break;
-
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                             GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
         });
@@ -338,19 +342,15 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 50);
                         }
                         break;
-
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                             GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
         });
@@ -364,19 +364,15 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 50);
                         }
                         break;
-
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                             GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
             }
         });
@@ -390,38 +386,24 @@ public class Control extends AppCompatActivity{
                             GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) -50);
                         }
                         break;
-
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                             GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 0);
                         }
                         break;
-
                     default:
-
                         break;
                 }
-
                 return true;
-            }
-        });
-
-        btnSwapView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte)0);
-                Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
-                startActivity(EssaimViewActivity);
             }
         });
 
         Intent ControlActivity = new Intent();
         setResult(RESULT_OK, ControlActivity);
-
     }
 
-    private final BebopDrone.Listener mBebopListener = new BebopDrone.Listener(){
+    private final BebopDrone.Listener mBebopListener = new BebopDrone.Listener() {
 
         @Override
         public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
@@ -450,7 +432,7 @@ public class Control extends AppCompatActivity{
 
         @Override
         public void onFrameReceived(ARFrame frame) {
-            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
         }
 
         @Override
@@ -468,15 +450,12 @@ public class Control extends AppCompatActivity{
 
         }
     };
-//    private void streamVideo() {
-//        //Gestion video
-//
-//        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmStreamListener().onFrameReceived(
-//                GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController(),
-//                GlobalCouple.couples.get(positionMaster).getBebopDrone().getFrameReceived()
-//        );
-//        GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(
-//                GlobalCouple.couples.get(positionMaster).getBebopDrone().getFrameReceived()
-//        );
-//    }
+
+    private void stopVideo() {
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
+    }
+
+    private void startVideo() {
+        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
+    }
 }

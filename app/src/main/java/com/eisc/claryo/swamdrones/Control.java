@@ -11,23 +11,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ToggleButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ToggleButton;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_STREAM_CODEC_TYPE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
-import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
 /**
  * Classe pour l'interface de controle de vol de l'essaim
  */
@@ -123,7 +116,7 @@ public class Control extends AppCompatActivity {
             if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                 positionMaster = i;
 
-            if(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery()<batteryPercentage)
+            if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)
                 batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
             if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
@@ -429,7 +422,7 @@ public class Control extends AppCompatActivity {
 
         @Override
         public void onFrameReceived(ARFrame frame) {
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
         }
 
         @Override

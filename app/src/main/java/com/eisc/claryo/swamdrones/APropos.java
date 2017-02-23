@@ -1,5 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,11 +19,12 @@ public class APropos extends AppCompatActivity {
 
         ImageButton btnBackAbout = (ImageButton) findViewById(R.id.btnBackAbout);
 
-
         btnBackAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 APropos.this.finish();
+                Intent MainActivity= new Intent(APropos.this, MainActivity.class);
+                startActivity(MainActivity);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,7 +23,9 @@ public class Notice extends AppCompatActivity {
         btnBackNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Notice.this.finish();
+                Notice.this.finish();
+                Intent MainActivity = new Intent(Notice.this, MainActivity.class);
+                startActivity(MainActivity);
             }
         });
 

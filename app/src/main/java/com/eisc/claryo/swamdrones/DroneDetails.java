@@ -91,6 +91,8 @@ public class DroneDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DroneDetails.this.finish();
+                Intent MainActivity = new Intent(DroneDetails.this, MainActivity.class);
+                startActivity(MainActivity);
             }
         });
     }

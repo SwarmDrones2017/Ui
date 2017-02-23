@@ -65,7 +65,7 @@ public class DroneDetails extends AppCompatActivity implements BebopDrone.Listen
         ListView listC = (ListView) findViewById(R.id.ListViewCaract);
         listC.setAdapter(adapter);
         int progress = extras.getInt("Battery");
-        String textBattery = Integer.toString(progress)+ "%";
+        String textBattery = Integer.toString(progress) + "%";
         TextViewBattery.setText(textBattery);
         ProgressBarBattery.setProgress(progress);
         if (progress > 65)
@@ -94,7 +94,7 @@ public class DroneDetails extends AppCompatActivity implements BebopDrone.Listen
 
     @Override
     public void onBatteryChargeChanged(int batteryPercentage) {
-        String textBattery = Integer.toString(batteryPercentage)+"%";
+        String textBattery = Integer.toString(batteryPercentage) + "%";
         TextViewBattery.setText(textBattery);
         ProgressBarBattery.setProgress(batteryPercentage);
         if (batteryPercentage < 65)

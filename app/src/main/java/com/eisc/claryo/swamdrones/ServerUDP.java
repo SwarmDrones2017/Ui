@@ -2,20 +2,12 @@ package com.eisc.claryo.swamdrones;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sofiane on 14/02/17.
@@ -26,16 +18,15 @@ public class ServerUDP {
     private final String TAG = "ServerUDP";
     final static int port = 55555;
 
-    final static int taille = 512;
+    final static int taille = 1024;
     static byte buffer[] = new byte[taille];
 
     final String RPI_SMARTPHONE = "Telephone";
     final String RPI_SENSORS = "Sensor";
     final String RPI_REPONSE = "Oui\n";
-    final String RPI_ACK = "OK";
     final String DECOUPE_SENSOR = ",";
 
-    ServerUDP(final Context context){
+    ServerUDP(final Context context) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -44,68 +35,67 @@ public class ServerUDP {
                     DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
                     DatagramPacket envoi = null;
                     String str;
-                    while(true){
+                    while (true) {
                         do {
                             socket.receive(paquet);
                             str = new String(paquet.getData());
-                        }while(str.indexOf("\n") == -1);
+                        } while (str.indexOf("\n") == -1);
 
-                        String sframe = str.substring(0,str.indexOf("\n"));
-                        String scmd = sframe.substring(0,sframe.indexOf(" "));
-                        switch (scmd){
-                            case RPI_SENSORS :
+                        String sframe = str.substring(0, str.indexOf("\n"));
+                        String scmd = sframe.substring(0, sframe.indexOf(" "));
+                        switch (scmd) {
+                            case RPI_SENSORS:
                                 String north;
                                 String west;
                                 String south;
                                 String est;
 
-                                int tai=str.trim().split("\n").length;
-                                Log.e(TAG,"Message tai :"+tai);
+                                Log.e(TAG, "Message str :" + str);
+                                Log.e(TAG, "Message sframe :" + sframe);
+                                String ssensor = sframe.substring(sframe.lastIndexOf(" "), sframe.length());
 
-                                String ssensor = sframe.substring(sframe.lastIndexOf(" "),sframe.length());
-                                String [] listSensor = ssensor.split(DECOUPE_SENSOR);
-                                Log.e(TAG,"Message sensor :"+ssensor);
-                                String back = ssensor.substring(0,ssensor.indexOf("\n"));
-                                Log.e(TAG,"Message back :"+back);
-                                String vsensor[] = back.split("\n");
 
-                                for(int i = 0; i<listSensor.length; i++) {
+                                String[] listSensor = ssensor.split(DECOUPE_SENSOR);
+                                Log.e(TAG, "Message sensor :" + ssensor);
+
+                                for (int i = 0; i < listSensor.length; i++) {
 
                                     Log.e(TAG, "Message vsensor : " + listSensor[i]);
                                     String val = listSensor[i].substring(0, listSensor[i].indexOf(":"));
-                                    String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":")+1, listSensor[i].length());
+                                    String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
                                     Log.e(TAG, "Message val : " + val);
                                     Log.e(TAG, "Message capt : " + capt);
 
-                                    if (capt == "n") {
+                                    if (capt.equals("n")) {
                                         north = val;
-                                        Log.e(TAG, "Message north : " + north);
+                                        Log.e(TAG, "Capteur nord : " + north);
                                     }
 
-                                    if (capt == "w") {
+                                    if (capt.equals("w")) {
                                         west = val;
-                                        Log.e(TAG, "Message north : " + west);
+                                        Log.e(TAG, "Capteur ouest : " + west);
                                     }
 
-                                    if (capt == "s") {
+                                    if (capt.equals("s")) {
                                         south = val;
-                                        Log.e(TAG, "Message north : " + south);
+                                        Log.e(TAG, "Capteur sud : " + south);
                                     }
 
-                                    if (capt == "e") {
+                                    if (capt.equals("e")) {
                                         est = val;
-                                        Log.e(TAG, "Message north : " + est);
+                                        Log.e(TAG, "Capteur est : " + est);
                                     }
                                 }
+
 
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
 
                                 break;
-                            case RPI_SMARTPHONE :
+                            case RPI_SMARTPHONE:
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
                                 //Log.d(TAG,"Message reçu : "+sframe);
-                                byte [] buf_send = RPI_REPONSE.getBytes(Charset.forName("UTF-8"));
-                                envoi = new DatagramPacket(buf_send,buf_send.length);
+                                byte[] buf_send = RPI_REPONSE.getBytes(Charset.forName("UTF-8"));
+                                envoi = new DatagramPacket(buf_send, buf_send.length);
                                 envoi.setAddress(paquet.getAddress());
                                 envoi.setPort(paquet.getPort());
                                 socket.send(envoi);
@@ -127,7 +117,6 @@ public class ServerUDP {
                     }
 
 
-
                 } catch (SocketException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -137,30 +126,30 @@ public class ServerUDP {
 
             }
         }).start();
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    byte []buf = new byte[1024];
-                    DatagramSocket socket = new DatagramSocket(5300);
-                    DatagramPacket packet = new DatagramPacket(buf,buf.length);
-                    System.arraycopy("salut".getBytes(),0,buf,0,"salut".getBytes().length);
-                    packet.setAddress(InetAddress.getByName("192.168.2.30"));
-                    socket.send(packet);
-                    int i = 0;
-                    i+=20;
-                    int A = 4;
-                    A+=i;
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+/* new Thread(new Runnable() {
+@Override
+public void run() {
+    try {
+        byte []buf = new byte[1024];
+        DatagramSocket socket = new DatagramSocket(5300);
+        DatagramPacket packet = new DatagramPacket(buf,buf.length);
+        System.arraycopy("salut".getBytes(),0,buf,0,"salut".getBytes().length);
+        packet.setAddress(InetAddress.getByName("192.168.2.30"));
+        socket.send(packet);
+        int i = 0;
+        i+=20;
+        int A = 4;
+        A+=i;
+    } catch (SocketException e) {
+        e.printStackTrace();
+    } catch (UnknownHostException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 
-            }
-        }).start();*/
+}
+}).start();*/
 
     }
 

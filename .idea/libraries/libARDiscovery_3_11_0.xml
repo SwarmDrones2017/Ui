@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libARDiscovery-3.11.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.parrot/libARDiscovery/3.11.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.parrot/libARDiscovery/3.11.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARDiscovery/3.11.0/51c00ad9aea1c1ffb991c501e3ef55b2ee14fc75/libARDiscovery-3.11.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

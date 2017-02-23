@@ -12,8 +12,16 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_ELECTRICFREQUENCYCHANGED_FREQUENCY_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DICTIONARY_KEY_ENUM;
@@ -48,7 +56,7 @@ public class BebopDrone {
     private static final int DEVICE_PORT = 21;
     private boolean flyAuthorization = true;
     private InfoDrone infoDrone = new InfoDrone();
-    private boolean isMaster = true;
+    private boolean isMaster = false;
     private BebopVideoView bebopVideoView;
 
     public BebopVideoView getBebopVideoView() {
@@ -164,7 +172,6 @@ public class BebopDrone {
     private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
 
-
     public ARDeviceController getmDeviceController() {
         return mDeviceController;
     }
@@ -180,6 +187,7 @@ public class BebopDrone {
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) throws ARControllerException {
         this.deviceService = deviceService;
         mListeners = new ArrayList<>();
+
         // needed because some callbacks will be called on the main thread
         mHandler = new Handler(context.getMainLooper());
 
@@ -472,8 +480,8 @@ public class BebopDrone {
         @Override
         public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
             mState = newState;
-            Log.i("State", ""+mState);
-            switch (newState) {
+            switch (newState)
+            {
                 case ARCONTROLLER_DEVICE_STATE_RUNNING:
                     break;
                 case ARCONTROLLER_DEVICE_STATE_STOPPED:
@@ -486,6 +494,7 @@ public class BebopDrone {
                 default:
                     break;
             }
+
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -514,10 +523,10 @@ public class BebopDrone {
                         }
                     });
 
-                    if (handlerBattery != null) {
+                    if(handlerBattery != null) {
                         Bundle messageBundle = new Bundle();
                         Message msg = handlerBattery.obtainMessage();
-                        messageBundle.putInt(MessageHandler.BATTERYLEVEL, battery);
+                        messageBundle.putInt(MessageKEY.BATTERYLEVEL, battery);
                         msg.setData(messageBundle);
                         handlerBattery.sendMessage(msg);
                     }
@@ -605,14 +614,76 @@ public class BebopDrone {
                     infoDrone.durationTotalFlights = (int) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_TOTALFLIGHTDURATION);
                 }
             }
-            //Video State
-            else     if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED) && (elementDictionary != null)){
+            //Altitude
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXALTITUDECHANGED) && (elementDictionary != null)){
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
-                    ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM enabled = ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED));
+                    infoDrone.altitude_max = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXALTITUDECHANGED_CURRENT)).doubleValue();
                 }
             }
-
+            //Distance
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXDISTANCECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.distance_max = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXDISTANCECHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Video resoliution
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.video_resolution = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE));
+                }
+            }
+            //frame
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.framerate = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE));
+                }
+            }
+            //Stabilisation camera
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.videostabilization = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE));
+                }
+            }
+            //Anti-scintillement
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.antiflickering = ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE));
+                }
+            }
+            //Tilt inclinaison
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.tiltmax = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //speed tilt
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    float speedtilt = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Max vertical speed
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.speedverticale = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Max rotation speed
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.speedrotation = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
         }
     };
 
@@ -639,21 +710,44 @@ public class BebopDrone {
     }
 
     public class InfoDrone {
-        private String serialID;
-        private String serialIDLow;
-        private String serialIDHigh;
-        private int battery;
-        private String hardwareVersion;
-        private String softwareVersion;
-        private String softwareGPSVersion;
-        private short nbFlights;
-        private short durationLastFlight;
-        private int durationTotalFlights;
-        private String droneName;
-        private ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM videoState;
+        protected String serialID;
+        protected String serialIDLow;
+        protected String serialIDHigh;
+        protected int battery;
+        protected String hardwareVersion;
+        protected String softwareVersion;
+        protected String softwareGPSVersion;
+        protected short nbFlights;
+        protected short durationLastFlight;
+        protected int durationTotalFlights;
+        protected String droneName;
+        private float altitude_max;
+        protected float distance_max;
+        private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM video_resolution;
+        private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM framerate;
+        private ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM antiflickering;
+        private float tiltmax;
+        private float speedtilt;
+        private float speedverticale;
+        private float speedrotation;
 
-        public ARCOMMANDS_ARDRONE3_MEDIASTREAMINGSTATE_VIDEOENABLECHANGED_ENABLED_ENUM getVideoState() {
-            return videoState;
+        public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM getVideostabilization() {
+            return videostabilization;
+        }
+
+        public boolean setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ENUM videostabilization) {
+            ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoStabilizationMode(videostabilization);
+
+            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM videostabilization;
+        public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM getFramerate() {
+            return framerate;
         }
 
         public String getDroneName() {
@@ -692,6 +786,104 @@ public class BebopDrone {
             serialID = serialIDHigh + serialIDLow;
 
             return serialID;
+        }
+
+        public float getAltitude_max() {
+            return altitude_max;
+        }
+        public void setAltitude_max(float altitude_max) {
+            ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxAltitude(altitude_max);
+
+            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+                this.altitude_max = altitude_max;
+            }
+        }
+
+        public float getDistance_max() {
+            return distance_max;
+        }
+        public void setDistance_max(float distance_max) {
+            ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxDistance(distance_max);
+
+            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+                this.distance_max = distance_max;
+            }
+        }
+
+        public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM getVideo_resolution() {
+            return video_resolution;
+        }
+
+        public boolean setVideo_resolution(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM video_resolution) {
+            ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoResolutions(video_resolution);
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+
+
+        public boolean setFramerate(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM framerate) {
+            //this.framerate = framerate;
+            ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoFramerate(framerate);
+
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+
+        }
+
+        public ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM getAntiflickering() {
+            return antiflickering;
+        }
+
+        public boolean setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM antiflickering) {
+            ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendAntiflickeringSetMode(antiflickering);
+            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        public float getTiltmax() {
+            return tiltmax;
+        }
+
+        public void setTiltmax(float tiltmax) {
+            mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxTilt(tiltmax);
+        }
+
+        public float getSpeedtilt() {
+            return speedtilt;
+        }
+
+        public void setSpeedtilt(float speedtilt) {
+            mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxPitchRollRotationSpeed(speedtilt);
+        }
+
+        public float getSpeedverticale() {
+            return speedverticale;
+        }
+
+        public void setSpeedverticale(float speedverticale) {
+            mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxVerticalSpeed(speedverticale);
+        }
+
+        public float getSpeedrotation() {
+            return speedrotation;
+        }
+
+        public void setSpeedrotation(float speedrotation) {
+            mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxRotationSpeed(speedrotation);
         }
     }
 }

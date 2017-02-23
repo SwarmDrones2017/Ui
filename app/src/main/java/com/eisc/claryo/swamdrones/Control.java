@@ -1,7 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +15,6 @@ import android.widget.ToggleButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -30,7 +28,6 @@ import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
 import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
-
 /**
  * Classe pour l'interface de controle de vol de l'essaim
  */
@@ -59,7 +56,7 @@ public class Control extends AppCompatActivity {
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            batteryPercentage = msg.getData().getInt(BATTERYLEVEL);
+            batteryPercentage = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
             updateLevelBattery();
         }
     };
@@ -126,7 +123,7 @@ public class Control extends AppCompatActivity {
             if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                 positionMaster = i;
 
-            if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)
+            if(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery()<batteryPercentage)
                 batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
             if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
@@ -137,7 +134,7 @@ public class Control extends AppCompatActivity {
         //affichage batterie
         updateLevelBattery();
 
-//        //set video 
+//        //set video
         GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
         GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
         startVideo(); //on lance la vidéo

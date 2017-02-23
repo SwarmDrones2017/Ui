@@ -134,6 +134,9 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                                     bebop.getmDeviceController().getFeatureCommon().sendSettingsAllSettings();
                             }
                             int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop); //verification sur l'IP
+                            if(GlobalCouple.whoIsMaster() == -1){//si personne n'est maître alors il est maître
+                                bebop.setMaster(true);
+                            }
                             if (positionRpiCorres == -1) {
                                 GlobalCouple.couples.add(new Couple(bebop, null));
                             } else { //si une rpi correspondante a été trouvé

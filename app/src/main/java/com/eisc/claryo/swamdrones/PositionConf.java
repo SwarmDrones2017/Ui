@@ -9,8 +9,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import static com.eisc.claryo.swamdrones.EssaimConfig.NumeroDrone;
-
 /**
  * Classe permettant de régler les paramètres de position d'un/des drone(s)
  */
@@ -28,6 +26,9 @@ public class PositionConf extends AppCompatActivity {
         Intent PositionConfActivity = new Intent();
         setResult(RESULT_OK, PositionConfActivity);
 
+        Bundle extras = getIntent().getExtras();
+        final int correspondant = extras.getInt(MessageKEY.POSITIONCOUPLE);
+
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
         Button btnReset = (Button) findViewById(R.id.btnResetPilotDrones);
         TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
@@ -41,8 +42,10 @@ public class PositionConf extends AppCompatActivity {
         final SeekBar sBAltiMax = (SeekBar) findViewById(R.id.sBAltiMax);
         final SeekBar sBDistMax = (SeekBar) findViewById(R.id.sBDistMax);
 
+
         //Gerer le nom du drone à afficher dans le réglages des paramètres
-/*
+        txtDroneNom.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDroneName());
+        /*
         for(int i=0; i<5; i++){
             if(NumeroDrone == i) {
                 txtDroneNom.setText(MainActivity.items[i].getname());
@@ -50,6 +53,8 @@ public class PositionConf extends AppCompatActivity {
         }
 */
         //On gère la plage de valeurs des seekbars
+        txtsBAltiMax.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getAltitude_max() + "m");
+        sBAltiMax.setProgress((int) (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getAltitude_max()) * 10);
 
         sBAltiMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 5;
@@ -58,9 +63,10 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((5 + progress));
-                temp = (double)progressChanged/10;
+                temp = (double) progressChanged / 10;
                 String valeurFinale = String.valueOf(temp);
                 txtsBAltiMax.setText(valeurFinale + "m");
+                GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAltitude_max(new Float(valeurFinale));
             }
 
             @Override
@@ -73,7 +79,8 @@ public class PositionConf extends AppCompatActivity {
 
             }
         });
-
+        txtsBDistMax.setText((int) GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDistance_max() +"m");
+        sBDistMax.setProgress((int) GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDistance_max());
         sBDistMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 10;
             double temp = 0;
@@ -81,9 +88,10 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((10 + progress));
-                temp = (double)progressChanged;
+                temp = (double) progressChanged;
                 String valeurFinale = String.valueOf(temp);
                 txtsBDistMax.setText(valeurFinale + "m");
+                GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setDistance_max(new Float(valeurFinale));
             }
 
             @Override
@@ -113,6 +121,7 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent VideoConfActivity = new Intent(PositionConf.this, VideoConf.class);
+                VideoConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
                 startActivity(VideoConfActivity);
             }
         });
@@ -121,6 +130,7 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent InfoConfActivity = new Intent(PositionConf.this, InfoConf.class);
+                InfoConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
                 startActivity(InfoConfActivity);
             }
         });

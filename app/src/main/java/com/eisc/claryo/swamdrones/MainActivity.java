@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            listDrone = msg.getData().getStringArray(LISTDRONEUPDATE);
+            listDrone = msg.getData().getStringArray(MessageKEY.LISTDRONEUPDATE);
             ShowDroneList();
         }
     };
@@ -85,16 +85,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Si aucun drone n'est connecté, cliquer sur l'item ne fera rien
-                if (!list.getAdapter().getItem(0).equals("Aucun drone connecter")) {
-                    String droneClicked = (String) list.getAdapter().getItem(position);
-                    int droneSelected = -1;
-                    for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if (droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
-                            droneSelected = i;
+                if(!list.getAdapter().getItem(0).equals("Aucun drone connecter")){
+                    String droneClicked = (String)list.getAdapter().getItem(position);
+                    int droneSelected=-1;
+                    for(int i=0; i<GlobalCouple.couples.size(); i++){
+                        if(droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
+                            droneSelected=i;
                     }
 
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                    if (droneSelected != -1) {
+                    if(droneSelected !=-1){
 
                         DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
                                 .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
@@ -133,9 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        btnFly.setOnClickListener(new View.OnClickListener()
-
-        {
+        btnFly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.this.finish();
@@ -143,9 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ControlActivity);
             }
         });
-        btnABout.setOnClickListener(new View.OnClickListener()
-
-        {
+        btnABout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.this.finish();
@@ -154,9 +150,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnNotice.setOnClickListener(new View.OnClickListener()
-
-        {
+        btnNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.this.finish();

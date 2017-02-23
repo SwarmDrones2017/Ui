@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
@@ -13,6 +14,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sofiane on 14/02/17.
@@ -23,12 +26,13 @@ public class ServerUDP {
     private final String TAG = "ServerUDP";
     final static int port = 55555;
 
-    final static int taille = 1024;
+    final static int taille = 512;
     static byte buffer[] = new byte[taille];
 
     final String RPI_SMARTPHONE = "Telephone";
     final String RPI_SENSORS = "Sensor";
     final String RPI_REPONSE = "Oui\n";
+    final String RPI_ACK = "OK";
 
     ServerUDP(final Context context){
         new Thread(new Runnable() {
@@ -48,6 +52,50 @@ public class ServerUDP {
                         String scmd = sframe.substring(0,sframe.indexOf(" "));
                         switch (scmd){
                             case RPI_SENSORS :
+                                String north;
+                                String west;
+                                String south;
+                                String est;
+
+                                int tai=str.trim().split("\n").length;
+                                Log.e(TAG,"Message tai :"+tai);
+
+                                String ssensor = str.substring(str.lastIndexOf(" "),str.length());
+                                str.trim().split("|\n");
+                                Log.e(TAG,"Message sensor :"+ssensor);
+                                String back = ssensor.substring(0,ssensor.indexOf("\n"));
+                                Log.e(TAG,"Message back :"+back);
+                                String vsensor[] = back.split("\n");
+
+                                for(int i = 0; i<vsensor.length; i++) {
+
+                                    Log.e(TAG, "Message vsensor : " + vsensor[i]);
+                                    String val = vsensor[i].substring(0, vsensor[i].indexOf(":"));
+                                    String capt = vsensor[i].substring(vsensor[i].lastIndexOf(":")+1, vsensor[i].length());
+                                    Log.e(TAG, "Message val : " + val);
+                                    Log.e(TAG, "Message capt : " + capt);
+
+                                    if (capt == "n") {
+                                        north = val;
+                                        Log.e(TAG, "Message north : " + north);
+                                    }
+
+                                    if (capt == "w") {
+                                        west = val;
+                                        Log.e(TAG, "Message north : " + west);
+                                    }
+
+                                    if (capt == "s") {
+                                        south = val;
+                                        Log.e(TAG, "Message north : " + south);
+                                    }
+
+                                    if (capt == "e") {
+                                        est = val;
+                                        Log.e(TAG, "Message north : " + est);
+                                    }
+                                }
+
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
 
                                 break;

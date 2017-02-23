@@ -33,6 +33,7 @@ public class ServerUDP {
     final String RPI_SENSORS = "Sensor";
     final String RPI_REPONSE = "Oui\n";
     final String RPI_ACK = "OK";
+    final String DECOUPE_SENSOR = ",";
 
     ServerUDP(final Context context){
         new Thread(new Runnable() {
@@ -48,6 +49,7 @@ public class ServerUDP {
                             socket.receive(paquet);
                             str = new String(paquet.getData());
                         }while(str.indexOf("\n") == -1);
+
                         String sframe = str.substring(0,str.indexOf("\n"));
                         String scmd = sframe.substring(0,sframe.indexOf(" "));
                         switch (scmd){
@@ -60,18 +62,18 @@ public class ServerUDP {
                                 int tai=str.trim().split("\n").length;
                                 Log.e(TAG,"Message tai :"+tai);
 
-                                String ssensor = str.substring(str.lastIndexOf(" "),str.length());
-                                str.trim().split("|\n");
+                                String ssensor = sframe.substring(sframe.lastIndexOf(" "),sframe.length());
+                                String [] listSensor = ssensor.split(DECOUPE_SENSOR);
                                 Log.e(TAG,"Message sensor :"+ssensor);
                                 String back = ssensor.substring(0,ssensor.indexOf("\n"));
                                 Log.e(TAG,"Message back :"+back);
                                 String vsensor[] = back.split("\n");
 
-                                for(int i = 0; i<vsensor.length; i++) {
+                                for(int i = 0; i<listSensor.length; i++) {
 
-                                    Log.e(TAG, "Message vsensor : " + vsensor[i]);
-                                    String val = vsensor[i].substring(0, vsensor[i].indexOf(":"));
-                                    String capt = vsensor[i].substring(vsensor[i].lastIndexOf(":")+1, vsensor[i].length());
+                                    Log.e(TAG, "Message vsensor : " + listSensor[i]);
+                                    String val = listSensor[i].substring(0, listSensor[i].indexOf(":"));
+                                    String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":")+1, listSensor[i].length());
                                     Log.e(TAG, "Message val : " + val);
                                     Log.e(TAG, "Message capt : " + capt);
 

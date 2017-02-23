@@ -9,6 +9,8 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by sofiane on 14/02/17.
  */
@@ -63,25 +65,31 @@ public class ServerUDP {
                                         String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
                                         Log.e(TAG, "Message val : " + val);
                                         Log.e(TAG, "Message capt : " + capt);
+                                        int index = GlobalCouple.raspberryIPCorrespondante(paquet.getAddress());
+
 
                                         if (capt.equals("n")) {
                                             north = val;
                                             Log.e(TAG, "Capteur nord : " + north);
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(parseInt(val));
                                         }
 
                                         if (capt.equals("w")) {
                                             west = val;
                                             Log.e(TAG, "Capteur ouest : " + west);
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(parseInt(val));
                                         }
 
                                         if (capt.equals("s")) {
                                             south = val;
                                             Log.e(TAG, "Capteur sud : " + south);
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(parseInt(val));
                                         }
 
                                         if (capt.equals("e")) {
                                             est = val;
                                             Log.e(TAG, "Capteur est : " + est);
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(parseInt(val));
                                         }
                                     }
                                 }
@@ -100,14 +108,14 @@ public class ServerUDP {
 
                                 //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples
                                 //et insertion de l'objet dans la liste des couples
-//                                if(!GlobalCouple.raspberryExist(paquet.getAddress())) {
-//                                    Raspberry rpi = new Raspberry(paquet.getAddress());
-//                                    int index=GlobalCouple.droneCorrepondant(rpi);
-//                                    if(index!=-1)//on a trouvé un drone correspondant à la raspberry
-//                                        GlobalCouple.couples.get(index).setRaspberry(rpi);
-//                                    else
-//                                        GlobalCouple.couples.add(new Couple(null, rpi));
-//                                }
+                                if(!GlobalCouple.raspberryExist(paquet.getAddress())) {
+                                    Raspberry rpi = new Raspberry(paquet.getAddress());
+                                    int index=GlobalCouple.droneCorrepondant(rpi);
+                                    if(index!=-1)//on a trouvé un drone correspondant à la raspberry
+                                        GlobalCouple.couples.get(index).setRaspberry(rpi);
+                                    else
+                                        GlobalCouple.couples.add(new Couple(null, rpi));
+                                }
 
                                 break;
                         }

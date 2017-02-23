@@ -63,4 +63,21 @@ public class GlobalCouple {
         return positionCoupleDansListe;
     }
 
+    /**
+     *
+     * @param addr
+     * @return l'indice correspondant, -1 si existe pas
+     */
+    static public int raspberryIPCorrespondante(InetAddress addr)
+    {
+        for (int i = 0;i < GlobalCouple.couples.size();i++){
+            if(GlobalCouple.couples.get(i).getRaspberry()!=null){
+                if(GlobalCouple.couples.get(i).getRaspberry().getAddress().equals(addr) == true){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
 }

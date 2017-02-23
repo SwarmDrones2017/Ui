@@ -15,16 +15,14 @@ import java.nio.charset.Charset;
 
 public class ServerUDP {
 
-    private final String TAG = "ServerUDP";
     final static int port = 55555;
-
     final static int taille = 1024;
     static byte buffer[] = new byte[taille];
-
     final String RPI_SMARTPHONE = "Telephone";
     final String RPI_SENSORS = "Sensor";
     final String RPI_REPONSE = "Oui\n";
     final String DECOUPE_SENSOR = ",";
+    private final String TAG = "ServerUDP";
 
     ServerUDP(final Context context) {
         new Thread(new Runnable() {
@@ -54,39 +52,39 @@ public class ServerUDP {
                                 Log.e(TAG, "Message sframe :" + sframe);
                                 String ssensor = sframe.substring(sframe.lastIndexOf(" "), sframe.length());
 
+                                if (ssensor != null) {
+                                    String[] listSensor = ssensor.split(DECOUPE_SENSOR);
+                                    Log.e(TAG, "Message sensor :" + ssensor);
 
-                                String[] listSensor = ssensor.split(DECOUPE_SENSOR);
-                                Log.e(TAG, "Message sensor :" + ssensor);
+                                    for (int i = 0; i < listSensor.length; i++) {
 
-                                for (int i = 0; i < listSensor.length; i++) {
+                                        Log.e(TAG, "Message vsensor : " + listSensor[i]);
+                                        String val = listSensor[i].substring(0, listSensor[i].indexOf(":"));
+                                        String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
+                                        Log.e(TAG, "Message val : " + val);
+                                        Log.e(TAG, "Message capt : " + capt);
 
-                                    Log.e(TAG, "Message vsensor : " + listSensor[i]);
-                                    String val = listSensor[i].substring(0, listSensor[i].indexOf(":"));
-                                    String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
-                                    Log.e(TAG, "Message val : " + val);
-                                    Log.e(TAG, "Message capt : " + capt);
+                                        if (capt.equals("n")) {
+                                            north = val;
+                                            Log.e(TAG, "Capteur nord : " + north);
+                                        }
 
-                                    if (capt.equals("n")) {
-                                        north = val;
-                                        Log.e(TAG, "Capteur nord : " + north);
-                                    }
+                                        if (capt.equals("w")) {
+                                            west = val;
+                                            Log.e(TAG, "Capteur ouest : " + west);
+                                        }
 
-                                    if (capt.equals("w")) {
-                                        west = val;
-                                        Log.e(TAG, "Capteur ouest : " + west);
-                                    }
+                                        if (capt.equals("s")) {
+                                            south = val;
+                                            Log.e(TAG, "Capteur sud : " + south);
+                                        }
 
-                                    if (capt.equals("s")) {
-                                        south = val;
-                                        Log.e(TAG, "Capteur sud : " + south);
-                                    }
-
-                                    if (capt.equals("e")) {
-                                        est = val;
-                                        Log.e(TAG, "Capteur est : " + est);
+                                        if (capt.equals("e")) {
+                                            est = val;
+                                            Log.e(TAG, "Capteur est : " + est);
+                                        }
                                     }
                                 }
-
 
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
 

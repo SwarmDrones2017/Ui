@@ -3,7 +3,9 @@ package com.eisc.claryo.swamdrones;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ViewTreeObserver;
+import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,26 +18,26 @@ import java.util.Random;
 
 public class ProxyBars extends AppCompatActivity {
 
-    //FrameLayout lpDrone;
-
     public ProxyBars(Context context){
 
-        //lpDrone = (FrameLayout) findViewById(R.id.lpDrone);
+        AbsoluteLayout Ecran = new AbsoluteLayout(context);
 
         FrameLayout.LayoutParams lpDrone = new FrameLayout.LayoutParams(50, 50);
+        FrameLayout.LayoutParams lpBarH = new FrameLayout.LayoutParams(40, 4);
+        FrameLayout.LayoutParams lpBarV = new FrameLayout.LayoutParams(4, 40);
+        FrameLayout.LayoutParams lpBarUD = new FrameLayout.LayoutParams(30, 30);
 
         Random r = new Random();
         int PlageX = r.nextInt(633);
         int PlageY = r.nextInt(360);
 
         ImageView Drone = new ImageView(context);
+        Drone.setLayoutParams(lpDrone);
         Drone.setX(PlageX);
         Drone.setY(PlageY);
         Drone.setImageResource(R.drawable.ic_drone);
         float Xdrone = Drone.getX();
         float Ydrone = Drone.getY();
-
-        Drone.setLayoutParams(lpDrone);
 
         ImageView ProxJauLeft = new ImageView(context);
         ProxJauLeft.setColorFilter(Color.parseColor("#F2EE1A"));
@@ -121,20 +123,12 @@ public class ProxyBars extends AppCompatActivity {
         ProxRedDown.setX(Xdrone + 10);
         ProxRedDown.setY(Ydrone + 18);
 
-        RelativeLayout.LayoutParams lpBarH = (RelativeLayout.LayoutParams)ProxJauBot.getLayoutParams();
-        lpBarH.width = 40;
-        lpBarH.height = 4;
-
         ProxJauBot.setLayoutParams(lpBarH);
         ProxOrBot.setLayoutParams(lpBarH);
         ProxRedBot.setLayoutParams(lpBarH);
         ProxJauTop.setLayoutParams(lpBarH);
         ProxOrTop.setLayoutParams(lpBarH);
         ProxRedTop.setLayoutParams(lpBarH);
-
-        RelativeLayout.LayoutParams lpBarV = (RelativeLayout.LayoutParams)ProxJauRight.getLayoutParams();
-        lpBarV.width = 4;
-        lpBarV.height = 40;
 
         ProxJauRight.setLayoutParams(lpBarV);
         ProxOrRight.setLayoutParams(lpBarV);
@@ -143,15 +137,15 @@ public class ProxyBars extends AppCompatActivity {
         ProxOrLeft.setLayoutParams(lpBarV);
         ProxRedLeft.setLayoutParams(lpBarV);
 
-        RelativeLayout.LayoutParams lpBarUD = (RelativeLayout.LayoutParams)ProxJauUp.getLayoutParams();
-        lpBarUD.width = 30;
-        lpBarUD.height = 30;
-
         ProxJauUp.setLayoutParams(lpBarUD);
         ProxOrUp.setLayoutParams(lpBarUD);
         ProxRedUp.setLayoutParams(lpBarUD);
         ProxJauDown.setLayoutParams(lpBarUD);
         ProxOrDown.setLayoutParams(lpBarUD);
         ProxRedDown.setLayoutParams(lpBarUD);
+
+        Ecran.addView(Drone);
+        Log.i("ContexteD", ""+Drone.getContext());
+        Log.i("ContexteE", ""+Ecran.getContext());
     }
 }

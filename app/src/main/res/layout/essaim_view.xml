@@ -6,9 +6,30 @@
     android:background="@drawable/grille">
 
     <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/lpDrone">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:id="@+id/lpBarH">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="4dp"
+        android:layout_height="40dp"
+        android:id="@+id/lpBarV">
+
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:id="@+id/lpDrone">
+        android:id="@+id/lpBarUD">
 
     </FrameLayout>
 

@@ -113,6 +113,8 @@ public class EssaimView extends AppCompatActivity {
         TabNomDrone[1] = NomDrone2;
         TabNomDrone[2] = NomDrone3;
 
+        Log.i("ContexteEcran", ""+Ecran.getContext());
+
         batteryDrone1 = (ImageView) findViewById(R.id.Batterie1);
         batteryDrone2 = (ImageView) findViewById(R.id.Batterie2);
         batteryDrone3 = (ImageView) findViewById(R.id.Batterie3);
@@ -214,7 +216,7 @@ public class EssaimView extends AppCompatActivity {
             GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerBattery);
         }
 
-        proxyBarsView();
+        //proxyBarsView();
 
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,7 +337,7 @@ public class EssaimView extends AppCompatActivity {
         }
     }
 
-    protected void proxyBarsView(){
+    /*protected void proxyBarsView(){
 
         //Drone 1
         int D1ProxGauche = 150;
@@ -707,7 +709,7 @@ public class EssaimView extends AppCompatActivity {
                 }
                 break;
         }
-    }
+    }*/
 
     private final class MyTouchListener1 implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {

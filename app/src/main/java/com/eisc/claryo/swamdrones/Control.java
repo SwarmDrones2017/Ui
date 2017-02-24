@@ -227,7 +227,7 @@ public class Control extends AppCompatActivity {
         progressBarBatterie = (ProgressBar) findViewById(R.id.batteryLevel);
         batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
 
-        ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
+        final ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
         ImageButton btn_forward = (ImageButton) findViewById(R.id.btn_forward);
         ImageButton btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);

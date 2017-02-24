@@ -72,25 +72,25 @@ public class ServerUDP {
                                         if (capt.equals("n")) {
                                             north = val;
                                             Log.e(TAG, "Capteur nord : " + north);
-                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(parseInt(val));
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(Integer.valueOf(val));
                                         }
 
                                         if (capt.equals("w")) {
                                             west = val;
                                             Log.e(TAG, "Capteur ouest : " + west);
-                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(parseInt(val));
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(Integer.valueOf(val));
                                         }
 
                                         if (capt.equals("s")) {
                                             south = val;
                                             Log.e(TAG, "Capteur sud : " + south);
-                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(parseInt(val));
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(Integer.valueOf(val));
                                         }
 
                                         if (capt.equals("e")) {
                                             est = val;
                                             Log.e(TAG, "Capteur est : " + est);
-                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(parseInt(val));
+                                            if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(Integer.valueOf(val));
                                         }
                                         if(Integer.valueOf(val)<=50){
                                             for (int j = 0;j<GlobalCouple.couples.size();j++){

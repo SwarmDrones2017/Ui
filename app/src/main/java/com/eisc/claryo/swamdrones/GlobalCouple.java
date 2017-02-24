@@ -22,12 +22,12 @@ public class GlobalCouple {
         return exist;
     }
 
-    static public boolean droneExist(BebopDrone drone) {
-        BebopDrone tmp;
+    static public boolean droneExist(String nameDrone) {
+        String tmp;
         boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            tmp = couples.get(i).getBebopDrone();
-            if (tmp.equals(drone)) {
+            tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
+            if (tmp.equals(nameDrone)) {
                 exist = true;
             }
         }
@@ -50,7 +50,7 @@ public class GlobalCouple {
         return positionCoupleDansListe;
     }
 
-    static public int droneCorrepondant(Raspberry raspberry) {
+    static public int droneCorrespondant(Raspberry raspberry) {
         int positionCoupleDansListe = -1;
         byte[] rpiAdd = raspberry.getAddress().getAddress();
         byte rPiLastOctet = rpiAdd[rpiAdd.length-1];
@@ -63,6 +63,36 @@ public class GlobalCouple {
         return positionCoupleDansListe;
     }
 
+    /**
+     * Retourne l'indice du couple dans lequel il contient le bebop avec le nom name
+     * @param name
+     * @return
+     */
+    static public int droneNameCorrespondant(String name){
+        for (int i = 0;i < GlobalCouple.couples.size();i++){
+            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                if(name.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName())){
+                    return i;
+                }
+            }
+
+        }
+        return -1;
+    }
+
+    /**
+     *
+     * @return l'indice du master, si aucun aster alors -1
+     */
+    static public int whoIsMaster(){
+
+        for (int i = 0;i < GlobalCouple.couples.size();i++){
+            if(GlobalCouple.couples.get(i).getBebopDrone().isMaster() == true){
+                return i;
+            }
+        }
+        return -1;
+    }
     /**
      *
      * @param addr

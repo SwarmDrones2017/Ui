@@ -26,35 +26,40 @@ public class InfoConf extends AppCompatActivity {
         Intent InfoConfActivity = new Intent();
         setResult(RESULT_OK, InfoConfActivity);
 
+        Bundle extras = getIntent().getExtras();
+        final int correspondant = extras.getInt(MessageKEY.POSITIONCOUPLE);
+
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetour);
         TextView txtDroneNom = (TextView) findViewById(R.id.txtDroneNom);
 
         ImageButton btnPositConf = (ImageButton) findViewById(R.id.btnPositConf);
         ImageButton btnVideoConf = (ImageButton) findViewById(R.id.btnVideoConf);
 
+        TextView txtVerSoft = (TextView) findViewById(R.id.txtVerSoft);
+        TextView txtVerMat = (TextView) findViewById(R.id.txtVerMat);
+
         //Gerer le nom du drone à afficher dans le réglages des paramètres
+        txtDroneNom.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDroneName());
 
-        for(int i=0; i<5; i++){
-            if(NumeroDrone == i) {
-                txtDroneNom.setText(MainActivity.items[i].getname());
-            }
-        }
-
+        txtVerSoft.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getSoftwareVersion());
+        txtVerMat.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getHardwareVersion());
         //On gère le passage aux autres menus
 
         btnPositConf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent VideoConfActivity = new Intent(InfoConf.this, PositionConf.class);
-                startActivity(VideoConfActivity);
+                Intent PositionConfActivity = new Intent(InfoConf.this, PositionConf.class);
+                PositionConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
+                startActivity(PositionConfActivity);
             }
         });
 
         btnVideoConf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent NetConfActivity = new Intent(InfoConf.this, VideoConf.class);
-                startActivity(NetConfActivity);
+                Intent VideoConfActivity = new Intent(InfoConf.this, VideoConf.class);
+                VideoConfActivity.putExtra(MessageKEY.POSITIONCOUPLE, correspondant);
+                startActivity(VideoConfActivity);
             }
         });
 

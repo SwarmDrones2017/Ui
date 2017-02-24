@@ -135,17 +135,17 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
+            <LinearLayout
+                android:id="@+id/linearLayoutA"
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
-                android:layout_height="match_parent">
-            </RadioGroup>
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutB"
                 android:layout_width="fill_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:layout_height="match_parent"
                 android:orientation="vertical"></LinearLayout>
 

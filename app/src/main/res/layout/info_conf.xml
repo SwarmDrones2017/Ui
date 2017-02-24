@@ -81,11 +81,11 @@
         android:text="Version logiciel" />
 
     <TextView
-        android:text="3.9.0"
+        android:text="X.X.X"
         android:textColor="#21D162"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBInclin"
+        android:id="@+id/txtVerSoft"
         android:layout_toRightOf="@+id/TitreConfPilotParam1"
         android:layout_alignTop="@+id/SeparatorHorizontal"
         android:layout_alignBottom="@+id/SeparatorHorizontal1"
@@ -122,11 +122,11 @@
         android:text="Version matricielle" />
 
     <TextView
-        android:text="HW_OL"
+        android:text="HW_XX"
         android:textColor="#21D162"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtValeursBInclinSpeed"
+        android:id="@+id/txtVerMat"
         android:gravity="center"
         android:layout_alignTop="@+id/SeparatorHorizontal1"
         android:layout_toRightOf="@+id/TitreConfPilotParam2"
@@ -163,7 +163,7 @@
         android:text="Version logicielle Swarm Drones" />
 
     <TextView
-        android:text="beta_prout"
+        android:text="beta"
         android:textColor="#21D162"
         android:layout_width="50dp"
         android:layout_height="wrap_content"

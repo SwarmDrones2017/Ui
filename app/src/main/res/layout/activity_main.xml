@@ -87,7 +87,7 @@
         app:srcCompat="@drawable/ic_refresh"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/BtnMainActivityRefresh"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:id="@+id/btnMainActivityRefresh" />
 
 </RelativeLayout>

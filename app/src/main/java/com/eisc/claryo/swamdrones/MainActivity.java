@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<Couple>();
-            new ServerUDP(getApplicationContext());
+            //new ServerUDP(getApplicationContext());
         }
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnNotice = (Button) findViewById(R.id.btnNotice);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
         textViewDrones = (TextView) findViewById(R.id.textViewDrones);
-        btnRefresh = (ImageButton) findViewById(R.id.BtnMainActivityRefresh);
+        btnRefresh = (ImageButton) findViewById(R.id.btnMainActivityRefresh);
 
         ShowDroneList();
 

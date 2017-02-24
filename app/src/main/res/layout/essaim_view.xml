@@ -383,9 +383,9 @@
             android:layout_height="30dp"
             app:srcCompat="@drawable/ic_down"
             android:layout_x="90dp"
-            android:layout_y="204dp"
-            android:id="@+id/D1ProxOrDown"
-            android:tint="@android:color/holo_orange_dark"
+            android:layout_y="200dp"
+            android:id="@+id/D1ProxRedDown"
+            android:tint="@android:color/holo_red_dark"
             android:visibility="gone" />
 
         <ImageView
@@ -393,9 +393,9 @@
             android:layout_height="30dp"
             app:srcCompat="@drawable/ic_down"
             android:layout_x="90dp"
-            android:layout_y="200dp"
-            android:id="@+id/D1ProxRedDown"
-            android:tint="@android:color/holo_red_dark"
+            android:layout_y="204dp"
+            android:id="@+id/D1ProxOrDown"
+            android:tint="@android:color/holo_orange_dark"
             android:visibility="gone" />
 
         <ImageView

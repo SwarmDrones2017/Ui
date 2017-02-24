@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/grille">
 
+    <FrameLayout
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/lpDrone">
+
+    </FrameLayout>
+
     <ImageButton
         android:id="@+id/btnBackSwapView"
         android:layout_width="wrap_content"

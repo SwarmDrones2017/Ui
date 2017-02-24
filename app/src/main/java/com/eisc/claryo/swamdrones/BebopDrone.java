@@ -57,7 +57,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
 
     public void setContextEssaimView(Context contextEssaimView) {
         this.contextEssaimView = contextEssaimView;
-        proxyBars = new ProxyBars(contextEssaimView, getInfoDrone().droneName);
+        proxyBars = new ProxyBars(contextEssaimView);
     }
 
     public ProxyBars getProxyBars() {

@@ -10,6 +10,7 @@ import java.net.SocketException;
 import java.nio.charset.Charset;
 
 import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
 
 /**
  * Created by sofiane on 14/02/17.
@@ -91,10 +92,17 @@ public class ServerUDP {
                                             Log.e(TAG, "Capteur est : " + est);
                                             if(index!=-1)GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(parseInt(val));
                                         }
+                                        if(Integer.valueOf(val)<=50){
+                                            for (int j = 0;j<GlobalCouple.couples.size();j++){
+                                                if(GlobalCouple.couples.get(j).getBebopDrone()!=null){
+                                                    GlobalCouple.couples.get(j).getBebopDrone().stationnaire();
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 
-                                //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
+                                //Toast.ma{keText(context,sframe,Toast.LENGTH_SHORT);
 
                                 break;
                             case RPI_SMARTPHONE:

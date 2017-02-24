@@ -154,7 +154,6 @@ public class Control extends AppCompatActivity implements BebopDrone.Listener {
                             GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
                         }
                         break;
-
                     default:
 
                         break;

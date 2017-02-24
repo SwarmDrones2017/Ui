@@ -310,6 +310,15 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
         }
     }
 
+    public void stationnaire() {
+        setPitch((byte) 0);
+        setRoll((byte) 0);
+        setYaw((byte) 0);
+        setGaz((byte) 0);
+        setFlag((byte) 0);
+    }
+
+
     /**
      * Set the forward/backward angle of the drone
      * Note that {@link BebopDrone#setFlag(byte)} should be set to 1 in order to take in account the pitch value

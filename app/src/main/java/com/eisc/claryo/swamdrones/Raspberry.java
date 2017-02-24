@@ -57,5 +57,7 @@ public class Raspberry {
         public void setEst(int est) {
             this.est = est;
         }
+
+        
     }
 }

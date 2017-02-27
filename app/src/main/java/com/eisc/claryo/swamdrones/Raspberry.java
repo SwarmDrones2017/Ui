@@ -1,5 +1,9 @@
 package com.eisc.claryo.swamdrones;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 import java.net.InetAddress;
 
 /**
@@ -10,6 +14,8 @@ public class Raspberry {
     private boolean state;
     private InetAddress address;
     private Cardinal obstacle;
+    private Bundle messageBundle = new Bundle();
+    private Handler handlerObstacle;
 
     public Raspberry(InetAddress address) {
         this.address = address;
@@ -36,6 +42,13 @@ public class Raspberry {
         return obstacle;
     }
 
+    public void setHandlerObstacle(Handler handlerObstacle) {
+        this.handlerObstacle = handlerObstacle;
+    }
+    public Handler getHandlerObstacle() {
+        return handlerObstacle;
+    }
+
     class Cardinal {
         private int north;
         private int west;
@@ -44,18 +57,39 @@ public class Raspberry {
 
         public void setNorth(int north) {
             this.north = north;
+            Message myMessage = handlerObstacle.obtainMessage();
+            messageBundle.putInt(MessageKEY.OBSTACLENORTH, north);
+            myMessage.setData(messageBundle);
+            //Envoyer le message
+            handlerObstacle.sendMessage(myMessage);
+
         }
 
         public void setWest(int west) {
             this.west = west;
+            Message myMessage = handlerObstacle.obtainMessage();
+            messageBundle.putInt(MessageKEY.OBSTACLENORTH, west);
+            myMessage.setData(messageBundle);
+            //Envoyer le message
+            handlerObstacle.sendMessage(myMessage);
         }
 
         public void setSouth(int south) {
             this.south = south;
+            Message myMessage = handlerObstacle.obtainMessage();
+            messageBundle.putInt(MessageKEY.OBSTACLENORTH, south);
+            myMessage.setData(messageBundle);
+            //Envoyer le message
+            handlerObstacle.sendMessage(myMessage);
         }
 
         public void setEst(int est) {
             this.est = est;
+            Message myMessage = handlerObstacle.obtainMessage();
+            messageBundle.putInt(MessageKEY.OBSTACLENORTH, est);
+            myMessage.setData(messageBundle);
+            //Envoyer le message
+            handlerObstacle.sendMessage(myMessage);
         }
 
         

@@ -118,7 +118,7 @@ public class ServerUDP {
                                 //et insertion de l'objet dans la liste des couples
                                 if(!GlobalCouple.raspberryExist(paquet.getAddress())) {
                                     Raspberry rpi = new Raspberry(paquet.getAddress());
-                                    int index=GlobalCouple.droneCorrepondant(rpi);
+                                    int index=GlobalCouple.droneCorrespondant(rpi);
                                     if(index!=-1)//on a trouvé un drone correspondant à la raspberry
                                         GlobalCouple.couples.get(index).setRaspberry(rpi);
                                     else

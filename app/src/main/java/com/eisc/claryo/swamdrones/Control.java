@@ -1,6 +1,7 @@
 package com.eisc.claryo.swamdrones;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,11 +27,75 @@ public class Control extends AppCompatActivity {
     private ImageView batteryIndicator;
     private int batteryPercentage;
     int positionMaster;
+
+    private ImageButton btnRetour;
+    private ImageButton btnSettings;
+    private ImageButton btn_forward;
+    private ImageButton btn_roll_left;
+    private ImageButton btn_roll_right;
+    private ImageButton btn_back;
+    private ImageButton btnSwapView;
+    private ImageButton btn_gaz_up;
+    private ImageButton btn_gaz_down;
+    private ImageButton btn_yaw_left;
+    private ImageButton btn_yaw_right;
+
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             batteryPercentage = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
             updateLevelBattery();
+        }
+    };
+
+    private Handler handlerObstacle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int north = msg.getData().getInt(MessageKEY.OBSTACLENORTH);
+            int south = msg.getData().getInt(MessageKEY.OBSTACLESOUTH);
+            int west = msg.getData().getInt(MessageKEY.OBSTACLEWEST);
+            int est = msg.getData().getInt(MessageKEY.OBSTACLEEST);
+
+            if(north > 0){
+                if(north <= 50){
+                    btn_forward.setClickable(false);
+                    btn_forward.setBackgroundColor(Color.RED);
+                }
+                else{
+                    btn_forward.setClickable(true);
+                    btn_forward.setBackgroundColor(Color.GRAY);
+                }
+            }
+            else if (south > 0){
+                if(south <= 50){
+                    btn_back.setClickable(false);
+                    btn_back.setBackgroundColor(Color.RED);
+                }
+                else{
+                    btn_back.setClickable(true);
+                    btn_back.setBackgroundColor(Color.GRAY);
+                }
+            }
+            else if(west > 0){
+                if(west <= 50){
+                    btn_yaw_left.setClickable(false);
+                    btn_yaw_left.setBackgroundColor(Color.RED);
+                }
+                else{
+                    btn_yaw_left.setClickable(true);
+                    btn_yaw_left.setBackgroundColor(Color.GRAY);
+                }
+            }
+            else if(est > 0){
+                if(est <= 50){
+                    btn_yaw_right.setClickable(false);
+                    btn_yaw_right.setBackgroundColor(Color.RED);
+                }
+                else{
+                    btn_yaw_right.setClickable(true);
+                    btn_yaw_right.setBackgroundColor(Color.GRAY);
+                }
+            }
         }
     };
 
@@ -77,17 +142,17 @@ public class Control extends AppCompatActivity {
         progressBarBatterie = (ProgressBar) findViewById(R.id.batteryLevel);
         batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
 
-        ImageButton btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
-        ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        ImageButton btn_forward = (ImageButton) findViewById(R.id.btn_forward);
-        ImageButton btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
-        ImageButton btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
-        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
-        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
-        ImageButton btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
-        ImageButton btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
-        ImageButton btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
-        ImageButton btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+        btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        btn_forward = (ImageButton) findViewById(R.id.btn_forward);
+        btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
+        btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
+        btn_back = (ImageButton) findViewById(R.id.btn_back);
+        btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
+        btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
+        btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
+        btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
+        btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
 
         ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
 
@@ -96,14 +161,20 @@ public class Control extends AppCompatActivity {
         positionMaster = -1;
         batteryPercentage = 100;
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
-                positionMaster = i;
+            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
+                    positionMaster = i;
 
-            if(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery()<batteryPercentage)
-                batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
+                if(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery()<batteryPercentage)
+                    batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
-            if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
-                GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
+                if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
+                    GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
+
+            }
+            if (GlobalCouple.couples.get(i).getRaspberry() != null){
+                GlobalCouple.couples.get(i).getRaspberry().setHandlerObstacle(handlerObstacle);
+            }
         }
         Log.i("PositionMaster", "Position Master : "+positionMaster);
 

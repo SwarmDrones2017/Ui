@@ -10,4 +10,9 @@ public class MessageKEY {
     static final String BATTERYLEVEL = "Batterie mise à jour";
     static final String NAME = "Name";
     static final String POSITIONCOUPLE = "La position du couple";
+
+    static final String OBSTACLENORTH = "Obstacle nord";
+    static final String OBSTACLEEST = "Obstacle est";
+    static final String OBSTACLEWEST = "Obstacle west";
+    static final String OBSTACLESOUTH = "Obstacle south";
 }

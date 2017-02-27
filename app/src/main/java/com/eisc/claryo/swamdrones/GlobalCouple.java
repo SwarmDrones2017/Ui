@@ -14,9 +14,11 @@ public class GlobalCouple {
         InetAddress tmp;
         boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            tmp = couples.get(i).getRaspberry().getAddress();
-            if (tmp.equals(address)) {
-                exist = true;
+            if(couples.get(i).getBebopDrone() != null) {
+                tmp = couples.get(i).getRaspberry().getAddress();
+                if (tmp.equals(address)) {
+                    exist = true;
+                }
             }
         }
         return exist;

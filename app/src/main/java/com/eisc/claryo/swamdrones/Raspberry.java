@@ -13,7 +13,7 @@ import java.net.InetAddress;
 public class Raspberry {
     private boolean state;
     private InetAddress address;
-    private Cardinal obstacle;
+    private Cardinal obstacle = new Cardinal();
     private Bundle messageBundle = new Bundle();
     private Handler handlerObstacle;
 
@@ -57,41 +57,46 @@ public class Raspberry {
 
         public void setNorth(int north) {
             this.north = north;
-            Message myMessage = handlerObstacle.obtainMessage();
-            messageBundle.putInt(MessageKEY.OBSTACLENORTH, north);
-            myMessage.setData(messageBundle);
-            //Envoyer le message
-            handlerObstacle.sendMessage(myMessage);
-
+            if(handlerObstacle != null){
+                Message myMessage = handlerObstacle.obtainMessage();
+                messageBundle.putInt(MessageKEY.OBSTACLENORTH, north);
+                myMessage.setData(messageBundle);
+                //Envoyer le message
+                handlerObstacle.sendMessage(myMessage);
+            }
         }
 
         public void setWest(int west) {
             this.west = west;
-            Message myMessage = handlerObstacle.obtainMessage();
-            messageBundle.putInt(MessageKEY.OBSTACLENORTH, west);
-            myMessage.setData(messageBundle);
-            //Envoyer le message
-            handlerObstacle.sendMessage(myMessage);
+            if(handlerObstacle != null){
+                Message myMessage = handlerObstacle.obtainMessage();
+                messageBundle.putInt(MessageKEY.OBSTACLENORTH, west);
+                myMessage.setData(messageBundle);
+                //Envoyer le message
+                handlerObstacle.sendMessage(myMessage);
+            }
         }
 
         public void setSouth(int south) {
             this.south = south;
-            Message myMessage = handlerObstacle.obtainMessage();
-            messageBundle.putInt(MessageKEY.OBSTACLENORTH, south);
-            myMessage.setData(messageBundle);
-            //Envoyer le message
-            handlerObstacle.sendMessage(myMessage);
+            if(handlerObstacle != null){
+                Message myMessage = handlerObstacle.obtainMessage();
+                messageBundle.putInt(MessageKEY.OBSTACLENORTH, south);
+                myMessage.setData(messageBundle);
+                //Envoyer le message
+                handlerObstacle.sendMessage(myMessage);
+            }
         }
 
         public void setEst(int est) {
             this.est = est;
-            Message myMessage = handlerObstacle.obtainMessage();
-            messageBundle.putInt(MessageKEY.OBSTACLENORTH, est);
-            myMessage.setData(messageBundle);
-            //Envoyer le message
-            handlerObstacle.sendMessage(myMessage);
+            if(handlerObstacle != null){
+                Message myMessage = handlerObstacle.obtainMessage();
+                messageBundle.putInt(MessageKEY.OBSTACLENORTH, est);
+                myMessage.setData(messageBundle);
+                //Envoyer le message
+                handlerObstacle.sendMessage(myMessage);
+            }
         }
-
-        
     }
 }

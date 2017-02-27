@@ -28,6 +28,7 @@ import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -35,7 +36,7 @@ import java.util.Random;
  */
 
 public class EssaimView extends AppCompatActivity {
-
+    ArrayList<String> lDroneName;
     ImageView Drone1, D1ProxRedBot, D1ProxOrBot, D1ProxJauBot, D1ProxRedTop, D1ProxOrTop, D1ProxJauTop, D1ProxRedRight, D1ProxOrRight, D1ProxJauRight, D1ProxRedLeft, D1ProxOrLeft, D1ProxJauLeft,
             D1ProxRedUp, D1ProxOrUp, D1ProxJauUp, D1ProxRedDown, D1ProxOrDown, D1ProxJauDown;
     ImageView Drone2, D2ProxRedBot, D2ProxOrBot, D2ProxJauBot, D2ProxRedTop, D2ProxOrTop, D2ProxJauTop, D2ProxRedRight, D2ProxOrRight, D2ProxJauRight, D2ProxRedLeft, D2ProxOrLeft, D2ProxJauLeft,
@@ -48,9 +49,9 @@ public class EssaimView extends AppCompatActivity {
     Button BtnAllDrone;
     LinearLayout LayoutDrone1, LayoutDrone2, LayoutDrone3;
     TextView NomDrone1, NomDrone2, NomDrone3, batteryDrone1txt, batteryDrone2txt, batteryDrone3txt;
-    TextView []TabNomDrone;
-    TextView []TabBatterieDronetxt;
-    ImageView []TabBatterieDrone;
+    TextView[] TabNomDrone;
+    TextView[] TabBatterieDronetxt;
+    ImageView[] TabBatterieDrone;
     int batteryPercentage;
     ImageView batteryDrone1, batteryDrone2, batteryDrone3;
     AbsoluteLayout Ecran;
@@ -79,7 +80,7 @@ public class EssaimView extends AppCompatActivity {
                 TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
 
 
-            TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage)+" %");
+            TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage) + " %");
 
         }
 
@@ -105,8 +106,6 @@ public class EssaimView extends AppCompatActivity {
         LayoutDrone3 = (LinearLayout) findViewById(R.id.LayoutDrone3);
         Ecran = (AbsoluteLayout) findViewById(R.id.Ecran);
 
-        for(int i =0; i<GlobalCouple.couples.size(); i++)
-            new ProxyBars();
 
         NomDrone1 = (TextView) findViewById(R.id.NomDrone1);
         NomDrone2 = (TextView) findViewById(R.id.NomDrone2);
@@ -116,7 +115,7 @@ public class EssaimView extends AppCompatActivity {
         TabNomDrone[1] = NomDrone2;
         TabNomDrone[2] = NomDrone3;
 
-        Log.i("ContexteEcran", ""+Ecran.getContext());
+        Log.i("ContexteEcran", "" + Ecran.getContext());
 
         batteryDrone1 = (ImageView) findViewById(R.id.Batterie1);
         batteryDrone2 = (ImageView) findViewById(R.id.Batterie2);
@@ -194,10 +193,6 @@ public class EssaimView extends AppCompatActivity {
         D3ProxOrDown = (ImageView) findViewById(R.id.D3ProxOrDown);
         D3ProxJauDown = (ImageView) findViewById(R.id.D3ProxJauDown);
 
-        Drone1.setOnTouchListener(new MyTouchListener1());
-        Drone2.setOnTouchListener(new MyTouchListener2());
-        Drone3.setOnTouchListener(new MyTouchListener3());
-        findViewById(R.id.Ecran).setOnDragListener(new MyDragListener());
 
         density = getResources().getDisplayMetrics().density;
         densite = Float.toString(density);
@@ -257,6 +252,13 @@ public class EssaimView extends AppCompatActivity {
                 TglDrone3.setChecked(true);
             }
         });
+        lDroneName = new ArrayList<>(GlobalCouple.couples.size());
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            new ProxyBars(getApplicationContext(), Ecran, density).Drone.setOnTouchListener(new MyTouchListener1());
+            lDroneName.add(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+        }
+
+        findViewById(R.id.Ecran).setOnDragListener(new MyDragListener());
 
     }
 
@@ -291,7 +293,7 @@ public class EssaimView extends AppCompatActivity {
                     TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
 
 
-                TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage)+" %");
+                TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage) + " %");
 
             }
         }
@@ -332,9 +334,9 @@ public class EssaimView extends AppCompatActivity {
         }
     };
 
-    protected void layoutDrone(){
+    protected void layoutDrone() {
 
-        for(int i = 0 ; i < GlobalCouple.couples.size() ; i++){
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             Toast.makeText(getApplicationContext(), GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), Toast.LENGTH_SHORT).show();
             TabNomDrone[i].setText(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
         }
@@ -714,13 +716,18 @@ public class EssaimView extends AppCompatActivity {
         }
     }*/
 
+    ArrayList<ClipData> lClipData;
+
     private final class MyTouchListener1 implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
+            lClipData = new ArrayList<>(GlobalCouple.couples.size());
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                ClipData data = ClipData.newPlainText("Drone1", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    lClipData.add(ClipData.newPlainText(lDroneName.get(i), ""));
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                    view.startDrag(lClipData.get(i), shadowBuilder, view, 0);
+                    view.setVisibility(View.INVISIBLE);
+                }
                 return true;
             } else {
                 return false;
@@ -728,33 +735,33 @@ public class EssaimView extends AppCompatActivity {
         }
     }
 
-    private final class MyTouchListener2 implements View.OnTouchListener {
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                ClipData data = ClipData.newPlainText("Drone2", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    private final class MyTouchListener3 implements View.OnTouchListener {
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                ClipData data = ClipData.newPlainText("Drone3", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
+//    private final class MyTouchListener2 implements View.OnTouchListener {
+//        public boolean onTouch(View view, MotionEvent motionEvent) {
+//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                ClipData data = ClipData.newPlainText("Drone2", "");
+//                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+//                view.startDrag(data, shadowBuilder, view, 0);
+//                view.setVisibility(View.INVISIBLE);
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+//    }
+//
+//    private final class MyTouchListener3 implements View.OnTouchListener {
+//        public boolean onTouch(View view, MotionEvent motionEvent) {
+//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                ClipData data = ClipData.newPlainText("Drone3", "");
+//                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+//                view.startDrag(data, shadowBuilder, view, 0);
+//                view.setVisibility(View.INVISIBLE);
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+//    }
 
     class MyDragListener implements View.OnDragListener {
         Drawable enterShape = getResources().getDrawable(R.drawable.shape_dropout);
@@ -784,9 +791,9 @@ public class EssaimView extends AppCompatActivity {
                     AbsoluteLayout container = (AbsoluteLayout) v;
                     container.addView(view);
                     view.setVisibility(View.VISIBLE);
-                    if (event.getClipData().getDescription().getLabel().equals("Drone1")) {
-                        Drone1.setX(x - Drone1.getWidth() / 2);
-                        Drone1.setY(y - Drone1.getHeight() / 2);
+                    if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(0).getBebopDrone().getInfoDrone().getDroneName())) {
+                        ProxyBars.Drone.setX(x - ProxyBars.Drone.getWidth() / 2);
+                        ProxyBars.Drone.setY(y - ProxyBars.Drone.getHeight() / 2);
                         D1ProxRedBot.setX(x - D1ProxRedBot.getWidth() / 2);
                         D1ProxRedBot.setY(y + 46 * density / 2 - D1ProxRedBot.getHeight() / 2);
                         D1ProxOrBot.setX(x - D1ProxOrBot.getWidth() / 2);
@@ -917,19 +924,19 @@ public class EssaimView extends AppCompatActivity {
         }
     }
 }
- class ProxyBars extends AppCompatActivity {
+
+class ProxyBars extends AppCompatActivity {
     int PlageY, PlageX;
-    FrameLayout.LayoutParams lpDrone, lpBarH, lpBarV, lpBarUD;
     AbsoluteLayout Ecran;
-    Context context = getApplicationContext();
-    public ProxyBars(){
+    Context context;
+    float density;
+   static ImageView Drone;
 
-        Ecran = new AbsoluteLayout(context);
 
-        lpDrone = new FrameLayout.LayoutParams(50, 50);
-        lpBarH = new FrameLayout.LayoutParams(40, 4);
-        lpBarV = new FrameLayout.LayoutParams(4, 40);
-        lpBarUD = new FrameLayout.LayoutParams(30, 30);
+    public ProxyBars(Context context, AbsoluteLayout ecran, float density) {
+        this.context = context;
+        this.density = density;
+        Ecran = ecran;
 
         Random r = new Random();
         PlageX = r.nextInt(633);
@@ -939,122 +946,131 @@ public class EssaimView extends AppCompatActivity {
 
     }
 
-    public void show(){
-        ImageView Drone = new ImageView(context);
-        Drone.setLayoutParams(lpDrone);
+    public void show() {
+        Drone = new ImageView(context);
         Drone.setX(PlageX);
         Drone.setY(PlageY);
-        Drone.setImageResource(R.drawable.ic_drone);
+        Drone.setImageResource(R.drawable.drone512);
         float Xdrone = Drone.getX();
         float Ydrone = Drone.getY();
 
         ImageView ProxJauLeft = new ImageView(context);
+        ProxJauLeft.setImageResource(R.drawable.barv);
         ProxJauLeft.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauLeft.setX(Xdrone - 10);
-        ProxJauLeft.setY(Ydrone + 5);
+        ProxJauLeft.setX(Xdrone - 30 * density / 2);
+        ProxJauLeft.setY(Ydrone + 10 * density / 2);
         ImageView ProxOrLeft = new ImageView(context);
+        ProxOrLeft.setImageResource(R.drawable.barv);
         ProxOrLeft.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrLeft.setX(Xdrone - 5);
-        ProxOrLeft.setY(Ydrone + 5);
+        ProxOrLeft.setX(Xdrone - 20 * density / 2);
+        ProxOrLeft.setY(Ydrone + 10 * density / 2);
         ImageView ProxRedLeft = new ImageView(context);
+        ProxRedLeft.setImageResource(R.drawable.barv);
         ProxRedLeft.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedLeft.setX(Xdrone);
-        ProxRedLeft.setY(Ydrone + 5);
+        ProxRedLeft.setX(Xdrone - 10 * density / 2);
+        ProxRedLeft.setY(Ydrone + 10 * density / 2);
 
         ImageView ProxJauRight = new ImageView(context);
+        ProxJauRight.setImageResource(R.drawable.barv);
         ProxJauRight.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauRight.setX(Xdrone + 55);
-        ProxJauRight.setY(Ydrone + 5);
+        ProxJauRight.setX(Xdrone + 121 * density / 2);
+        ProxJauRight.setY(Ydrone + 10 * density / 2);
         ImageView ProxOrRight = new ImageView(context);
+        ProxOrRight.setImageResource(R.drawable.barv);
         ProxOrRight.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrRight.setX(Xdrone + 50);
-        ProxOrRight.setY(Ydrone + 5);
+        ProxOrRight.setX(Xdrone + 111 * density / 2);
+        ProxOrRight.setY(Ydrone + 10 * density / 2);
         ImageView ProxRedRight = new ImageView(context);
+        ProxRedRight.setImageResource(R.drawable.barv);
         ProxRedRight.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedRight.setX(Xdrone + 45);
-        ProxRedRight.setY(Ydrone + 5);
+        ProxRedRight.setX(Xdrone + 101 * density / 2);
+        ProxRedRight.setY(Ydrone + 10 * density / 2);
 
         ImageView ProxJauTop = new ImageView(context);
+        ProxJauTop.setImageResource(R.drawable.barh);
         ProxJauTop.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauTop.setX(Xdrone + 5);
-        ProxJauTop.setY(Ydrone - 10);
+        ProxJauTop.setX(Xdrone + 10 * density / 2);
+        ProxJauTop.setY(Ydrone - 30 * density / 2);
         ImageView ProxOrTop = new ImageView(context);
+        ProxOrTop.setImageResource(R.drawable.barh);
         ProxOrTop.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrTop.setX(Xdrone + 5);
-        ProxOrTop.setY(Ydrone - 5);
+        ProxOrTop.setX(Xdrone + 10 * density / 2);
+        ProxOrTop.setY(Ydrone - 20 * density / 2);
         ImageView ProxRedTop = new ImageView(context);
+        ProxRedTop.setImageResource(R.drawable.barh);
         ProxRedTop.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedTop.setX(Xdrone + 5);
-        ProxRedTop.setY(Ydrone);
+        ProxRedTop.setX(Xdrone + 10 * density / 2);
+        ProxRedTop.setY(Ydrone - 10 * density / 2);
 
         ImageView ProxJauBot = new ImageView(context);
+        ProxJauBot.setImageResource(R.drawable.barh);
         ProxJauBot.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauBot.setX(Xdrone + 5);
-        ProxJauBot.setY(Ydrone + 55);
+        ProxJauBot.setX(Xdrone + 10 * density / 2);
+        ProxJauBot.setY(Ydrone + 121 * density / 2);
         ImageView ProxOrBot = new ImageView(context);
+        ProxOrBot.setImageResource(R.drawable.barh);
         ProxOrBot.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrBot.setX(Xdrone + 5);
-        ProxOrBot.setY(Ydrone + 50);
+        ProxOrBot.setX(Xdrone + 10 * density / 2);
+        ProxOrBot.setY(Ydrone + 111 * density / 2);
         ImageView ProxRedBot = new ImageView(context);
+        ProxRedBot.setImageResource(R.drawable.barh);
         ProxRedBot.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedBot.setX(Xdrone + 5);
-        ProxRedBot.setY(Ydrone + 45);
+        ProxRedBot.setX(Xdrone + 10 * density / 2);
+        ProxRedBot.setY(Ydrone + 101 * density / 2);
 
         ImageView ProxJauUp = new ImageView(context);
         ProxJauUp.setImageResource(R.drawable.ic_up);
         ProxJauUp.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauUp.setX(Xdrone + 10);
-        ProxJauUp.setY(Ydrone - 4);
+        ProxJauUp.setX(Xdrone + 10 * density / 2);
+        ProxJauUp.setY(Ydrone - 5 * density / 2);
         ImageView ProxOrUp = new ImageView(context);
         ProxOrUp.setImageResource(R.drawable.ic_up);
         ProxOrUp.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrUp.setX(Xdrone + 10);
-        ProxOrUp.setY(Ydrone);
+        ProxOrUp.setX(Xdrone + 10 * density / 2);
+        ProxOrUp.setY(Ydrone + 5 * density / 2);
         ImageView ProxRedUp = new ImageView(context);
         ProxRedUp.setImageResource(R.drawable.ic_up);
         ProxRedUp.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedUp.setX(Xdrone + 10);
-        ProxRedUp.setY(Ydrone + 4);
+        ProxRedUp.setX(Xdrone + 10 * density / 2);
+        ProxRedUp.setY(Ydrone + 15 * density / 2);
 
         ImageView ProxJauDown = new ImageView(context);
         ProxJauDown.setImageResource(R.drawable.ic_down);
         ProxJauDown.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauDown.setX(Xdrone + 10);
-        ProxJauDown.setY(Ydrone + 26);
+        ProxJauDown.setX(Xdrone + 10 * density / 2);
+        ProxJauDown.setY(Ydrone + 65 * density / 2);
         ImageView ProxOrDown = new ImageView(context);
         ProxOrDown.setImageResource(R.drawable.ic_down);
         ProxOrDown.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrDown.setX(Xdrone + 10);
-        ProxOrDown.setY(Ydrone + 22);
+        ProxOrDown.setX(Xdrone + 10 * density / 2);
+        ProxOrDown.setY(Ydrone + 55 * density / 2);
         ImageView ProxRedDown = new ImageView(context);
         ProxRedDown.setImageResource(R.drawable.ic_down);
         ProxRedDown.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedDown.setX(Xdrone + 10);
-        ProxRedDown.setY(Ydrone + 18);
+        ProxRedDown.setX(Xdrone + 10 * density / 2);
+        ProxRedDown.setY(Ydrone + 45 * density / 2);
 
-        ProxJauBot.setLayoutParams(lpBarH);
-        ProxOrBot.setLayoutParams(lpBarH);
-        ProxRedBot.setLayoutParams(lpBarH);
-        ProxJauTop.setLayoutParams(lpBarH);
-        ProxOrTop.setLayoutParams(lpBarH);
-        ProxRedTop.setLayoutParams(lpBarH);
-
-        ProxJauRight.setLayoutParams(lpBarV);
-        ProxOrRight.setLayoutParams(lpBarV);
-        ProxRedRight.setLayoutParams(lpBarV);
-        ProxJauLeft.setLayoutParams(lpBarV);
-        ProxOrLeft.setLayoutParams(lpBarV);
-        ProxRedLeft.setLayoutParams(lpBarV);
-
-        ProxJauUp.setLayoutParams(lpBarUD);
-        ProxOrUp.setLayoutParams(lpBarUD);
-        ProxRedUp.setLayoutParams(lpBarUD);
-        ProxJauDown.setLayoutParams(lpBarUD);
-        ProxOrDown.setLayoutParams(lpBarUD);
-        ProxRedDown.setLayoutParams(lpBarUD);
-
+        Ecran.addView(ProxJauDown);
+        Ecran.addView(ProxOrDown);
+        Ecran.addView(ProxRedDown);
         Ecran.addView(Drone);
-        Log.i("ContexteD", ""+Drone.getContext());
-        Log.i("ContexteE", ""+Ecran.getContext());
+        Ecran.addView(ProxJauBot);
+        Ecran.addView(ProxOrBot);
+        Ecran.addView(ProxRedBot);
+        Ecran.addView(ProxJauTop);
+        Ecran.addView(ProxOrTop);
+        Ecran.addView(ProxRedTop);
+        Ecran.addView(ProxJauRight);
+        Ecran.addView(ProxOrRight);
+        Ecran.addView(ProxRedRight);
+        Ecran.addView(ProxJauLeft);
+        Ecran.addView(ProxOrLeft);
+        Ecran.addView(ProxRedLeft);
+        Ecran.addView(ProxJauUp);
+        Ecran.addView(ProxOrUp);
+        Ecran.addView(ProxRedUp);
+
+        Log.i("ContexteD", "" + Drone.getContext());
+        Log.i("ContexteE", "" + Ecran.getContext());
     }
 }

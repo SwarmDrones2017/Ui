@@ -48,22 +48,24 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     private boolean flyAuthorization = true;
     private InfoDrone infoDrone = new InfoDrone();
     private boolean isMaster = false;
-    /*    private Context contextEssaimView;
-        private ProxyBars proxyBars;
+    private float xEssaimView = -1, yEssaimView = -1;
 
-        public Context getContextEssaimView() {
-            return contextEssaimView;
-        }
+    public float getxEssaimView() {
+        return xEssaimView;
+    }
 
-        public void setContextEssaimView(Context contextEssaimView) {
-            this.contextEssaimView = contextEssaimView;
-            proxyBars = new ProxyBars(contextEssaimView);
-        }
+    public void setxEssaimView(float xEssaimView) {
+        this.xEssaimView = xEssaimView;
+    }
 
-        public ProxyBars getProxyBars() {
-            return proxyBars;
-        }
-    */
+    public float getyEssaimView() {
+        return yEssaimView;
+    }
+
+    public void setyEssaimView(float yEssaimView) {
+        this.yEssaimView = yEssaimView;
+    }
+
     public boolean isMaster() {
         return isMaster;
     }
@@ -199,6 +201,7 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) throws ARControllerException {
         this.deviceService = deviceService;
         mListeners = new ArrayList<>();
+
 
         // needed because some callbacks will be called on the main thread
         mHandler = new Handler(context.getMainLooper());

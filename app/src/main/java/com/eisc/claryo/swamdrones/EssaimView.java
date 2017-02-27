@@ -34,9 +34,10 @@ import java.util.Random;
 /**
  * Classe permettant de voir la formation de l'essaim
  */
-
+//TODO Gérer les couleurs et les informations en haut à gauche
 public class EssaimView extends AppCompatActivity {
     ArrayList<String> lDroneName;
+    ArrayList<ProxyBars> lProxyBars;
     ImageView Drone1, D1ProxRedBot, D1ProxOrBot, D1ProxJauBot, D1ProxRedTop, D1ProxOrTop, D1ProxJauTop, D1ProxRedRight, D1ProxOrRight, D1ProxJauRight, D1ProxRedLeft, D1ProxOrLeft, D1ProxJauLeft,
             D1ProxRedUp, D1ProxOrUp, D1ProxJauUp, D1ProxRedDown, D1ProxOrDown, D1ProxJauDown;
     ImageView Drone2, D2ProxRedBot, D2ProxOrBot, D2ProxJauBot, D2ProxRedTop, D2ProxOrTop, D2ProxJauTop, D2ProxRedRight, D2ProxOrRight, D2ProxJauRight, D2ProxRedLeft, D2ProxOrLeft, D2ProxJauLeft,
@@ -133,67 +134,6 @@ public class EssaimView extends AppCompatActivity {
         TabBatterieDronetxt[1] = batteryDrone2txt;
         TabBatterieDronetxt[2] = batteryDrone3txt;
 
-        Drone1 = (ImageView) findViewById(R.id.Drone1);
-        D1ProxRedBot = (ImageView) findViewById(R.id.D1ProxRedBot);
-        D1ProxOrBot = (ImageView) findViewById(R.id.D1ProxOrBot);
-        D1ProxJauBot = (ImageView) findViewById(R.id.D1ProxJauBot);
-        D1ProxRedTop = (ImageView) findViewById(R.id.D1ProxRedTop);
-        D1ProxOrTop = (ImageView) findViewById(R.id.D1ProxOrTop);
-        D1ProxJauTop = (ImageView) findViewById(R.id.D1ProxJauTop);
-        D1ProxRedRight = (ImageView) findViewById(R.id.D1ProxRedRight);
-        D1ProxOrRight = (ImageView) findViewById(R.id.D1ProxOrRight);
-        D1ProxJauRight = (ImageView) findViewById(R.id.D1ProxJauRight);
-        D1ProxRedLeft = (ImageView) findViewById(R.id.D1ProxRedLeft);
-        D1ProxOrLeft = (ImageView) findViewById(R.id.D1ProxOrLeft);
-        D1ProxJauLeft = (ImageView) findViewById(R.id.D1ProxJauLeft);
-        D1ProxRedUp = (ImageView) findViewById(R.id.D1ProxRedUp);
-        D1ProxOrUp = (ImageView) findViewById(R.id.D1ProxOrUp);
-        D1ProxJauUp = (ImageView) findViewById(R.id.D1ProxJauUp);
-        D1ProxRedDown = (ImageView) findViewById(R.id.D1ProxRedDown);
-        D1ProxOrDown = (ImageView) findViewById(R.id.D1ProxOrDown);
-        D1ProxJauDown = (ImageView) findViewById(R.id.D1ProxJauDown);
-
-        Drone2 = (ImageView) findViewById(R.id.Drone2);
-        D2ProxRedBot = (ImageView) findViewById(R.id.D2ProxRedBot);
-        D2ProxOrBot = (ImageView) findViewById(R.id.D2ProxOrBot);
-        D2ProxJauBot = (ImageView) findViewById(R.id.D2ProxJauBot);
-        D2ProxRedTop = (ImageView) findViewById(R.id.D2ProxRedTop);
-        D2ProxOrTop = (ImageView) findViewById(R.id.D2ProxOrTop);
-        D2ProxJauTop = (ImageView) findViewById(R.id.D2ProxJauTop);
-        D2ProxRedRight = (ImageView) findViewById(R.id.D2ProxRedRight);
-        D2ProxOrRight = (ImageView) findViewById(R.id.D2ProxOrRight);
-        D2ProxJauRight = (ImageView) findViewById(R.id.D2ProxJauRight);
-        D2ProxRedLeft = (ImageView) findViewById(R.id.D2ProxRedLeft);
-        D2ProxOrLeft = (ImageView) findViewById(R.id.D2ProxOrLeft);
-        D2ProxJauLeft = (ImageView) findViewById(R.id.D2ProxJauLeft);
-        D2ProxRedUp = (ImageView) findViewById(R.id.D2ProxRedUp);
-        D2ProxOrUp = (ImageView) findViewById(R.id.D2ProxOrUp);
-        D2ProxJauUp = (ImageView) findViewById(R.id.D2ProxJauUp);
-        D2ProxRedDown = (ImageView) findViewById(R.id.D2ProxRedDown);
-        D2ProxOrDown = (ImageView) findViewById(R.id.D2ProxOrDown);
-        D2ProxJauDown = (ImageView) findViewById(R.id.D2ProxJauDown);
-
-        Drone3 = (ImageView) findViewById(R.id.Drone3);
-        D3ProxRedBot = (ImageView) findViewById(R.id.D3ProxRedBot);
-        D3ProxOrBot = (ImageView) findViewById(R.id.D3ProxOrBot);
-        D3ProxJauBot = (ImageView) findViewById(R.id.D3ProxJauBot);
-        D3ProxRedTop = (ImageView) findViewById(R.id.D3ProxRedTop);
-        D3ProxOrTop = (ImageView) findViewById(R.id.D3ProxOrTop);
-        D3ProxJauTop = (ImageView) findViewById(R.id.D3ProxJauTop);
-        D3ProxRedRight = (ImageView) findViewById(R.id.D3ProxRedRight);
-        D3ProxOrRight = (ImageView) findViewById(R.id.D3ProxOrRight);
-        D3ProxJauRight = (ImageView) findViewById(R.id.D3ProxJauRight);
-        D3ProxRedLeft = (ImageView) findViewById(R.id.D3ProxRedLeft);
-        D3ProxOrLeft = (ImageView) findViewById(R.id.D3ProxOrLeft);
-        D3ProxJauLeft = (ImageView) findViewById(R.id.D3ProxJauLeft);
-        D3ProxRedUp = (ImageView) findViewById(R.id.D3ProxRedUp);
-        D3ProxOrUp = (ImageView) findViewById(R.id.D3ProxOrUp);
-        D3ProxJauUp = (ImageView) findViewById(R.id.D3ProxJauUp);
-        D3ProxRedDown = (ImageView) findViewById(R.id.D3ProxRedDown);
-        D3ProxOrDown = (ImageView) findViewById(R.id.D3ProxOrDown);
-        D3ProxJauDown = (ImageView) findViewById(R.id.D3ProxJauDown);
-
-
         density = getResources().getDisplayMetrics().density;
         densite = Float.toString(density);
 
@@ -213,8 +153,6 @@ public class EssaimView extends AppCompatActivity {
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerBattery);
         }
-
-        //proxyBarsView();
 
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,9 +190,22 @@ public class EssaimView extends AppCompatActivity {
                 TglDrone3.setChecked(true);
             }
         });
+
         lDroneName = new ArrayList<>(GlobalCouple.couples.size());
+        lProxyBars = new ArrayList<>(GlobalCouple.couples.size());
+        Random r = new Random();
+
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            new ProxyBars(getApplicationContext(), Ecran, density).Drone.setOnTouchListener(new MyTouchListener1());
+            if (GlobalCouple.couples.get(i).getBebopDrone().getxEssaimView() < 0 && GlobalCouple.couples.get(i).getBebopDrone().getyEssaimView() < 0) {
+                GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
+                GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
+            }
+
+            ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+            MyTouchListener1 myTouchListener1 = new MyTouchListener1();
+            myTouchListener1.setDroneName((GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName()));
+            pb.Drone.setOnTouchListener(myTouchListener1);
+            lProxyBars.add(pb);
             lDroneName.add(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
         }
 
@@ -342,7 +293,7 @@ public class EssaimView extends AppCompatActivity {
         }
     }
 
-    /*protected void proxyBarsView(){
+    protected void proxyBarsView() {
 
         //Drone 1
         int D1ProxGauche = 150;
@@ -483,7 +434,7 @@ public class EssaimView extends AppCompatActivity {
                     D3ProxOrUp.setVisibility(View.VISIBLE);
                     D3ProxRedUp.setVisibility(View.VISIBLE);
                 }
-            
+
             case 2:
 
                 Drone2.setVisibility(View.VISIBLE);
@@ -714,54 +665,32 @@ public class EssaimView extends AppCompatActivity {
                 }
                 break;
         }
-    }*/
-
-    ArrayList<ClipData> lClipData;
+    }
 
     private final class MyTouchListener1 implements View.OnTouchListener {
+        private String droneName;
+
+        public void setDroneName(String droneName) {
+            this.droneName = droneName;
+        }
+
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            lClipData = new ArrayList<>(GlobalCouple.couples.size());
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    lClipData.add(ClipData.newPlainText(lDroneName.get(i), ""));
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                    view.startDrag(lClipData.get(i), shadowBuilder, view, 0);
-                    view.setVisibility(View.INVISIBLE);
-                }
+
+                ClipData clipData = ClipData.newPlainText(droneName, "");
+
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(clipData, shadowBuilder, view, 0);
+                view.setVisibility(View.INVISIBLE);
                 return true;
-            } else {
+
+            } else
+
+            {
                 return false;
             }
         }
     }
-
-//    private final class MyTouchListener2 implements View.OnTouchListener {
-//        public boolean onTouch(View view, MotionEvent motionEvent) {
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                ClipData data = ClipData.newPlainText("Drone2", "");
-//                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-//                view.startDrag(data, shadowBuilder, view, 0);
-//                view.setVisibility(View.INVISIBLE);
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
-//    }
-//
-//    private final class MyTouchListener3 implements View.OnTouchListener {
-//        public boolean onTouch(View view, MotionEvent motionEvent) {
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                ClipData data = ClipData.newPlainText("Drone3", "");
-//                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-//                view.startDrag(data, shadowBuilder, view, 0);
-//                view.setVisibility(View.INVISIBLE);
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
-//    }
 
     class MyDragListener implements View.OnDragListener {
         Drawable enterShape = getResources().getDrawable(R.drawable.shape_dropout);
@@ -783,136 +712,70 @@ public class EssaimView extends AppCompatActivity {
                     // Dropped, reassign View to ViewGroup
                     float x = event.getX();
                     float y = event.getY();
-                    System.out.println(Float.toString(x));
-                    System.out.println(Float.toString(y));
+
                     View view = (View) event.getLocalState();
                     ViewGroup owner = (ViewGroup) view.getParent();
                     owner.removeView(view);
                     AbsoluteLayout container = (AbsoluteLayout) v;
                     container.addView(view);
                     view.setVisibility(View.VISIBLE);
-                    if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(0).getBebopDrone().getInfoDrone().getDroneName())) {
-                        ProxyBars.Drone.setX(x - ProxyBars.Drone.getWidth() / 2);
-                        ProxyBars.Drone.setY(y - ProxyBars.Drone.getHeight() / 2);
-                        D1ProxRedBot.setX(x - D1ProxRedBot.getWidth() / 2);
-                        D1ProxRedBot.setY(y + 46 * density / 2 - D1ProxRedBot.getHeight() / 2);
-                        D1ProxOrBot.setX(x - D1ProxOrBot.getWidth() / 2);
-                        D1ProxOrBot.setY(y + 56 * density / 2 - D1ProxOrBot.getHeight() / 2);
-                        D1ProxJauBot.setX(x - D1ProxJauBot.getWidth() / 2);
-                        D1ProxJauBot.setY(y + 66 * density / 2 - D1ProxJauBot.getHeight() / 2);
-                        D1ProxRedTop.setX(x - D1ProxRedTop.getWidth() / 2);
-                        D1ProxRedTop.setY(y - 50 * density / 2 - D1ProxRedTop.getHeight() / 2);
-                        D1ProxOrTop.setX(x - D1ProxOrTop.getWidth() / 2);
-                        D1ProxOrTop.setY(y - 60 * density / 2 - D1ProxOrTop.getHeight() / 2);
-                        D1ProxJauTop.setX(x - D1ProxJauTop.getWidth() / 2);
-                        D1ProxJauTop.setY(y - 70 * density / 2 - D1ProxJauTop.getHeight() / 2);
-                        D1ProxRedRight.setX(x + 45 * density / 2 - D1ProxRedRight.getWidth() / 2);
-                        D1ProxRedRight.setY(y - D1ProxRedRight.getHeight() / 2);
-                        D1ProxOrRight.setX(x + 55 * density / 2 - D1ProxOrRight.getWidth() / 2);
-                        D1ProxOrRight.setY(y - D1ProxOrRight.getHeight() / 2);
-                        D1ProxJauRight.setX(x + 65 * density / 2 - D1ProxJauRight.getWidth() / 2);
-                        D1ProxJauRight.setY(y - D1ProxJauRight.getHeight() / 2);
-                        D1ProxRedLeft.setX(x - 50 * density / 2 - D1ProxRedLeft.getWidth() / 2);
-                        D1ProxRedLeft.setY(y - D1ProxRedLeft.getHeight() / 2);
-                        D1ProxOrLeft.setX(x - 60 * density / 2 - D1ProxOrLeft.getWidth() / 2);
-                        D1ProxOrLeft.setY(y - D1ProxOrLeft.getHeight() / 2);
-                        D1ProxJauLeft.setX(x - 70 * density / 2 - D1ProxJauLeft.getWidth() / 2);
-                        D1ProxJauLeft.setY(y - D1ProxJauLeft.getHeight() / 2);
-                        D1ProxRedUp.setX(x - D1ProxRedUp.getWidth() / 2);
-                        D1ProxRedUp.setY(y - 11 * density / 2 - D1ProxRedUp.getHeight() / 2);
-                        D1ProxOrUp.setX(x - D1ProxOrUp.getWidth() / 2);
-                        D1ProxOrUp.setY(y - 20 * density / 2 - D1ProxOrUp.getHeight() / 2);
-                        D1ProxJauUp.setX(x - D1ProxJauUp.getWidth() / 2);
-                        D1ProxJauUp.setY(y - 29 * density / 2 - D1ProxJauUp.getHeight() / 2);
-                        D1ProxRedDown.setX(x - D1ProxRedUp.getWidth() / 2);
-                        D1ProxRedDown.setY(y + 18 * density / 2 - D1ProxRedUp.getHeight() / 2);
-                        D1ProxOrDown.setX(x - D1ProxOrUp.getWidth() / 2);
-                        D1ProxOrDown.setY(y + 27 * density / 2 - D1ProxOrUp.getHeight() / 2);
-                        D1ProxJauDown.setX(x - D1ProxJauUp.getWidth() / 2);
-                        D1ProxJauDown.setY(y + 34 * density / 2 - D1ProxJauUp.getHeight() / 2);
-                    }
-                    if (event.getClipData().getDescription().getLabel().equals("Drone2")) {
-                        Drone2.setX(x - Drone2.getWidth() / 2);
-                        Drone2.setY(y - Drone2.getHeight() / 2);
-                        D2ProxRedBot.setX(x - D2ProxRedBot.getWidth() / 2);
-                        D2ProxRedBot.setY(y + 46 * density / 2 - D2ProxRedBot.getHeight() / 2);
-                        D2ProxOrBot.setX(x - D2ProxOrBot.getWidth() / 2);
-                        D2ProxOrBot.setY(y + 56 * density / 2 - D2ProxOrBot.getHeight() / 2);
-                        D2ProxJauBot.setX(x - D2ProxJauBot.getWidth() / 2);
-                        D2ProxJauBot.setY(y + 66 * density / 2 - D2ProxJauBot.getHeight() / 2);
-                        D2ProxRedTop.setX(x - D2ProxRedTop.getWidth() / 2);
-                        D2ProxRedTop.setY(y - 50 * density / 2 - D2ProxRedTop.getHeight() / 2);
-                        D2ProxOrTop.setX(x - D2ProxOrTop.getWidth() / 2);
-                        D2ProxOrTop.setY(y - 60 * density / 2 - D2ProxOrTop.getHeight() / 2);
-                        D2ProxJauTop.setX(x - D2ProxJauTop.getWidth() / 2);
-                        D2ProxJauTop.setY(y - 70 * density / 2 - D2ProxJauTop.getHeight() / 2);
-                        D2ProxRedRight.setX(x + 45 * density / 2 - D2ProxRedRight.getWidth() / 2);
-                        D2ProxRedRight.setY(y - D2ProxRedRight.getHeight() / 2);
-                        D2ProxOrRight.setX(x + 55 * density / 2 - D2ProxOrRight.getWidth() / 2);
-                        D2ProxOrRight.setY(y - D2ProxOrRight.getHeight() / 2);
-                        D2ProxJauRight.setX(x + 65 * density / 2 - D2ProxJauRight.getWidth() / 2);
-                        D2ProxJauRight.setY(y - D2ProxJauRight.getHeight() / 2);
-                        D2ProxRedLeft.setX(x - 50 * density / 2 - D2ProxRedLeft.getWidth() / 2);
-                        D2ProxRedLeft.setY(y - D2ProxRedLeft.getHeight() / 2);
-                        D2ProxOrLeft.setX(x - 60 * density / 2 - D2ProxOrLeft.getWidth() / 2);
-                        D2ProxOrLeft.setY(y - D2ProxOrLeft.getHeight() / 2);
-                        D2ProxJauLeft.setX(x - 70 * density / 2 - D2ProxJauLeft.getWidth() / 2);
-                        D2ProxJauLeft.setY(y - D2ProxJauLeft.getHeight() / 2);
-                        D2ProxRedUp.setX(x - D2ProxRedUp.getWidth() / 2);
-                        D2ProxRedUp.setY(y - 11 * density / 2 - D2ProxRedUp.getHeight() / 2);
-                        D2ProxOrUp.setX(x - D2ProxOrUp.getWidth() / 2);
-                        D2ProxOrUp.setY(y - 20 * density / 2 - D2ProxOrUp.getHeight() / 2);
-                        D2ProxJauUp.setX(x - D2ProxJauUp.getWidth() / 2);
-                        D2ProxJauUp.setY(y - 29 * density / 2 - D2ProxJauUp.getHeight() / 2);
-                        D2ProxRedDown.setX(x - D2ProxRedUp.getWidth() / 2);
-                        D2ProxRedDown.setY(y + 18 * density / 2 - D2ProxRedUp.getHeight() / 2);
-                        D2ProxOrDown.setX(x - D2ProxOrUp.getWidth() / 2);
-                        D2ProxOrDown.setY(y + 27 * density / 2 - D2ProxOrUp.getHeight() / 2);
-                        D2ProxJauDown.setX(x - D2ProxJauUp.getWidth() / 2);
-                        D2ProxJauDown.setY(y + 34 * density / 2 - D2ProxJauUp.getHeight() / 2);
-                    }
-                    if (event.getClipData().getDescription().getLabel().equals("Drone3")) {
-                        Drone3.setX(x - Drone3.getWidth() / 2);
-                        Drone3.setY(y - Drone3.getHeight() / 2);
-                        D3ProxRedBot.setX(x - D3ProxRedBot.getWidth() / 2);
-                        D3ProxRedBot.setY(y + 46 * density / 2 - D3ProxRedBot.getHeight() / 2);
-                        D3ProxOrBot.setX(x - D3ProxOrBot.getWidth() / 2);
-                        D3ProxOrBot.setY(y + 56 * density / 2 - D3ProxOrBot.getHeight() / 2);
-                        D3ProxJauBot.setX(x - D3ProxJauBot.getWidth() / 2);
-                        D3ProxJauBot.setY(y + 66 * density / 2 - D3ProxJauBot.getHeight() / 2);
-                        D3ProxRedTop.setX(x - D3ProxRedTop.getWidth() / 2);
-                        D3ProxRedTop.setY(y - 50 * density / 2 - D3ProxRedTop.getHeight() / 2);
-                        D3ProxOrTop.setX(x - D3ProxOrTop.getWidth() / 2);
-                        D3ProxOrTop.setY(y - 60 * density / 2 - D3ProxOrTop.getHeight() / 2);
-                        D3ProxJauTop.setX(x - D3ProxJauTop.getWidth() / 2);
-                        D3ProxJauTop.setY(y - 70 * density / 2 - D3ProxJauTop.getHeight() / 2);
-                        D3ProxRedRight.setX(x + 45 * density / 2 - D3ProxRedRight.getWidth() / 2);
-                        D3ProxRedRight.setY(y - D3ProxRedRight.getHeight() / 2);
-                        D3ProxOrRight.setX(x + 55 * density / 2 - D3ProxOrRight.getWidth() / 2);
-                        D3ProxOrRight.setY(y - D3ProxOrRight.getHeight() / 2);
-                        D3ProxJauRight.setX(x + 65 * density / 2 - D3ProxJauRight.getWidth() / 2);
-                        D3ProxJauRight.setY(y - D3ProxJauRight.getHeight() / 2);
-                        D3ProxRedLeft.setX(x - 50 * density / 2 - D3ProxRedLeft.getWidth() / 2);
-                        D3ProxRedLeft.setY(y - D3ProxRedLeft.getHeight() / 2);
-                        D3ProxOrLeft.setX(x - 60 * density / 2 - D3ProxOrLeft.getWidth() / 2);
-                        D3ProxOrLeft.setY(y - D3ProxOrLeft.getHeight() / 2);
-                        D3ProxJauLeft.setX(x - 70 * density / 2 - D3ProxJauLeft.getWidth() / 2);
-                        D3ProxJauLeft.setY(y - D3ProxJauLeft.getHeight() / 2);
-                        D3ProxRedUp.setX(x - D3ProxRedUp.getWidth() / 2);
-                        D3ProxRedUp.setY(y - 11 * density / 2 - D3ProxRedUp.getHeight() / 2);
-                        D3ProxOrUp.setX(x - D3ProxOrUp.getWidth() / 2);
-                        D3ProxOrUp.setY(y - 20 * density / 2 - D3ProxOrUp.getHeight() / 2);
-                        D3ProxJauUp.setX(x - D3ProxJauUp.getWidth() / 2);
-                        D3ProxJauUp.setY(y - 28 * density / 2 - D3ProxJauUp.getHeight() / 2);
-                        D3ProxRedDown.setX(x - D3ProxRedUp.getWidth() / 2);
-                        D3ProxRedDown.setY(y + 18 * density / 2 - D3ProxRedUp.getHeight() / 2);
-                        D3ProxOrDown.setX(x - D3ProxOrUp.getWidth() / 2);
-                        D3ProxOrDown.setY(y + 27 * density / 2 - D3ProxOrUp.getHeight() / 2);
-                        D3ProxJauDown.setX(x - D3ProxJauUp.getWidth() / 2);
-                        D3ProxJauDown.setY(y + 34 * density / 2 - D3ProxJauUp.getHeight() / 2);
-                    }
+                    System.out.println(event.getClipData().getDescription().getLabel());
+                    for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                        if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName())) {
 
+                            System.out.println(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName() + " : " + Float.toString(x));
+                            System.out.println(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName() + " : " + Float.toString(y));
+                            System.out.println("Drone : " + i);
 
+                            lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxJauDown.setY(y + 65 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxOrDown.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxOrDown.setY(y + 55 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxRedDown.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxRedDown.setY(y + 45 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+
+                            lProxyBars.get(i).Drone.setX(x - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).Drone.setY(y - lProxyBars.get(i).Drone.getHeight() / 2);
+
+                            GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(lProxyBars.get(i).Drone.getX());
+                            GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(lProxyBars.get(i).Drone.getY());
+
+                            lProxyBars.get(i).ProxJauLeft.setX(x - 30 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxJauLeft.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxOrLeft.setX(x - 20 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxOrLeft.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxRedLeft.setX(x - 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxRedLeft.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+
+                            lProxyBars.get(i).ProxJauRight.setX(x + 121 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxJauRight.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxOrRight.setX(x + 111 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxOrRight.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxRedRight.setX(x + 101 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxRedRight.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+
+                            lProxyBars.get(i).ProxJauTop.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxJauTop.setY(y - 30 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxOrTop.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxOrTop.setY(y - 20 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxRedTop.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxRedTop.setY(y - 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+
+                            lProxyBars.get(i).ProxJauBot.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxJauBot.setY(y + 121 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxOrBot.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxOrBot.setY(y + 111 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxRedBot.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxRedBot.setY(y + 101 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+
+                            lProxyBars.get(i).ProxJauUp.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxJauUp.setY(y - 5 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxOrUp.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxOrUp.setY(y + 5 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxRedUp.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
+                            lProxyBars.get(i).ProxRedUp.setY(y + 15 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                        }
+                    }
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     v.setBackgroundDrawable(normalShape);
@@ -926,21 +789,23 @@ public class EssaimView extends AppCompatActivity {
 }
 
 class ProxyBars extends AppCompatActivity {
-    int PlageY, PlageX;
+    float PlageY, PlageX;
     AbsoluteLayout Ecran;
     Context context;
     float density;
-   static ImageView Drone;
+    ImageView Drone;
+    ImageView ProxJauLeft, ProxOrLeft, ProxRedLeft, ProxJauRight, ProxOrRight, ProxRedRight, ProxJauTop, ProxOrTop, ProxRedTop, ProxJauBot,
+            ProxOrBot, ProxRedBot, ProxJauUp, ProxOrUp, ProxRedUp, ProxJauDown, ProxOrDown, ProxRedDown;
 
-
-    public ProxyBars(Context context, AbsoluteLayout ecran, float density) {
+    public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName) {
         this.context = context;
         this.density = density;
         Ecran = ecran;
 
-        Random r = new Random();
-        PlageX = r.nextInt(633);
-        PlageY = r.nextInt(360);
+        int indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
+
+        PlageX = GlobalCouple.couples.get(indexDrone).getBebopDrone().getxEssaimView();
+        PlageY = GlobalCouple.couples.get(indexDrone).getBebopDrone().getyEssaimView();
 
         show();
 
@@ -954,101 +819,101 @@ class ProxyBars extends AppCompatActivity {
         float Xdrone = Drone.getX();
         float Ydrone = Drone.getY();
 
-        ImageView ProxJauLeft = new ImageView(context);
+        ProxJauLeft = new ImageView(context);
         ProxJauLeft.setImageResource(R.drawable.barv);
         ProxJauLeft.setColorFilter(Color.parseColor("#F2EE1A"));
         ProxJauLeft.setX(Xdrone - 30 * density / 2);
         ProxJauLeft.setY(Ydrone + 10 * density / 2);
-        ImageView ProxOrLeft = new ImageView(context);
+        ProxOrLeft = new ImageView(context);
         ProxOrLeft.setImageResource(R.drawable.barv);
         ProxOrLeft.setColorFilter(Color.parseColor("#FFFF8800"));
         ProxOrLeft.setX(Xdrone - 20 * density / 2);
         ProxOrLeft.setY(Ydrone + 10 * density / 2);
-        ImageView ProxRedLeft = new ImageView(context);
+        ProxRedLeft = new ImageView(context);
         ProxRedLeft.setImageResource(R.drawable.barv);
         ProxRedLeft.setColorFilter(Color.parseColor("#FFCC0000"));
         ProxRedLeft.setX(Xdrone - 10 * density / 2);
         ProxRedLeft.setY(Ydrone + 10 * density / 2);
 
-        ImageView ProxJauRight = new ImageView(context);
+        ProxJauRight = new ImageView(context);
         ProxJauRight.setImageResource(R.drawable.barv);
         ProxJauRight.setColorFilter(Color.parseColor("#F2EE1A"));
         ProxJauRight.setX(Xdrone + 121 * density / 2);
         ProxJauRight.setY(Ydrone + 10 * density / 2);
-        ImageView ProxOrRight = new ImageView(context);
+        ProxOrRight = new ImageView(context);
         ProxOrRight.setImageResource(R.drawable.barv);
         ProxOrRight.setColorFilter(Color.parseColor("#FFFF8800"));
         ProxOrRight.setX(Xdrone + 111 * density / 2);
         ProxOrRight.setY(Ydrone + 10 * density / 2);
-        ImageView ProxRedRight = new ImageView(context);
+        ProxRedRight = new ImageView(context);
         ProxRedRight.setImageResource(R.drawable.barv);
         ProxRedRight.setColorFilter(Color.parseColor("#FFCC0000"));
         ProxRedRight.setX(Xdrone + 101 * density / 2);
         ProxRedRight.setY(Ydrone + 10 * density / 2);
 
-        ImageView ProxJauTop = new ImageView(context);
+        ProxJauTop = new ImageView(context);
         ProxJauTop.setImageResource(R.drawable.barh);
         ProxJauTop.setColorFilter(Color.parseColor("#F2EE1A"));
         ProxJauTop.setX(Xdrone + 10 * density / 2);
         ProxJauTop.setY(Ydrone - 30 * density / 2);
-        ImageView ProxOrTop = new ImageView(context);
+        ProxOrTop = new ImageView(context);
         ProxOrTop.setImageResource(R.drawable.barh);
         ProxOrTop.setColorFilter(Color.parseColor("#FFFF8800"));
         ProxOrTop.setX(Xdrone + 10 * density / 2);
         ProxOrTop.setY(Ydrone - 20 * density / 2);
-        ImageView ProxRedTop = new ImageView(context);
+        ProxRedTop = new ImageView(context);
         ProxRedTop.setImageResource(R.drawable.barh);
         ProxRedTop.setColorFilter(Color.parseColor("#FFCC0000"));
         ProxRedTop.setX(Xdrone + 10 * density / 2);
         ProxRedTop.setY(Ydrone - 10 * density / 2);
 
-        ImageView ProxJauBot = new ImageView(context);
+        ProxJauBot = new ImageView(context);
         ProxJauBot.setImageResource(R.drawable.barh);
         ProxJauBot.setColorFilter(Color.parseColor("#F2EE1A"));
         ProxJauBot.setX(Xdrone + 10 * density / 2);
         ProxJauBot.setY(Ydrone + 121 * density / 2);
-        ImageView ProxOrBot = new ImageView(context);
+        ProxOrBot = new ImageView(context);
         ProxOrBot.setImageResource(R.drawable.barh);
         ProxOrBot.setColorFilter(Color.parseColor("#FFFF8800"));
         ProxOrBot.setX(Xdrone + 10 * density / 2);
         ProxOrBot.setY(Ydrone + 111 * density / 2);
-        ImageView ProxRedBot = new ImageView(context);
+        ProxRedBot = new ImageView(context);
         ProxRedBot.setImageResource(R.drawable.barh);
         ProxRedBot.setColorFilter(Color.parseColor("#FFCC0000"));
         ProxRedBot.setX(Xdrone + 10 * density / 2);
         ProxRedBot.setY(Ydrone + 101 * density / 2);
 
-        ImageView ProxJauUp = new ImageView(context);
-        ProxJauUp.setImageResource(R.drawable.ic_up);
-        ProxJauUp.setColorFilter(Color.parseColor("#F2EE1A"));
-        ProxJauUp.setX(Xdrone + 10 * density / 2);
-        ProxJauUp.setY(Ydrone - 5 * density / 2);
-        ImageView ProxOrUp = new ImageView(context);
-        ProxOrUp.setImageResource(R.drawable.ic_up);
-        ProxOrUp.setColorFilter(Color.parseColor("#FFFF8800"));
-        ProxOrUp.setX(Xdrone + 10 * density / 2);
-        ProxOrUp.setY(Ydrone + 5 * density / 2);
-        ImageView ProxRedUp = new ImageView(context);
-        ProxRedUp.setImageResource(R.drawable.ic_up);
-        ProxRedUp.setColorFilter(Color.parseColor("#FFCC0000"));
-        ProxRedUp.setX(Xdrone + 10 * density / 2);
-        ProxRedUp.setY(Ydrone + 15 * density / 2);
-
-        ImageView ProxJauDown = new ImageView(context);
+        ProxJauDown = new ImageView(context);
         ProxJauDown.setImageResource(R.drawable.ic_down);
         ProxJauDown.setColorFilter(Color.parseColor("#F2EE1A"));
         ProxJauDown.setX(Xdrone + 10 * density / 2);
         ProxJauDown.setY(Ydrone + 65 * density / 2);
-        ImageView ProxOrDown = new ImageView(context);
+        ProxOrDown = new ImageView(context);
         ProxOrDown.setImageResource(R.drawable.ic_down);
         ProxOrDown.setColorFilter(Color.parseColor("#FFFF8800"));
         ProxOrDown.setX(Xdrone + 10 * density / 2);
         ProxOrDown.setY(Ydrone + 55 * density / 2);
-        ImageView ProxRedDown = new ImageView(context);
+        ProxRedDown = new ImageView(context);
         ProxRedDown.setImageResource(R.drawable.ic_down);
         ProxRedDown.setColorFilter(Color.parseColor("#FFCC0000"));
         ProxRedDown.setX(Xdrone + 10 * density / 2);
         ProxRedDown.setY(Ydrone + 45 * density / 2);
+
+        ProxJauUp = new ImageView(context);
+        ProxJauUp.setImageResource(R.drawable.ic_up);
+        ProxJauUp.setColorFilter(Color.parseColor("#F2EE1A"));
+        ProxJauUp.setX(Xdrone + 10 * density / 2);
+        ProxJauUp.setY(Ydrone - 5 * density / 2);
+        ProxOrUp = new ImageView(context);
+        ProxOrUp.setImageResource(R.drawable.ic_up);
+        ProxOrUp.setColorFilter(Color.parseColor("#FFFF8800"));
+        ProxOrUp.setX(Xdrone + 10 * density / 2);
+        ProxOrUp.setY(Ydrone + 5 * density / 2);
+        ProxRedUp = new ImageView(context);
+        ProxRedUp.setImageResource(R.drawable.ic_up);
+        ProxRedUp.setColorFilter(Color.parseColor("#FFCC0000"));
+        ProxRedUp.setX(Xdrone + 10 * density / 2);
+        ProxRedUp.setY(Ydrone + 15 * density / 2);
 
         Ecran.addView(ProxJauDown);
         Ecran.addView(ProxOrDown);

@@ -48,22 +48,22 @@ public class BebopDrone implements ARDeviceControllerStreamListener{
     private boolean flyAuthorization = true;
     private InfoDrone infoDrone = new InfoDrone();
     private boolean isMaster = false;
-    private Context contextEssaimView;
-    private ProxyBars proxyBars;
+    /*    private Context contextEssaimView;
+        private ProxyBars proxyBars;
 
-    public Context getContextEssaimView() {
-        return contextEssaimView;
-    }
+        public Context getContextEssaimView() {
+            return contextEssaimView;
+        }
 
-    public void setContextEssaimView(Context contextEssaimView) {
-        this.contextEssaimView = contextEssaimView;
-        proxyBars = new ProxyBars(contextEssaimView);
-    }
+        public void setContextEssaimView(Context contextEssaimView) {
+            this.contextEssaimView = contextEssaimView;
+            proxyBars = new ProxyBars(contextEssaimView);
+        }
 
-    public ProxyBars getProxyBars() {
-        return proxyBars;
-    }
-
+        public ProxyBars getProxyBars() {
+            return proxyBars;
+        }
+    */
     public boolean isMaster() {
         return isMaster;
     }

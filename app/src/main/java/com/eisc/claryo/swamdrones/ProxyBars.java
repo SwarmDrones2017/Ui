@@ -4,33 +4,39 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ViewTreeObserver;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import java.util.Random;
 
 /**
  * Created by Claryo on 23/02/2017.
- */
+
 
 public class ProxyBars extends AppCompatActivity {
-
+    int PlageY, PlageX;
+    FrameLayout.LayoutParams lpDrone, lpBarH, lpBarV, lpBarUD;
+    AbsoluteLayout Ecran;
+    Context context;
     public ProxyBars(Context context){
 
-        AbsoluteLayout Ecran = new AbsoluteLayout(context);
+        this.context = context;
+        Ecran = new AbsoluteLayout(context);
 
-        FrameLayout.LayoutParams lpDrone = new FrameLayout.LayoutParams(50, 50);
-        FrameLayout.LayoutParams lpBarH = new FrameLayout.LayoutParams(40, 4);
-        FrameLayout.LayoutParams lpBarV = new FrameLayout.LayoutParams(4, 40);
-        FrameLayout.LayoutParams lpBarUD = new FrameLayout.LayoutParams(30, 30);
+        lpDrone = new FrameLayout.LayoutParams(50, 50);
+        lpBarH = new FrameLayout.LayoutParams(40, 4);
+        lpBarV = new FrameLayout.LayoutParams(4, 40);
+        lpBarUD = new FrameLayout.LayoutParams(30, 30);
 
         Random r = new Random();
-        int PlageX = r.nextInt(633);
-        int PlageY = r.nextInt(360);
+        PlageX = r.nextInt(633);
+        PlageY = r.nextInt(360);
 
+
+    }
+
+    public void show(){
         ImageView Drone = new ImageView(context);
         Drone.setLayoutParams(lpDrone);
         Drone.setX(PlageX);
@@ -149,3 +155,4 @@ public class ProxyBars extends AppCompatActivity {
         Log.i("ContexteE", ""+Ecran.getContext());
     }
 }
+ */

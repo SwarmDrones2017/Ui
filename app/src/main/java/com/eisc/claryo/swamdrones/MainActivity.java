@@ -1,9 +1,7 @@
 package com.eisc.claryo.swamdrones;
 
-import android.annotation.TargetApi;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,16 +13,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-
-import java.lang.annotation.Target;
-import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.eisc.claryo.swamdrones.MessageHandler.LISTDRONEUPDATE;
-import static com.eisc.claryo.swamdrones.MessageHandler.NOTDRONE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,15 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     private TextView textViewNbDrones;
     private TextView textViewDrones;
-    private MainActivity ici = this;
     static private String[] listDrone;
     private ImageButton btnRefresh;
     private Button btnFly;
-
+    private DiscoveryDrone discoveryDrone;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            listDrone = msg.getData().getStringArray(LISTDRONEUPDATE);
+            listDrone = msg.getData().getStringArray(MessageKEY.LISTDRONEUPDATE);
             ShowDroneList();
         }
     };
@@ -59,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 btnFly.setVisibility(View.INVISIBLE);
             } else {
                 textViewNbDrones.setText("" + listDrone.length);
-                ArrayAdapter<String> listitems = new ArrayAdapter<String>(ici, android.R.layout.simple_list_item_1, listDrone);
+                ArrayAdapter<String> listitems = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listDrone);
                 list.setAdapter(listitems);
                 list.setVisibility(View.VISIBLE);
                 btnFly.setVisibility(View.VISIBLE);
@@ -72,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //TODO Créer un bouton refresh pour relancer un scan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<Couple>();
-            //new ServerUDP(getApplicationContext());
+            new ServerUDP(getApplicationContext());
         }
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
@@ -110,17 +99,16 @@ public class MainActivity extends AppCompatActivity {
                     if(droneSelected !=-1){
 
                         DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
-                        .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
-                        .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
-                        .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())
-                        .putExtra("SoftVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareVersion())
-                        .putExtra("GPSVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareGPSVersion())
-                        .putExtra("nbFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getNbFlights())
-                        .putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight())
-                        .putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
+                                .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
+                                .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
+                                .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())
+                                .putExtra("SoftVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareVersion())
+                                .putExtra("GPSVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareGPSVersion())
+                                .putExtra("nbFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getNbFlights())
+                                .putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight())
+                                .putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
 
-
-                    }else{
+                    } else {
                         DroneDetailsActivity.putExtra("Name", "null");
                     }
 
@@ -135,14 +123,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onClick(View v) {
-                new DiscoveryDrone(getApplicationContext(), handler);
+                if (discoveryDrone == null) {
+                    discoveryDrone = new DiscoveryDrone(getApplication(), handler);
+                } else {
+                    discoveryDrone.onServicesDevicesListUpdated();
+                }
+                Toast.makeText(getApplicationContext(), "Liste mise à jour", Toast.LENGTH_SHORT).show();
+
             }
         });
         btnFly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.this.finish();
                 Intent ControlActivity = new Intent(MainActivity.this, Control.class);
                 startActivity(ControlActivity);
             }
@@ -150,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         btnABout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.this.finish();
                 Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
                 startActivity(AboutActivity);
             }
@@ -158,12 +155,12 @@ public class MainActivity extends AppCompatActivity {
         btnNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.this.finish();
                 Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
                 startActivity(NoticeActivity);
             }
         });
-        new DiscoveryDrone(getApplicationContext(), handler);
-
+        discoveryDrone = new DiscoveryDrone(getApplicationContext(), handler);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class DroneDetails extends AppCompatActivity {
     private Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            progress = msg.getData().getInt(MessageHandler.BATTERYLEVEL);
+            progress = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
             updateBatteryLevel();
         }
     };
@@ -105,6 +105,8 @@ public class DroneDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DroneDetails.this.finish();
+                Intent MainActivity = new Intent(DroneDetails.this, MainActivity.class);
+                startActivity(MainActivity);
                 for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                     if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
                         GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
@@ -115,7 +117,7 @@ public class DroneDetails extends AppCompatActivity {
 
     private void updateBatteryLevel() {
         Log.i("updateBattery", "UpdateBatteryDetails");
-        String textBattery = Integer.toString(progress) + " %";
+        String textBattery = Integer.toString(progress) + "%";
         TextViewBattery.setText(textBattery);
         ProgressBarBattery.setProgress(progress);
         if (progress > 65)

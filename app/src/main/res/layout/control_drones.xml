@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.eisc.claryo.swamdrones.BebopVideoView"
+        android:layout_toEndOf="@+id/ProxRougeGauche"
+        android:id="@+id/bebopVideoView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <ProgressBar
         android:id="@+id/batteryLevel"
         style="@style/CustomProgressBarHorizontal"

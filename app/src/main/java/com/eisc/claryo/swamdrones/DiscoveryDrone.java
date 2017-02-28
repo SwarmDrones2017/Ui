@@ -98,9 +98,6 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
         if (mArdiscoveryService != null) {
             deviceList = mArdiscoveryService.getDeviceServicesArray();
 
-            Bundle messageBundle = new Bundle();
-            Message myMessage = handler.obtainMessage();
-
             // Do what you want with the device list
             String[] listDrone;
             if (deviceList != null) {
@@ -130,7 +127,8 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                             bebop = null; //si le drone existait déjà, je supprime ce nouvel objet
                         } else {
                             if (bebop != null) { //si l'objet bebop n'est pas détruit c'est qu'il n'existait pas avant, donc je fais un connect avant de l'ajouter à la liste
-                                if (bebop.connect())
+                                boolean isConnect = bebop.connect();
+                                if (!isConnect)
                                     Toast.makeText(context, "Problème de connexion du drone", Toast.LENGTH_SHORT);
                                 else
                                     bebop.getmDeviceController().getFeatureCommon().sendSettingsAllSettings();
@@ -147,7 +145,9 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                         }
                     }
                 }
-                messageBundle.putStringArray(MessageHandler.LISTDRONEUPDATE, listDrone);
+                Bundle messageBundle = new Bundle();
+                Message myMessage = handler.obtainMessage();
+                messageBundle.putStringArray(MessageKEY.LISTDRONEUPDATE, listDrone);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handler.sendMessage(myMessage);

@@ -21,18 +21,17 @@ public class Couple {
 
     public void setBebopDrone(BebopDrone bebopDrone) {
         this.bebopDrone = bebopDrone;
-        if(this.raspberry !=null)
+        if(this.raspberry !=null && this.bebopDrone != null)
             couplageOk =true;
     }
 
     public Raspberry getRaspberry() {
-
         return raspberry;
     }
 
     public void setRaspberry(Raspberry raspberry) {
         this.raspberry = raspberry;
-        if(this.bebopDrone != null)
+        if(this.bebopDrone != null && this.bebopDrone != null)
             couplageOk = true;
     }
 

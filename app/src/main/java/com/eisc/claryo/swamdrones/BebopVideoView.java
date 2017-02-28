@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 @TargetApi(17)
 public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -114,10 +115,13 @@ public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callbac
         mReadyLock.lock();
 
         if (codec.getType() == ARCONTROLLER_STREAM_CODEC_TYPE_ENUM.ARCONTROLLER_STREAM_CODEC_TYPE_H264) {
+
             ARControllerCodec.H264 codecH264 = codec.getAsH264();
 
             mSpsBuffer = ByteBuffer.wrap(codecH264.getSps().getByteData());
             mPpsBuffer = ByteBuffer.wrap(codecH264.getPps().getByteData());
+
+
         }
 
         if ((mMediaCodec != null) && (mSpsBuffer != null)) {

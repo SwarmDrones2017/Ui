@@ -943,7 +943,39 @@ class ProxyBars extends AppCompatActivity {
 
 class EssaimViewInfoDrone extends AppCompatActivity{
 
-    public EssaimViewInfoDrone(){
+    Context context;
+    LinearLayout LayoutDroneInfo, LayoutDroneVertical;
+    TextView NomDrone, MaxSpeed, Altitude, Battery;
+    ImageView MaxSpeedImg, AltitudeImg, BatteryImg;
+    int indexDrone;
+
+    public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName){
+        this.context = context;
+        LayoutDroneInfo = layoutdroneinfo;
+
+        indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
+    }
+
+    public void displayInfos(){
+
+        LayoutDroneVertical = new LinearLayout(context);
+        LayoutDroneVertical.setOrientation(LinearLayout.VERTICAL);
+
+        NomDrone = new TextView(context);
+        NomDrone.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName());
+
+        MaxSpeedImg = new ImageView(context);
+
+        MaxSpeed = new TextView(context);
+        //MaxSpeed.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone());
+
+        AltitudeImg = new ImageView(context);
+
+        Altitude = new TextView(context);
+
+        BatteryImg = new ImageView(context);
+
+        Battery = new TextView(context);
 
     }
 

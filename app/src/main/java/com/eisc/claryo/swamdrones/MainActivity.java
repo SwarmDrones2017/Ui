@@ -17,9 +17,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import java.io.IOException;
 import java.lang.annotation.Target;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
                     String droneClicked = (String)list.getAdapter().getItem(position);
                     int droneSelected=-1;
                     for(int i=0; i<GlobalCouple.couples.size(); i++){
-                        if(droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
-                            droneSelected=i;
+                        if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                            if(droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
+                                droneSelected=i;
+                        }
                     }
 
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
@@ -165,6 +170,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy(){
+        byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
+        DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
+        DatagramSocket socket = null;
+        try {
+            socket = new DatagramSocket(ServerUDP.port);
+            for (int i = 0;i < GlobalCouple.couples.size();i++){
+                if(GlobalCouple.couples.get(i).getRaspberry() != null){
+                    envoi.setAddress(GlobalCouple.couples.get(i).getRaspberry().getAddress());
+                    envoi.setPort(GlobalCouple.couples.get(i).getRaspberry().getPort());
+                    socket.send(envoi);
+                    GlobalCouple.couples.get(i).setRaspberry(null);
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
 

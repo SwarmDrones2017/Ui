@@ -59,45 +59,47 @@ public class Control extends AppCompatActivity {
             if(north > 0){
                 if(north <= 50){
                     btn_forward.setClickable(false);
-                    btn_forward.setBackgroundColor(Color.RED);
+                    //btn_forward.setBackgroundColor(Color.RED);
+                    btn_forward.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
                     btn_forward.setClickable(true);
-                    btn_forward.setBackgroundColor(Color.GRAY);
+                    btn_forward.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
             else if (south > 0){
                 if(south <= 50){
                     btn_back.setClickable(false);
-                    btn_back.setBackgroundColor(Color.RED);
+                    btn_back.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
                     btn_back.setClickable(true);
-                    btn_back.setBackgroundColor(Color.GRAY);
+                    btn_back.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
             else if(west > 0){
                 if(west <= 50){
                     btn_yaw_left.setClickable(false);
-                    btn_yaw_left.setBackgroundColor(Color.RED);
+                    btn_yaw_left.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
                     btn_yaw_left.setClickable(true);
-                    btn_yaw_left.setBackgroundColor(Color.GRAY);
+                    btn_yaw_left.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
             else if(est > 0){
                 if(est <= 50){
                     btn_yaw_right.setClickable(false);
-                    btn_yaw_right.setBackgroundColor(Color.RED);
+                    btn_yaw_right.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
                     btn_yaw_right.setClickable(true);
-                    btn_yaw_right.setBackgroundColor(Color.GRAY);
+                    btn_yaw_right.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
         }
     };
+
 
     private void updateLevelBattery() {
         Log.i("updateBattery", "UpdateBattery");
@@ -205,13 +207,17 @@ public class Control extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
-                            GlobalCouple.couples.get(i).getBebopDrone().takeOff();
+                        if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                            if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
+                                GlobalCouple.couples.get(i).getBebopDrone().takeOff();
+                        }
                     }
                 } else {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
-                            GlobalCouple.couples.get(i).getBebopDrone().land();
+                        if(GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                            if (GlobalCouple.couples.get(i).getBebopDrone().isFlyAuthorization())
+                                GlobalCouple.couples.get(i).getBebopDrone().land();
+                        }
                     }
                 }
             }
@@ -232,16 +238,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) 50);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startMoveForward();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) 0);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveForward();
+                            }
                         }
                         break;
                     default:
@@ -259,16 +267,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) -50);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startMoveBack();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setPitch((byte) 0);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveBack();
+                            }
                         }
                         break;
 
@@ -289,16 +299,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) -50);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startTurnLeft();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) 0);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopTurnLeft();
+                            }
                         }
                         break;
 
@@ -318,16 +330,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) 50);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 1);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startTurnRight();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setRoll((byte) 0);
-                            GlobalCouple.couples.get(i).getBebopDrone().setFlag((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopTurnRight();
+                            }
                         }
                         break;
 
@@ -346,14 +360,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) -50);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startMoveLeft();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveLeft();
+                            }
                         }
                         break;
 
@@ -372,14 +390,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 50);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startMoveRight();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setYaw((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveRight();
+                            }
                         }
                         break;
 
@@ -398,14 +420,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 50);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startMoveUp();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveUp();
+                            }
                         }
                         break;
 
@@ -424,14 +450,18 @@ public class Control extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) -50);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startMoveDown();
+                            }
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            GlobalCouple.couples.get(i).getBebopDrone().setGaz((byte) 0);
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveDown();
+                            }
                         }
                         break;
 

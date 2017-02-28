@@ -15,7 +15,7 @@ import java.nio.charset.Charset;
 
 public class ServerUDP {
 
-    final static int port = 55555;
+    public final static int port = 55555;
     final static int taille = 1024;
     static byte buffer[] = new byte[taille];
     final String RPI_SMARTPHONE = "Telephone";
@@ -69,47 +69,68 @@ public class ServerUDP {
                                             if (capt.equals("n")) {
                                                 north = val;
                                                 Log.e(TAG, "Capteur nord : " + north);
-                                                if (index != -1)
-                                                    GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(Integer.valueOf(val));
+                                                if (index != -1){
+                                                    try{
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(Integer.valueOf(val));
+                                                    } catch (NumberFormatException e){
+
+                                                    }
+                                                }
+
                                             }
 
                                             if (capt.equals("w")) {
                                                 west = val;
                                                 Log.e(TAG, "Capteur ouest : " + west);
-                                                if (index != -1)
-                                                    GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(Integer.valueOf(val));
+                                                if (index != -1){
+                                                    try{
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(Integer.valueOf(val));
+                                                    } catch(NumberFormatException e){
+
+                                                    }
+                                                }
                                             }
 
                                             if (capt.equals("s")) {
                                                 south = val;
                                                 Log.e(TAG, "Capteur sud : " + south);
-                                                if (index != -1)
-                                                    GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(Integer.valueOf(val));
+                                                if (index != -1) {
+                                                    try {
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(Integer.valueOf(val));
+                                                    }
+                                                    catch(NumberFormatException e){
+
+                                                    }
+                                                }
+
                                             }
 
                                             if (capt.equals("e")) {
                                                 est = val;
                                                 Log.e(TAG, "Capteur est : " + est);
-                                                if (index != -1)
-                                                    GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(Integer.valueOf(val));
-                                            }
-                                            if (Integer.valueOf(val) <= 50) {
-                                                for (int j = 0; j < GlobalCouple.couples.size(); j++) {
-                                                    if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
-                                                        GlobalCouple.couples.get(j).getBebopDrone().stationnaire();
+                                                if (index != -1) {
+                                                    try {
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(Integer.valueOf(val));
+                                                    } catch (NumberFormatException e) {
+
                                                     }
                                                 }
+
                                             }
-                                        }
-                                        else {//sinon reconstructon//TODO realiser une focntion car bout de code utiliser deux fois
-                                            if (!GlobalCouple.raspberryExist(paquet.getAddress())) {
-                                                Raspberry rpi = new Raspberry(paquet.getAddress());
-                                                int in = GlobalCouple.droneCorrespondant(rpi);
-                                                if (in != -1)//on a trouvé un drone correspondant à la raspberry
-                                                    GlobalCouple.couples.get(in).setRaspberry(rpi);
-                                                else
-                                                    GlobalCouple.couples.add(new Couple(null, rpi));
+                                            try{
+                                                if (Integer.valueOf(val) <= 50) {
+                                                    for (int j = 0; j < GlobalCouple.couples.size(); j++) {
+                                                        if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
+                                                            GlobalCouple.couples.get(j).getBebopDrone().stationnaire();
+                                                        }
+                                                    }
+                                                }
+                                            }catch (NumberFormatException e){
+
                                             }
+
+                                        } else {//sinon reconstructon//TODO realiser une focntion car bout de code utiliser deux fois
+
                                         }
                                     }
                                 }
@@ -129,7 +150,7 @@ public class ServerUDP {
                                 //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples
                                 //et insertion de l'objet dans la liste des couples
                                 if (!GlobalCouple.raspberryExist(paquet.getAddress())) {
-                                    Raspberry rpi = new Raspberry(paquet.getAddress());
+                                    Raspberry rpi = new Raspberry(paquet.getAddress(), paquet.getPort());
                                     int index = GlobalCouple.droneCorrespondant(rpi);
                                     if (index != -1)//on a trouvé un drone correspondant à la raspberry
                                         GlobalCouple.couples.get(index).setRaspberry(rpi);

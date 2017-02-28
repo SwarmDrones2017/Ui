@@ -30,9 +30,11 @@ public class GlobalCouple {
         String tmp;
         boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
-            if (tmp.equals(nameDrone)) {
-                exist = true;
+            if(couples.get(i).getBebopDrone() != null){
+                tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
+                if (tmp.equals(nameDrone)) {
+                    exist = true;
+                }
             }
         }
         return exist;

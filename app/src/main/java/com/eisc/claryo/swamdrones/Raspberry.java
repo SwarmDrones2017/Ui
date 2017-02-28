@@ -16,6 +16,7 @@ public class Raspberry {
     private Cardinal obstacle = new Cardinal();
     private Bundle messageBundle = new Bundle();
     private Handler handlerObstacle;
+    public final static int SEUIL_OBSTACLE_STOP = 50;
 
     public Raspberry(InetAddress address,int port) {
         this.address = address;

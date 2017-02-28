@@ -71,7 +71,15 @@ public class ServerUDP {
                                                 Log.e(TAG, "Capteur nord : " + north);
                                                 if (index != -1){
                                                     try{
-                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(Integer.valueOf(val));
+                                                        int valeur = Integer.valueOf(val);
+                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                            for (int j = 0; j < GlobalCouple.couples.size(); j++) {
+                                                                if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
+                                                                    GlobalCouple.couples.get(j).getBebopDrone().stopMoveForward();
+                                                                }
+                                                            }
+                                                        }
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(valeur);
                                                     } catch (NumberFormatException e){
 
                                                     }
@@ -84,7 +92,15 @@ public class ServerUDP {
                                                 Log.e(TAG, "Capteur ouest : " + west);
                                                 if (index != -1){
                                                     try{
-                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(Integer.valueOf(val));
+                                                        int valeur = Integer.valueOf(val);
+                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                            for (int j = 0; j < GlobalCouple.couples.size(); j++) {
+                                                                if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
+                                                                    GlobalCouple.couples.get(j).getBebopDrone().stopMoveLeft();
+                                                                }
+                                                            }
+                                                        }
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(valeur);
                                                     } catch(NumberFormatException e){
 
                                                     }
@@ -96,7 +112,15 @@ public class ServerUDP {
                                                 Log.e(TAG, "Capteur sud : " + south);
                                                 if (index != -1) {
                                                     try {
-                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(Integer.valueOf(val));
+                                                        int valeur = Integer.valueOf(val);
+                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                            for (int j = 0; j < GlobalCouple.couples.size(); j++) {
+                                                                if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
+                                                                    GlobalCouple.couples.get(j).getBebopDrone().stopMoveBack();
+                                                                }
+                                                            }
+                                                        }
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(valeur);
                                                     }
                                                     catch(NumberFormatException e){
 
@@ -107,17 +131,26 @@ public class ServerUDP {
 
                                             if (capt.equals("e")) {
                                                 est = val;
+
                                                 Log.e(TAG, "Capteur est : " + est);
                                                 if (index != -1) {
                                                     try {
-                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(Integer.valueOf(val));
+                                                        int valeur = Integer.valueOf(val);
+                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                            for (int j = 0; j < GlobalCouple.couples.size(); j++) {
+                                                                if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
+                                                                    GlobalCouple.couples.get(j).getBebopDrone().stopMoveRight();
+                                                                }
+                                                            }
+                                                        }
+                                                        GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(valeur);
                                                     } catch (NumberFormatException e) {
 
                                                     }
                                                 }
 
                                             }
-                                            try{
+                                           /* try{
                                                 if (Integer.valueOf(val) <= 50) {
                                                     for (int j = 0; j < GlobalCouple.couples.size(); j++) {
                                                         if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
@@ -127,7 +160,7 @@ public class ServerUDP {
                                                 }
                                             }catch (NumberFormatException e){
 
-                                            }
+                                            }*/
 
                                         } else {//sinon reconstructon//TODO realiser une focntion car bout de code utiliser deux fois
 

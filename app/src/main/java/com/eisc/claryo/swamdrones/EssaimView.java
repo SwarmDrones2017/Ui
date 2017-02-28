@@ -1,8 +1,10 @@
 package com.eisc.claryo.swamdrones;
 
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,20 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARControllerCodec;
-import com.parrot.arsdk.arcontroller.ARFrame;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -48,8 +44,6 @@ public class EssaimView extends AppCompatActivity {
             D3ProxRedUp, D3ProxOrUp, D3ProxJauUp, D3ProxRedDown, D3ProxOrDown, D3ProxJauDown;
     float density;
     String densite;
-    ToggleButton TglDrone1, TglDrone2, TglDrone3;
-    Button BtnAllDrone;
     LinearLayout LayoutDrone1, LayoutDrone2, LayoutDrone3;
     TextView batteryDrone1txt, batteryDrone2txt, batteryDrone3txt;
     TextView[] TabBatterieDronetxt;
@@ -57,10 +51,13 @@ public class EssaimView extends AppCompatActivity {
     int batteryPercentage;
     ImageView batteryDrone1, batteryDrone2, batteryDrone3;
     AbsoluteLayout Ecran;
+    LinearLayout LayoutToggleBtn;
     LinearLayout LayoutDroneInfo;
+    Button btnAllDrones;
+    private ArrayList<ToggleBtnSelectDrone> lToggleBtnSelectDrone;
 
     private void updateBatterieLevel() {
-        Log.i("updateBattery", "UpdateBatteryView");
+//        Log.i("updateBattery", "UpdateBatteryView");
 
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
@@ -100,14 +97,11 @@ public class EssaimView extends AppCompatActivity {
 
         ImageButton btnRetour = (ImageButton) findViewById(R.id.btnBackSwapView);
         ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettingsSwapView);
-        TglDrone1 = (ToggleButton) findViewById(R.id.TglDrone1);
-        TglDrone2 = (ToggleButton) findViewById(R.id.TglDrone2);
-        TglDrone3 = (ToggleButton) findViewById(R.id.TglDrone3);
-        BtnAllDrone = (Button) findViewById(R.id.BtnAllDrone);
+        btnAllDrones = (Button) findViewById(R.id.BtnAllDrone);
         Ecran = (AbsoluteLayout) findViewById(R.id.Ecran);
         LayoutDroneInfo = (LinearLayout) findViewById(R.id.LayoutDroneInfo);
-
-        Log.i("ContexteEcran", "" + Ecran.getContext());
+        LayoutToggleBtn = (LinearLayout) findViewById(R.id.LayoutToggleButton);
+        //Log.i("ContexteEcran", "" + Ecran.getContext());
 
 //        TabBatterieDrone = new ImageView[3];
 //        TabBatterieDrone[0] = batteryDrone1;
@@ -161,17 +155,11 @@ public class EssaimView extends AppCompatActivity {
 
         //On gère les boutons de selection des drones
 
-        BtnAllDrone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TglDrone1.setChecked(true);
-                TglDrone2.setChecked(true);
-                TglDrone3.setChecked(true);
-            }
-        });
-
         lDroneName = new ArrayList<>(GlobalCouple.couples.size());
         lProxyBars = new ArrayList<>(GlobalCouple.couples.size());
+        lToggleBtnSelectDrone = new ArrayList<>(GlobalCouple.couples.size());
+        int tabColor[] = {Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW};
+        int indexColor = -1;
         Random r = new Random();
 
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
@@ -179,392 +167,38 @@ public class EssaimView extends AppCompatActivity {
                 GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
                 GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
             }
+            indexColor++;
+            if(indexColor > tabColor.length)
+                indexColor=0;
 
-            ProxyBars pb = null;
-            pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+            ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
             MyTouchListener1 myTouchListener1 = new MyTouchListener1();
             myTouchListener1.setDroneName((GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName()));
             pb.Drone.setOnTouchListener(myTouchListener1);
             lProxyBars.add(pb);
             lDroneName.add(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+
+            //création des toggleButton pour choisir le/les drones à piloter
+            ToggleBtnSelectDrone toggleBtnSelectDrone = new ToggleBtnSelectDrone(getApplicationContext(), LayoutToggleBtn, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
+            lToggleBtnSelectDrone.add(toggleBtnSelectDrone);
         }
+        //s'il y a un drone ou +, on affiche le bouton pour sélectionner tous les drones en même temps
+        if(GlobalCouple.couples.size()>0){
+            btnAllDrones.setVisibility(View.VISIBLE);
+        }
+        //Listener du bouton AllDrone
+        btnAllDrones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i=0; i<GlobalCouple.couples.size(); i++){
+                    GlobalCouple.couples.get(i).getBebopDrone().setFlyAuthorization(true);//on autorise tous les drones à voler
+                    lToggleBtnSelectDrone.get(i).tglBtnSetDrone.setChecked(true);//on met tous les toggle button à true
+                }
+            }
+        });
 
         findViewById(R.id.Ecran).setOnDragListener(new MyDragListener());
 
-    }
-
-    protected void proxyBarsView() {
-
-        //Drone 1
-        int D1ProxGauche = 150;
-        int D1ProxDroite = 34;
-        int D1ProxDevant = 150;
-        int D1ProxDerriere = 150;
-        int D1ProxBelow = 150;
-        int D1ProxAbove = 150;
-
-        //Drone 2
-        int D2ProxGauche = 150;
-        int D2ProxDroite = 150;
-        int D2ProxDevant = 74;
-        int D2ProxDerriere = 150;
-        int D2ProxBelow = 150;
-        int D2ProxAbove = 150;
-
-        //Drone 2
-        int D3ProxGauche = 150;
-        int D3ProxDroite = 150;
-        int D3ProxDevant = 150;
-        int D3ProxDerriere = 150;
-        int D3ProxBelow = 150;
-        int D3ProxAbove = 86;
-
-        switch (GlobalCouple.couples.size()) {
-
-            case 3:
-
-                Drone3.setVisibility(View.VISIBLE);
-                TglDrone3.setVisibility(View.VISIBLE);
-                LayoutDrone3.setVisibility(View.VISIBLE);
-
-                if (D3ProxGauche > 100) {
-                    D3ProxJauLeft.setVisibility(View.INVISIBLE);
-                    D3ProxOrLeft.setVisibility(View.INVISIBLE);
-                    D3ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D3ProxGauche <= 100 && D3ProxGauche > 75) {
-                    D3ProxJauLeft.setVisibility(View.VISIBLE);
-                    D3ProxOrLeft.setVisibility(View.INVISIBLE);
-                    D3ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D3ProxGauche <= 75 && D3ProxGauche > 50) {
-                    D3ProxJauLeft.setVisibility(View.VISIBLE);
-                    D3ProxOrLeft.setVisibility(View.VISIBLE);
-                    D3ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D3ProxGauche <= 50) {
-                    D3ProxJauLeft.setVisibility(View.VISIBLE);
-                    D3ProxOrLeft.setVisibility(View.VISIBLE);
-                    D3ProxRedLeft.setVisibility(View.VISIBLE);
-                }
-
-                if (D3ProxDroite > 100) {
-                    D3ProxJauRight.setVisibility(View.INVISIBLE);
-                    D3ProxOrRight.setVisibility(View.INVISIBLE);
-                    D3ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDroite <= 100 && D3ProxDroite > 75) {
-                    D3ProxJauRight.setVisibility(View.VISIBLE);
-                    D3ProxOrRight.setVisibility(View.INVISIBLE);
-                    D3ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDroite <= 75 && D3ProxDroite > 50) {
-                    D3ProxJauRight.setVisibility(View.VISIBLE);
-                    D3ProxOrRight.setVisibility(View.VISIBLE);
-                    D3ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDroite <= 50) {
-                    D3ProxJauRight.setVisibility(View.VISIBLE);
-                    D3ProxOrRight.setVisibility(View.VISIBLE);
-                    D3ProxRedRight.setVisibility(View.VISIBLE);
-                }
-
-                if (D3ProxDevant > 100) {
-                    D3ProxJauTop.setVisibility(View.INVISIBLE);
-                    D3ProxOrTop.setVisibility(View.INVISIBLE);
-                    D3ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDevant <= 100 && D3ProxDevant > 75) {
-                    D3ProxJauTop.setVisibility(View.VISIBLE);
-                    D3ProxOrTop.setVisibility(View.INVISIBLE);
-                    D3ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDevant <= 75 && D3ProxDevant > 50) {
-                    D3ProxJauTop.setVisibility(View.VISIBLE);
-                    D3ProxOrTop.setVisibility(View.VISIBLE);
-                    D3ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDevant <= 50) {
-                    D3ProxJauTop.setVisibility(View.VISIBLE);
-                    D3ProxOrTop.setVisibility(View.VISIBLE);
-                    D3ProxRedTop.setVisibility(View.VISIBLE);
-                }
-
-                if (D3ProxDerriere > 100) {
-                    D3ProxJauBot.setVisibility(View.INVISIBLE);
-                    D3ProxOrBot.setVisibility(View.INVISIBLE);
-                    D3ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDerriere <= 100 && D3ProxDerriere > 75) {
-                    D3ProxJauBot.setVisibility(View.VISIBLE);
-                    D3ProxOrBot.setVisibility(View.INVISIBLE);
-                    D3ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDerriere <= 75 && D3ProxDerriere > 50) {
-                    D3ProxJauBot.setVisibility(View.VISIBLE);
-                    D3ProxOrBot.setVisibility(View.VISIBLE);
-                    D3ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D3ProxDerriere <= 50) {
-                    D3ProxJauBot.setVisibility(View.VISIBLE);
-                    D3ProxOrBot.setVisibility(View.VISIBLE);
-                    D3ProxRedBot.setVisibility(View.VISIBLE);
-                }
-
-                if (D3ProxBelow > 100) {
-                    D3ProxJauDown.setVisibility(View.INVISIBLE);
-                    D3ProxOrDown.setVisibility(View.INVISIBLE);
-                    D3ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D3ProxBelow <= 100 && D3ProxBelow > 75) {
-                    D3ProxJauDown.setVisibility(View.VISIBLE);
-                    D3ProxOrDown.setVisibility(View.INVISIBLE);
-                    D3ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D3ProxBelow <= 75 && D3ProxBelow > 50) {
-                    D3ProxJauDown.setVisibility(View.VISIBLE);
-                    D3ProxOrDown.setVisibility(View.VISIBLE);
-                    D3ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D3ProxBelow <= 50) {
-                    D3ProxJauDown.setVisibility(View.VISIBLE);
-                    D3ProxOrDown.setVisibility(View.VISIBLE);
-                    D3ProxRedDown.setVisibility(View.VISIBLE);
-                }
-
-                if (D3ProxAbove > 100) {
-                    D3ProxJauUp.setVisibility(View.INVISIBLE);
-                    D3ProxOrUp.setVisibility(View.INVISIBLE);
-                    D3ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D3ProxAbove <= 100 && D3ProxAbove > 75) {
-                    D3ProxJauUp.setVisibility(View.VISIBLE);
-                    D3ProxOrUp.setVisibility(View.INVISIBLE);
-                    D3ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D3ProxAbove <= 75 && D3ProxAbove > 50) {
-                    D3ProxJauUp.setVisibility(View.VISIBLE);
-                    D3ProxOrUp.setVisibility(View.VISIBLE);
-                    D3ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D3ProxAbove <= 50) {
-                    D3ProxJauUp.setVisibility(View.VISIBLE);
-                    D3ProxOrUp.setVisibility(View.VISIBLE);
-                    D3ProxRedUp.setVisibility(View.VISIBLE);
-                }
-
-            case 2:
-
-                Drone2.setVisibility(View.VISIBLE);
-                TglDrone1.setVisibility(View.VISIBLE);
-                TglDrone2.setVisibility(View.VISIBLE);
-                LayoutDrone2.setVisibility(View.VISIBLE);
-                BtnAllDrone.setVisibility(View.VISIBLE);
-
-                if (D2ProxGauche > 100) {
-                    D2ProxJauLeft.setVisibility(View.INVISIBLE);
-                    D2ProxOrLeft.setVisibility(View.INVISIBLE);
-                    D2ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D2ProxGauche <= 100 && D2ProxGauche > 75) {
-                    D2ProxJauLeft.setVisibility(View.VISIBLE);
-                    D2ProxOrLeft.setVisibility(View.INVISIBLE);
-                    D2ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D2ProxGauche <= 75 && D2ProxGauche > 50) {
-                    D2ProxJauLeft.setVisibility(View.VISIBLE);
-                    D2ProxOrLeft.setVisibility(View.VISIBLE);
-                    D2ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D2ProxGauche <= 50) {
-                    D2ProxJauLeft.setVisibility(View.VISIBLE);
-                    D2ProxOrLeft.setVisibility(View.VISIBLE);
-                    D2ProxRedLeft.setVisibility(View.VISIBLE);
-                }
-
-                if (D2ProxDroite > 100) {
-                    D2ProxJauRight.setVisibility(View.INVISIBLE);
-                    D2ProxOrRight.setVisibility(View.INVISIBLE);
-                    D2ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDroite <= 100 && D2ProxDroite > 75) {
-                    D2ProxJauRight.setVisibility(View.VISIBLE);
-                    D2ProxOrRight.setVisibility(View.INVISIBLE);
-                    D2ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDroite <= 75 && D2ProxDroite > 50) {
-                    D2ProxJauRight.setVisibility(View.VISIBLE);
-                    D2ProxOrRight.setVisibility(View.VISIBLE);
-                    D2ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDroite <= 50) {
-                    D2ProxJauRight.setVisibility(View.VISIBLE);
-                    D2ProxOrRight.setVisibility(View.VISIBLE);
-                    D2ProxRedRight.setVisibility(View.VISIBLE);
-                }
-
-                if (D2ProxDevant > 100) {
-                    D2ProxJauTop.setVisibility(View.INVISIBLE);
-                    D2ProxOrTop.setVisibility(View.INVISIBLE);
-                    D2ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDevant <= 100 && D2ProxDevant > 75) {
-                    D2ProxJauTop.setVisibility(View.VISIBLE);
-                    D2ProxOrTop.setVisibility(View.INVISIBLE);
-                    D2ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDevant <= 75 && D2ProxDevant > 50) {
-                    D2ProxJauTop.setVisibility(View.VISIBLE);
-                    D2ProxOrTop.setVisibility(View.VISIBLE);
-                    D2ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDevant <= 50) {
-                    D2ProxJauTop.setVisibility(View.VISIBLE);
-                    D2ProxOrTop.setVisibility(View.VISIBLE);
-                    D2ProxRedTop.setVisibility(View.VISIBLE);
-                }
-
-                if (D2ProxDerriere > 100) {
-                    D2ProxJauBot.setVisibility(View.INVISIBLE);
-                    D2ProxOrBot.setVisibility(View.INVISIBLE);
-                    D2ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDerriere <= 100 && D2ProxDerriere > 75) {
-                    D2ProxJauBot.setVisibility(View.VISIBLE);
-                    D2ProxOrBot.setVisibility(View.INVISIBLE);
-                    D2ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDerriere <= 75 && D2ProxDerriere > 50) {
-                    D2ProxJauBot.setVisibility(View.VISIBLE);
-                    D2ProxOrBot.setVisibility(View.VISIBLE);
-                    D2ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D2ProxDerriere <= 50) {
-                    D2ProxJauBot.setVisibility(View.VISIBLE);
-                    D2ProxOrBot.setVisibility(View.VISIBLE);
-                    D2ProxRedBot.setVisibility(View.VISIBLE);
-                }
-
-                if (D2ProxBelow > 100) {
-                    D2ProxJauDown.setVisibility(View.INVISIBLE);
-                    D2ProxOrDown.setVisibility(View.INVISIBLE);
-                    D2ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D2ProxBelow <= 100 && D2ProxBelow > 75) {
-                    D2ProxJauDown.setVisibility(View.VISIBLE);
-                    D2ProxOrDown.setVisibility(View.INVISIBLE);
-                    D2ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D2ProxBelow <= 75 && D2ProxBelow > 50) {
-                    D2ProxJauDown.setVisibility(View.VISIBLE);
-                    D2ProxOrDown.setVisibility(View.VISIBLE);
-                    D2ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D2ProxBelow <= 50) {
-                    D2ProxJauDown.setVisibility(View.VISIBLE);
-                    D2ProxOrDown.setVisibility(View.VISIBLE);
-                    D2ProxRedDown.setVisibility(View.VISIBLE);
-                }
-
-                if (D2ProxAbove > 100) {
-                    D2ProxJauUp.setVisibility(View.INVISIBLE);
-                    D2ProxOrUp.setVisibility(View.INVISIBLE);
-                    D2ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D2ProxAbove <= 100 && D2ProxAbove > 75) {
-                    D2ProxJauUp.setVisibility(View.VISIBLE);
-                    D2ProxOrUp.setVisibility(View.INVISIBLE);
-                    D2ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D2ProxAbove <= 75 && D2ProxAbove > 50) {
-                    D2ProxJauUp.setVisibility(View.VISIBLE);
-                    D2ProxOrUp.setVisibility(View.VISIBLE);
-                    D2ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D2ProxAbove <= 50) {
-                    D2ProxJauUp.setVisibility(View.VISIBLE);
-                    D2ProxOrUp.setVisibility(View.VISIBLE);
-                    D2ProxRedUp.setVisibility(View.VISIBLE);
-                }
-
-            case 1:
-
-                Drone1.setVisibility(View.VISIBLE);
-                LayoutDrone1.setVisibility(View.VISIBLE);
-
-                if (D1ProxGauche > 100) {
-                    D1ProxJauLeft.setVisibility(View.INVISIBLE);
-                    D1ProxOrLeft.setVisibility(View.INVISIBLE);
-                    D1ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D1ProxGauche <= 100 && D1ProxGauche > 75) {
-                    D1ProxJauLeft.setVisibility(View.VISIBLE);
-                    D1ProxOrLeft.setVisibility(View.INVISIBLE);
-                    D1ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D1ProxGauche <= 75 && D1ProxGauche > 50) {
-                    D1ProxJauLeft.setVisibility(View.VISIBLE);
-                    D1ProxOrLeft.setVisibility(View.VISIBLE);
-                    D1ProxRedLeft.setVisibility(View.INVISIBLE);
-                } else if (D1ProxGauche <= 50) {
-                    D1ProxJauLeft.setVisibility(View.VISIBLE);
-                    D1ProxOrLeft.setVisibility(View.VISIBLE);
-                    D1ProxRedLeft.setVisibility(View.VISIBLE);
-                }
-
-                if (D1ProxDroite > 100) {
-                    D1ProxJauRight.setVisibility(View.INVISIBLE);
-                    D1ProxOrRight.setVisibility(View.INVISIBLE);
-                    D1ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDroite <= 100 && D1ProxDroite > 75) {
-                    D1ProxJauRight.setVisibility(View.VISIBLE);
-                    D1ProxOrRight.setVisibility(View.INVISIBLE);
-                    D1ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDroite <= 75 && D1ProxDroite > 50) {
-                    D1ProxJauRight.setVisibility(View.VISIBLE);
-                    D1ProxOrRight.setVisibility(View.VISIBLE);
-                    D1ProxRedRight.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDroite <= 50) {
-                    D1ProxJauRight.setVisibility(View.VISIBLE);
-                    D1ProxOrRight.setVisibility(View.VISIBLE);
-                    D1ProxRedRight.setVisibility(View.VISIBLE);
-                }
-
-                if (D1ProxDevant > 100) {
-                    D1ProxJauTop.setVisibility(View.INVISIBLE);
-                    D1ProxOrTop.setVisibility(View.INVISIBLE);
-                    D1ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDevant <= 100 && D1ProxDevant > 75) {
-                    D1ProxJauTop.setVisibility(View.VISIBLE);
-                    D1ProxOrTop.setVisibility(View.INVISIBLE);
-                    D1ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDevant <= 75 && D1ProxDevant > 50) {
-                    D1ProxJauTop.setVisibility(View.VISIBLE);
-                    D1ProxOrTop.setVisibility(View.VISIBLE);
-                    D1ProxRedTop.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDevant <= 50) {
-                    D1ProxJauTop.setVisibility(View.VISIBLE);
-                    D1ProxOrTop.setVisibility(View.VISIBLE);
-                    D1ProxRedTop.setVisibility(View.VISIBLE);
-                }
-
-                if (D1ProxDerriere > 100) {
-                    D1ProxJauBot.setVisibility(View.INVISIBLE);
-                    D1ProxOrBot.setVisibility(View.INVISIBLE);
-                    D1ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDerriere <= 100 && D1ProxDerriere > 75) {
-                    D1ProxJauBot.setVisibility(View.VISIBLE);
-                    D1ProxOrBot.setVisibility(View.INVISIBLE);
-                    D1ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDerriere <= 75 && D1ProxDerriere > 50) {
-                    D1ProxJauBot.setVisibility(View.VISIBLE);
-                    D1ProxOrBot.setVisibility(View.VISIBLE);
-                    D1ProxRedBot.setVisibility(View.INVISIBLE);
-                } else if (D1ProxDerriere <= 50) {
-                    D1ProxJauBot.setVisibility(View.VISIBLE);
-                    D1ProxOrBot.setVisibility(View.VISIBLE);
-                    D1ProxRedBot.setVisibility(View.VISIBLE);
-                }
-
-                if (D1ProxBelow > 100) {
-                    D1ProxJauDown.setVisibility(View.INVISIBLE);
-                    D1ProxOrDown.setVisibility(View.INVISIBLE);
-                    D1ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D1ProxBelow <= 100 && D1ProxBelow > 75) {
-                    D1ProxJauDown.setVisibility(View.VISIBLE);
-                    D1ProxOrDown.setVisibility(View.INVISIBLE);
-                    D1ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D1ProxBelow <= 75 && D1ProxBelow > 50) {
-                    D1ProxJauDown.setVisibility(View.VISIBLE);
-                    D1ProxOrDown.setVisibility(View.VISIBLE);
-                    D1ProxRedDown.setVisibility(View.INVISIBLE);
-                } else if (D1ProxBelow <= 50) {
-                    D1ProxJauDown.setVisibility(View.VISIBLE);
-                    D1ProxOrDown.setVisibility(View.VISIBLE);
-                    D1ProxRedDown.setVisibility(View.VISIBLE);
-                }
-
-                if (D1ProxAbove > 100) {
-                    D1ProxJauUp.setVisibility(View.INVISIBLE);
-                    D1ProxOrUp.setVisibility(View.INVISIBLE);
-                    D1ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D1ProxAbove <= 100 && D1ProxAbove > 75) {
-                    D1ProxJauUp.setVisibility(View.VISIBLE);
-                    D1ProxOrUp.setVisibility(View.INVISIBLE);
-                    D1ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D1ProxAbove <= 75 && D1ProxAbove > 50) {
-                    D1ProxJauUp.setVisibility(View.VISIBLE);
-                    D1ProxOrUp.setVisibility(View.VISIBLE);
-                    D1ProxRedUp.setVisibility(View.INVISIBLE);
-                } else if (D1ProxAbove <= 50) {
-                    D1ProxJauUp.setVisibility(View.VISIBLE);
-                    D1ProxOrUp.setVisibility(View.VISIBLE);
-                    D1ProxRedUp.setVisibility(View.VISIBLE);
-                }
-                break;
-        }
     }
 
     private final class MyTouchListener1 implements View.OnTouchListener {
@@ -612,7 +246,8 @@ public class EssaimView extends AppCompatActivity {
                     // Dropped, reassign View to ViewGroup
                     float x = event.getX();
                     float y = event.getY();
-
+                    int imgDroneWidth = lProxyBars.get(0).Drone.getWidth(); //c'est pour les dimensions de l'image, mais ce sont les mêmes images tout le temps;
+                    int imgDroneHeight = lProxyBars.get(0).Drone.getHeight();
                     View view = (View) event.getLocalState();
                     ViewGroup owner = (ViewGroup) view.getParent();
                     owner.removeView(view);
@@ -623,53 +258,53 @@ public class EssaimView extends AppCompatActivity {
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                         if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName())) {
 
-                            lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxJauDown.setY(y + 65 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxOrDown.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxOrDown.setY(y + 55 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxRedDown.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxRedDown.setY(y + 45 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxJauDown.setY(y + 65 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxOrDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxOrDown.setY(y + 55 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxRedDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxRedDown.setY(y + 45 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).Drone.setX(x - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).Drone.setY(y - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).Drone.setX(x - imgDroneWidth / 2);
+                            lProxyBars.get(i).Drone.setY(y - imgDroneHeight / 2);
 
                             GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(lProxyBars.get(i).Drone.getX());
                             GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(lProxyBars.get(i).Drone.getY());
 
-                            lProxyBars.get(i).ProxJauLeft.setX(x - 30 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxJauLeft.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxOrLeft.setX(x - 20 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxOrLeft.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxRedLeft.setX(x - 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxRedLeft.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxJauLeft.setX(x - 30 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxJauLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxOrLeft.setX(x - 20 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxOrLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxRedLeft.setX(x - 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxRedLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauRight.setX(x + 121 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxJauRight.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxOrRight.setX(x + 111 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxOrRight.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxRedRight.setX(x + 101 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxRedRight.setY(y + 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxJauRight.setX(x + 121 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxJauRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxOrRight.setX(x + 111 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxOrRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxRedRight.setX(x + 101 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxRedRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauTop.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxJauTop.setY(y - 30 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxOrTop.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxOrTop.setY(y - 20 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxRedTop.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxRedTop.setY(y - 10 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxJauTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxJauTop.setY(y - 30 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxOrTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxOrTop.setY(y - 20 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxRedTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxRedTop.setY(y - 10 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauBot.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxJauBot.setY(y + 121 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxOrBot.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxOrBot.setY(y + 111 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxRedBot.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxRedBot.setY(y + 101 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxJauBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxJauBot.setY(y + 121 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxOrBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxOrBot.setY(y + 111 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxRedBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxRedBot.setY(y + 101 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauUp.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxJauUp.setY(y - 5 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxOrUp.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxOrUp.setY(y + 5 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
-                            lProxyBars.get(i).ProxRedUp.setX(x + 10 * density / 2 - lProxyBars.get(i).Drone.getWidth() / 2);
-                            lProxyBars.get(i).ProxRedUp.setY(y + 15 * density / 2 - lProxyBars.get(i).Drone.getHeight() / 2);
+                            lProxyBars.get(i).ProxJauUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxJauUp.setY(y - 5 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxOrUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxOrUp.setY(y + 5 * density / 2 - imgDroneHeight / 2);
+                            lProxyBars.get(i).ProxRedUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                            lProxyBars.get(i).ProxRedUp.setY(y + 15 * density / 2 - imgDroneHeight / 2);
                         }
                     }
                     break;
@@ -694,6 +329,7 @@ class ProxyBars extends AppCompatActivity {
             ProxOrBot, ProxRedBot, ProxJauUp, ProxOrUp, ProxRedUp, ProxJauDown, ProxOrDown, ProxRedDown;
     int indexDrone;
     int north = 151, south = 151, east = 151, west = 151, above = 151;
+    int indexColor;
 
     private Handler handlerObstacle = new Handler() {
         @Override
@@ -707,13 +343,19 @@ class ProxyBars extends AppCompatActivity {
         }
     };
 
-    public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName) {
+    public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName, int indexColor) {
         this.context = context;
         this.density = density;
-        Ecran = ecran;
+        this.indexColor = indexColor;
+        this.Ecran = ecran;
 
         indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
-//        GlobalCouple.couples.get(indexDrone).getRaspberry().setHandlerObstacle(handlerObstacle);
+        if (GlobalCouple.couples.get(indexDrone).getRaspberry() == null) {
+            Toast.makeText(context, "Raspberry Pi non trouvée", Toast.LENGTH_LONG);
+        } else {
+            GlobalCouple.couples.get(indexDrone).getRaspberry().setHandlerObstacle(handlerObstacle);
+        }
+
         PlageX = GlobalCouple.couples.get(indexDrone).getBebopDrone().getxEssaimView();
         PlageY = GlobalCouple.couples.get(indexDrone).getBebopDrone().getyEssaimView();
 
@@ -727,6 +369,7 @@ class ProxyBars extends AppCompatActivity {
         Drone.setX(PlageX);
         Drone.setY(PlageY);
         Drone.setImageResource(R.drawable.drone512);
+        Drone.setColorFilter(indexColor);
         float Xdrone = Drone.getX();
         float Ydrone = Drone.getY();
 
@@ -846,13 +489,13 @@ class ProxyBars extends AppCompatActivity {
         Ecran.addView(ProxOrUp);
         Ecran.addView(ProxRedUp);
 
-        Log.i("ContexteD", "" + Drone.getContext());
-        Log.i("ContexteE", "" + Ecran.getContext());
+//        Log.i("ContexteD", "" + Drone.getContext());
+//        Log.i("ContexteE", "" + Ecran.getContext());
 
     }
 
     public void hideAndShowBars() {
-        Drone.setVisibility(View.VISIBLE);
+//        Drone.setVisibility(View.VISIBLE);
 
         if (west > 100) {
             ProxJauLeft.setVisibility(View.INVISIBLE);
@@ -969,4 +612,36 @@ class EssaimViewInfoDrone extends AppCompatActivity {
 
     }
 
+}
+@TargetApi(21)
+class ToggleBtnSelectDrone extends AppCompatActivity {
+    ToggleButton tglBtnSetDrone;
+
+    public ToggleBtnSelectDrone(Context context, LinearLayout TglLayout, final String droneName, final int indexColor) {
+        tglBtnSetDrone = new ToggleButton(context);
+        tglBtnSetDrone.setChecked(true);
+        tglBtnSetDrone.setText(droneName);
+        tglBtnSetDrone.setTextOff(droneName);
+        tglBtnSetDrone.setTextOn(droneName);
+        tglBtnSetDrone.setBackgroundTintList(ColorStateList.valueOf(indexColor));
+
+        TglLayout.addView(tglBtnSetDrone);
+
+        tglBtnSetDrone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int droneSelected = GlobalCouple.droneNameCorrespondant(droneName);
+
+                if (isChecked) {
+                    tglBtnSetDrone.setBackgroundTintList(ColorStateList.valueOf(indexColor));
+                    GlobalCouple.couples.get(droneSelected).getBebopDrone().setFlyAuthorization(true);
+                    Log.i("flyAuthorization", "Drone : " + droneName + " fly : " + GlobalCouple.couples.get(droneSelected).getBebopDrone().isFlyAuthorization());
+                } else {
+                    buttonView.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+                    GlobalCouple.couples.get(droneSelected).getBebopDrone().setFlyAuthorization(false);
+                    Log.i("flyAuthorization", "Drone : " + droneName + " fly : " + GlobalCouple.couples.get(droneSelected).getBebopDrone().isFlyAuthorization());
+                }
+            }
+        });
+    }
 }

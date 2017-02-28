@@ -383,6 +383,18 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/LayoutToggleButton">
+
+    </LinearLayout>
+
     <AbsoluteLayout
         android:id="@+id/Ecran"
         android:layout_width="match_parent"

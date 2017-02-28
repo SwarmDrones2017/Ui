@@ -518,53 +518,57 @@ public class BebopDrone implements ARDeviceControllerStreamListener {
 
     public void startMoveLeft() {
         if (isFlyAuthorization()) {
-            setYaw((byte) -50);
-        }
-    }
-
-    public void stopMoveLeft() {
-        if (isFlyAuthorization()) {
-            setYaw((byte) 0);
-        }
-    }
-
-    public void startMoveRight() {
-        if (isFlyAuthorization()) {
-            setYaw((byte) 50);
-        }
-    }
-
-    public void stopMoveRight() {
-        if (isFlyAuthorization()) {
-            setYaw((byte) 0);
-        }
-    }
-
-    public void startTurnLeft() {
-        if (isFlyAuthorization()) {
             setRoll((byte) -50);
             setFlag((byte) 1);
         }
     }
 
-    public void stopTurnLeft() {
+    public void stopMoveLeft() {
         if (isFlyAuthorization()) {
             setRoll((byte) 0);
             setFlag((byte) 0);
         }
     }
 
-    public void startTurnRight() {
+    public void startMoveRight() {
         if (isFlyAuthorization()) {
             setRoll((byte) 50);
             setFlag((byte) 1);
         }
     }
 
-    public void stopTurnRight() {
+    public void stopMoveRight() {
         if (isFlyAuthorization()) {
             setRoll((byte) 0);
             setFlag((byte) 0);
+        }
+    }
+
+    public void startTurnLeft() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) -50);
+        }
+    }
+
+    public void stopTurnLeft() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) 0);
+        }
+    }
+
+    public void startTurnRight() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) 50);
+        }
+    }
+
+    public void stopTurnRight() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) 0);
         }
     }
 

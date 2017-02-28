@@ -58,43 +58,44 @@ public class Control extends AppCompatActivity {
 
             if(north > 0){
                 if(north <= 50){
-                    btn_forward.setClickable(false);
+                    btn_forward.setEnabled(false);
+
                     //btn_forward.setBackgroundColor(Color.RED);
                     btn_forward.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
-                    btn_forward.setClickable(true);
+                    btn_forward.setEnabled(true);
                     btn_forward.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
-            else if (south > 0){
+            if (south > 0){
                 if(south <= 50){
-                    btn_back.setClickable(false);
+                    btn_back.setEnabled(false);
                     btn_back.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
-                    btn_back.setClickable(true);
+                    btn_back.setEnabled(true);
                     btn_back.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
-            else if(west > 0){
+            if(west > 0){
                 if(west <= 50){
-                    btn_yaw_left.setClickable(false);
-                    btn_yaw_left.setColorFilter(Color.argb(255,255,255,255));
+                    btn_roll_left.setEnabled(false);
+                    btn_roll_left.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
-                    btn_yaw_left.setClickable(true);
-                    btn_yaw_left.setColorFilter(Color.argb(0,0,0,0));
+                    btn_roll_left.setEnabled(true);
+                    btn_roll_left.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
-            else if(est > 0){
+            if(est > 0){
                 if(est <= 50){
-                    btn_yaw_right.setClickable(false);
-                    btn_yaw_right.setColorFilter(Color.argb(255,255,255,255));
+                    btn_roll_right.setEnabled(false);
+                    btn_roll_right.setColorFilter(Color.argb(255,255,255,255));
                 }
                 else{
-                    btn_yaw_right.setClickable(true);
-                    btn_yaw_right.setColorFilter(Color.argb(0,0,0,0));
+                    btn_roll_right.setEnabled(true);
+                    btn_roll_right.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
         }
@@ -300,67 +301,6 @@ public class Control extends AppCompatActivity {
                         v.setPressed(true);
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                             if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                                GlobalCouple.couples.get(i).getBebopDrone().startTurnLeft();
-                            }
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                                GlobalCouple.couples.get(i).getBebopDrone().stopTurnLeft();
-                            }
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
-            }
-        });
-
-        btn_roll_right.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                                GlobalCouple.couples.get(i).getBebopDrone().startTurnRight();
-                            }
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                                GlobalCouple.couples.get(i).getBebopDrone().stopTurnRight();
-                            }
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
-            }
-        });
-        btn_yaw_left.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
                                 GlobalCouple.couples.get(i).getBebopDrone().startMoveLeft();
                             }
                         }
@@ -383,7 +323,8 @@ public class Control extends AppCompatActivity {
                 return true;
             }
         });
-        btn_yaw_right.setOnTouchListener(new View.OnTouchListener() {
+
+        btn_roll_right.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -401,6 +342,66 @@ public class Control extends AppCompatActivity {
                         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
                             if(GlobalCouple.couples.get(i).getBebopDrone() != null){
                                 GlobalCouple.couples.get(i).getBebopDrone().stopMoveRight();
+                            }
+                        }
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                return true;
+            }
+        });
+        btn_yaw_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setPressed(true);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startTurnLeft();
+                            }
+                        }
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        v.setPressed(false);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopTurnLeft();
+                            }
+                        }
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                return true;
+            }
+        });
+        btn_yaw_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setPressed(true);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().startTurnRight();
+                            }
+                        }
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        v.setPressed(false);
+                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                                GlobalCouple.couples.get(i).getBebopDrone().stopTurnRight();
                             }
                         }
                         break;

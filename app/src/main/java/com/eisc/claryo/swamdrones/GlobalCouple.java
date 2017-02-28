@@ -93,8 +93,10 @@ public class GlobalCouple {
     static public int whoIsMaster(){
 
         for (int i = 0;i < GlobalCouple.couples.size();i++){
-            if(GlobalCouple.couples.get(i).getBebopDrone().isMaster() == true){
-                return i;
+            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                if(GlobalCouple.couples.get(i).getBebopDrone().isMaster() == true){
+                    return i;
+                }
             }
         }
         return -1;

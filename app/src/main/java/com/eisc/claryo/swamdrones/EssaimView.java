@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,6 +39,7 @@ import java.util.Random;
 public class EssaimView extends AppCompatActivity {
     ArrayList<String> lDroneName;
     ArrayList<ProxyBars> lProxyBars;
+    ArrayList<EssaimViewInfoDrone> lEssaimViewInfoDrone;
     ImageView Drone1, D1ProxRedBot, D1ProxOrBot, D1ProxJauBot, D1ProxRedTop, D1ProxOrTop, D1ProxJauTop, D1ProxRedRight, D1ProxOrRight, D1ProxJauRight, D1ProxRedLeft, D1ProxOrLeft, D1ProxJauLeft,
             D1ProxRedUp, D1ProxOrUp, D1ProxJauUp, D1ProxRedDown, D1ProxOrDown, D1ProxJauDown;
     ImageView Drone2, D2ProxRedBot, D2ProxOrBot, D2ProxJauBot, D2ProxRedTop, D2ProxOrTop, D2ProxJauTop, D2ProxRedRight, D2ProxOrRight, D2ProxJauRight, D2ProxRedLeft, D2ProxOrLeft, D2ProxJauLeft,
@@ -48,43 +51,8 @@ public class EssaimView extends AppCompatActivity {
     ToggleButton TglDrone1, TglDrone2, TglDrone3;
     Button BtnAllDrone;
     LinearLayout LayoutDrone1, LayoutDrone2, LayoutDrone3;
-    TextView batteryDrone1txt, batteryDrone2txt, batteryDrone3txt;
-    TextView[] TabBatterieDronetxt;
-    ImageView[] TabBatterieDrone;
-    int batteryPercentage;
-    ImageView batteryDrone1, batteryDrone2, batteryDrone3;
     AbsoluteLayout Ecran;
     LinearLayout LayoutDroneInfo;
-
-    private void updateBatterieLevel() {
-        Log.i("updateBattery", "UpdateBatteryView");
-
-        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
-
-            if (batteryPercentage > 97)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_full_24dp);
-            else if (batteryPercentage > 90)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_90_24dp);
-            else if (batteryPercentage > 80)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_80_24dp);
-            else if (batteryPercentage > 60)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_60_24dp);
-            else if (batteryPercentage > 50)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_50_24dp);
-            else if (batteryPercentage > 30)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_30_24dp);
-            else if (batteryPercentage > 20)
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_20_24dp);
-            else
-                TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
-
-
-            TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage) + " %");
-
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,16 +74,6 @@ public class EssaimView extends AppCompatActivity {
 
         Log.i("ContexteEcran", "" + Ecran.getContext());
 
-//        TabBatterieDrone = new ImageView[3];
-//        TabBatterieDrone[0] = batteryDrone1;
-//        TabBatterieDrone[1] = batteryDrone2;
-//        TabBatterieDrone[2] = batteryDrone3;
-
-//        TabBatterieDronetxt = new TextView[3];
-//        TabBatterieDronetxt[0] = batteryDrone1txt;
-//        TabBatterieDronetxt[1] = batteryDrone2txt;
-//        TabBatterieDronetxt[2] = batteryDrone3txt;
-
         density = getResources().getDisplayMetrics().density;
         densite = Float.toString(density);
 
@@ -125,14 +83,6 @@ public class EssaimView extends AppCompatActivity {
         // return 2.0 if it's XHDPI
         // return 3.0 if it's XXHDPI
         // return 4.0 if it's XXXHDPI
-
-        //On gère l'affichage de la batterie des drones
-
-//        updateBatterieLevel();
-
-        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerBattery);
-        }
 
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +121,7 @@ public class EssaimView extends AppCompatActivity {
             }
         });
 
+        lEssaimViewInfoDrone = new ArrayList<>(GlobalCouple.couples.size());
         lDroneName = new ArrayList<>(GlobalCouple.couples.size());
         lProxyBars = new ArrayList<>(GlobalCouple.couples.size());
         Random r = new Random();
@@ -180,6 +131,8 @@ public class EssaimView extends AppCompatActivity {
                 GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
                 GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
             }
+            EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+            lEssaimViewInfoDrone.add(essaimViewInfoDrone);
 
             ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
             MyTouchListener1 myTouchListener1 = new MyTouchListener1();
@@ -192,78 +145,6 @@ public class EssaimView extends AppCompatActivity {
         findViewById(R.id.Ecran).setOnDragListener(new MyDragListener());
 
     }
-
-    private final BebopDrone.Listener mBebopListenerBattery = new BebopDrone.Listener() {
-        @Override
-        public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
-
-        }
-
-        @Override
-        public void onBatteryChargeChanged(int batteryPercentage) {
-            Log.i("updateBattery", "UpdateBatteryView");
-
-            for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
-
-                if (batteryPercentage > 97)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_full_24dp);
-                else if (batteryPercentage > 90)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_90_24dp);
-                else if (batteryPercentage > 80)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_80_24dp);
-                else if (batteryPercentage > 60)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_60_24dp);
-                else if (batteryPercentage > 50)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_50_24dp);
-                else if (batteryPercentage > 30)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_30_24dp);
-                else if (batteryPercentage > 20)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_20_24dp);
-                else
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
-
-
-                TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage) + " %");
-
-            }
-        }
-
-        @Override
-        public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
-
-        }
-
-        @Override
-        public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
-
-        }
-
-        @Override
-        public void configureDecoder(ARControllerCodec codec) {
-
-        }
-
-        @Override
-        public void onFrameReceived(ARFrame frame) {
-
-        }
-
-        @Override
-        public void onMatchingMediasFound(int nbMedias) {
-
-        }
-
-        @Override
-        public void onDownloadProgressed(String mediaName, int progress) {
-
-        }
-
-        @Override
-        public void onDownloadComplete(String mediaName) {
-
-        }
-    };
 
     protected void proxyBarsView() {
 
@@ -911,41 +792,174 @@ class ProxyBars extends AppCompatActivity {
 class EssaimViewInfoDrone extends AppCompatActivity{
 
     Context context;
-    LinearLayout LayoutDroneInfo, LayoutDroneVertical;
+    LinearLayout LayoutDroneInfo, LayoutDroneVertical, LayoutDroneVitesse, LayoutDroneAltitude, LayoutDroneBatterie;
     TextView NomDrone, MaxSpeed, Altitude, Battery;
     ImageView MaxSpeedImg, AltitudeImg, BatteryImg;
-    int indexDrone;
+    int indexDrone, batteryPercentage;
+    double AltitudeDrone;
+    BebopDrone.Listener mBebopDroneListener;
+    DecimalFormat df;
 
     public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName){
         this.context = context;
         LayoutDroneInfo = layoutdroneinfo;
-
         indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
+
+        displayInfos();
+
+        mBebopDroneListener = new BebopDrone.Listener() {
+            @Override
+            public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
+
+            }
+
+            @Override
+            public void onBatteryChargeChanged(int batteryPercentage) {
+                batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
+
+                if (batteryPercentage > 97)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_full_24dp);
+                else if (batteryPercentage > 90)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_90_24dp);
+                else if (batteryPercentage > 80)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_80_24dp);
+                else if (batteryPercentage > 60)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_60_24dp);
+                else if (batteryPercentage > 50)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_50_24dp);
+                else if (batteryPercentage > 30)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_30_24dp);
+                else if (batteryPercentage > 20)
+                    BatteryImg.setImageResource(R.drawable.ic_battery_20_24dp);
+                else
+                    BatteryImg.setImageResource(R.drawable.ic_battery_alert_24dp);
+
+                Battery.setText(Integer.toString(batteryPercentage) + " %");
+            }
+
+            @Override
+            public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
+
+            }
+
+            @Override
+            public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
+
+            }
+
+            @Override
+            public void configureDecoder(ARControllerCodec codec) {
+
+            }
+
+            @Override
+            public void onFrameReceived(ARFrame frame) {
+
+            }
+
+            @Override
+            public void onMatchingMediasFound(int nbMedias) {
+
+            }
+
+            @Override
+            public void onDownloadProgressed(String mediaName, int progress) {
+
+            }
+
+            @Override
+            public void onDownloadComplete(String mediaName) {
+
+            }
+        };
+        GlobalCouple.couples.get(indexDrone).getBebopDrone().addListener(mBebopDroneListener);
     }
 
     public void displayInfos(){
 
+        df = new DecimalFormat("0.0");
+
         LayoutDroneVertical = new LinearLayout(context);
         LayoutDroneVertical.setOrientation(LinearLayout.VERTICAL);
 
+        LayoutDroneVitesse = new LinearLayout(context);
+        LayoutDroneVitesse.setOrientation(LinearLayout.HORIZONTAL);
+
+        LayoutDroneAltitude = new LinearLayout(context);
+        LayoutDroneAltitude.setOrientation(LinearLayout.HORIZONTAL);
+
+        LayoutDroneBatterie = new LinearLayout(context);
+        LayoutDroneBatterie.setOrientation(LinearLayout.HORIZONTAL);
+
         NomDrone = new TextView(context);
         NomDrone.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName());
+        NomDrone.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        NomDrone.setTextColor(Color.BLACK);
+        NomDrone.setGravity(Gravity.CENTER);
 
         MaxSpeedImg = new ImageView(context);
         MaxSpeedImg.setImageResource(R.drawable.ic_speed);
 
         MaxSpeed = new TextView(context);
-        //MaxSpeed.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone());
+        MaxSpeed.setText(df.format(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getSpeedtilt()) + "\n°/s");
+        MaxSpeed.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        MaxSpeed.setTextColor(Color.BLACK);
+        MaxSpeed.setGravity(Gravity.CENTER);
 
         AltitudeImg = new ImageView(context);
         AltitudeImg.setImageResource(R.drawable.ic_height);
 
         Altitude = new TextView(context);
 
+        AltitudeDrone = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getAltitude();
+        Altitude.setText(df.format(AltitudeDrone) + " m");
+        Altitude.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        Altitude.setTextColor(Color.BLACK);
+        Altitude.setGravity(Gravity.CENTER);
+
         BatteryImg = new ImageView(context);
+
+        batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
+
+        if (batteryPercentage > 97)
+            BatteryImg.setImageResource(R.drawable.ic_battery_full_24dp);
+        else if (batteryPercentage > 90)
+            BatteryImg.setImageResource(R.drawable.ic_battery_90_24dp);
+        else if (batteryPercentage > 80)
+            BatteryImg.setImageResource(R.drawable.ic_battery_80_24dp);
+        else if (batteryPercentage > 60)
+            BatteryImg.setImageResource(R.drawable.ic_battery_60_24dp);
+        else if (batteryPercentage > 50)
+            BatteryImg.setImageResource(R.drawable.ic_battery_50_24dp);
+        else if (batteryPercentage > 30)
+            BatteryImg.setImageResource(R.drawable.ic_battery_30_24dp);
+        else if (batteryPercentage > 20)
+            BatteryImg.setImageResource(R.drawable.ic_battery_20_24dp);
+        else
+            BatteryImg.setImageResource(R.drawable.ic_battery_alert_24dp);
 
         Battery = new TextView(context);
 
+        Battery.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        Battery.setText(Integer.toString(batteryPercentage) + " %");
+        Battery.setTextColor(Color.BLACK);
+        Battery.setGravity(Gravity.CENTER);
+
+        LayoutDroneInfo.addView(LayoutDroneVertical);
+
+        LayoutDroneVertical.addView(NomDrone);
+        LayoutDroneVertical.addView(LayoutDroneVitesse);
+        LayoutDroneVertical.addView(LayoutDroneAltitude);
+        LayoutDroneVertical.addView(LayoutDroneBatterie);
+
+        LayoutDroneVitesse.addView(MaxSpeedImg);
+        LayoutDroneVitesse.addView(MaxSpeed);
+
+        LayoutDroneAltitude.addView(AltitudeImg);
+        LayoutDroneAltitude.addView(Altitude);
+
+        LayoutDroneBatterie.addView(BatteryImg);
+        LayoutDroneBatterie.addView(Battery);
     }
 
 }

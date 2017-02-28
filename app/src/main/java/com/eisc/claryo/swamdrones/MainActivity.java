@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<Couple>();
-            new ServerUDP(getApplicationContext());
+            //new ServerUDP(getApplicationContext());
         }
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);

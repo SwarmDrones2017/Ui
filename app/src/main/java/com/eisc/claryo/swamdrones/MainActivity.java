@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         if (listDrone != null) {
             if (listDrone[0].equals(MSG_ANY_DRONES)) {
                 textViewNbDrones.setText(MSG_ANY_DRONES);
+                textViewDrones.setText("drone");
                 list.setVisibility(View.INVISIBLE);
                 btnFly.setVisibility(View.INVISIBLE);
             } else {
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
                 list.setVisibility(View.VISIBLE);
                 btnFly.setVisibility(View.VISIBLE);
             }
+            if (listDrone.length == 1)
+                textViewDrones.setText("drone");
+            else if (listDrone.length > 1)
+                textViewDrones.setText("drones");
 
         }
     }
@@ -72,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnABout = (Button) findViewById(R.id.btnAbout);
         Button btnNotice = (Button) findViewById(R.id.btnNotice);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
-        btnRefresh = (ImageButton) findViewById(R.id.BtnMainActivityRefresh);
+        textViewDrones = (TextView) findViewById(R.id.textViewDrones);
+        btnRefresh = (ImageButton) findViewById(R.id.btnMainActivityRefresh);
 
         ShowDroneList();
 

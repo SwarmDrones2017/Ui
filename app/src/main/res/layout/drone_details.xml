@@ -20,9 +20,9 @@
         app:srcCompat="@drawable/drone_shape"
         android:id="@+id/imageViewDroneShape"
         android:layout_centerHorizontal="true"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_above="@+id/textViewBattery" />
+        android:layout_above="@+id/textViewBattery"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
     <ImageButton
         app:srcCompat="@drawable/ic_back_btn"

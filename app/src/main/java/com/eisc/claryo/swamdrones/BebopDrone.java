@@ -66,6 +66,23 @@ public class BebopDrone {
     public void setBebopVideoView(BebopVideoView bebopVideoView) {
         this.bebopVideoView = bebopVideoView;
     }
+    private float xEssaimView = -1, yEssaimView = -1;
+
+    public float getxEssaimView() {
+        return xEssaimView;
+    }
+
+    public void setxEssaimView(float xEssaimView) {
+        this.xEssaimView = xEssaimView;
+    }
+
+    public float getyEssaimView() {
+        return yEssaimView;
+    }
+
+    public void setyEssaimView(float yEssaimView) {
+        this.yEssaimView = yEssaimView;
+    }
 
     public boolean isMaster() {
         return isMaster;
@@ -447,6 +464,7 @@ public class BebopDrone {
             listener.configureDecoder(codec);
         }
     }
+
     private void notifyFrameReceived(ARFrame frame) {
         List<Listener> listenersCpy = new ArrayList<>(mListeners);
         for (Listener listener : listenersCpy) {
@@ -509,9 +527,9 @@ public class BebopDrone {
 
 
         @Override
-        public void onCommandReceived(ARDeviceController deviceController, ARCONTROLLER_DICTIONARY_KEY_ENUM commandKey, ARControllerDictionary elementDictionary) {
-            // if event received is the battery update
-            if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED) && (elementDictionary != null)) {
+        public void onCommandReceived (ARDeviceController deviceController, ARCONTROLLER_DICTIONARY_KEY_ENUM commandKey, ARControllerDictionary elementDictionary) {
+            //if event received is the battery level changed
+            if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED) && (elementDictionary != null)){
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
                     final int battery = (Integer) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT);

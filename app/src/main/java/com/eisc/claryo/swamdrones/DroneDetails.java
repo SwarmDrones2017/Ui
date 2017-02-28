@@ -12,6 +12,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerCodec;
+import com.parrot.arsdk.arcontroller.ARFrame;
+
 import java.util.Locale;
 
 
@@ -76,7 +83,14 @@ public class DroneDetails extends AppCompatActivity {
             ListView listC = (ListView) findViewById(R.id.ListViewCaract);
             listC.setAdapter(adapter);
             progress = extras.getInt("Battery");
+
+            //On gère l'affichage de la batterie des drones
+
             updateBatteryLevel();
+
+            for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerDetails);
+            }
 
         } else {
             CaractDrone[] caract = {
@@ -93,6 +107,10 @@ public class DroneDetails extends AppCompatActivity {
                 DroneDetails.this.finish();
                 Intent MainActivity = new Intent(DroneDetails.this, MainActivity.class);
                 startActivity(MainActivity);
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                }
             }
         });
     }
@@ -109,5 +127,62 @@ public class DroneDetails extends AppCompatActivity {
         else
             ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
     }
+
+    private final BebopDrone.Listener mBebopListenerDetails = new BebopDrone.Listener() {
+        @Override
+        public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
+
+        }
+
+        @Override
+        public void onBatteryChargeChanged(int batteryPercentage) {
+            Log.i("updateBattery", "UpdateBatteryDetails");
+            String textBattery = Integer.toString(progress) + " %";
+            TextViewBattery.setText(textBattery);
+            ProgressBarBattery.setProgress(progress);
+            if (progress > 65)
+                ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
+            else if (progress > 35)
+                ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
+            else
+                ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
+
+        }
+
+        @Override
+        public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
+
+        }
+
+        @Override
+        public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
+
+        }
+
+        @Override
+        public void configureDecoder(ARControllerCodec codec) {
+
+        }
+
+        @Override
+        public void onFrameReceived(ARFrame frame) {
+
+        }
+
+        @Override
+        public void onMatchingMediasFound(int nbMedias) {
+
+        }
+
+        @Override
+        public void onDownloadProgressed(String mediaName, int progress) {
+
+        }
+
+        @Override
+        public void onDownloadComplete(String mediaName) {
+
+        }
+    };
 
 }

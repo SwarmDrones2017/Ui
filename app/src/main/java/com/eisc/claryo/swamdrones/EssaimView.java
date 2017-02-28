@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
@@ -18,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
@@ -27,6 +28,8 @@ import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -130,10 +133,6 @@ public class EssaimView extends AppCompatActivity {
 
 //        updateBatterieLevel();
 
-        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerBattery);
-        }
-
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +180,8 @@ public class EssaimView extends AppCompatActivity {
                 GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
             }
 
-            ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+            ProxyBars pb = null;
+            pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
             MyTouchListener1 myTouchListener1 = new MyTouchListener1();
             myTouchListener1.setDroneName((GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName()));
             pb.Drone.setOnTouchListener(myTouchListener1);
@@ -192,78 +192,6 @@ public class EssaimView extends AppCompatActivity {
         findViewById(R.id.Ecran).setOnDragListener(new MyDragListener());
 
     }
-
-    private final BebopDrone.Listener mBebopListenerBattery = new BebopDrone.Listener() {
-        @Override
-        public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
-
-        }
-
-        @Override
-        public void onBatteryChargeChanged(int batteryPercentage) {
-            Log.i("updateBattery", "UpdateBatteryView");
-
-            for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
-
-                if (batteryPercentage > 97)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_full_24dp);
-                else if (batteryPercentage > 90)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_90_24dp);
-                else if (batteryPercentage > 80)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_80_24dp);
-                else if (batteryPercentage > 60)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_60_24dp);
-                else if (batteryPercentage > 50)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_50_24dp);
-                else if (batteryPercentage > 30)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_30_24dp);
-                else if (batteryPercentage > 20)
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_20_24dp);
-                else
-                    TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
-
-
-                TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage) + " %");
-
-            }
-        }
-
-        @Override
-        public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
-
-        }
-
-        @Override
-        public void onPictureTaken(ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error) {
-
-        }
-
-        @Override
-        public void configureDecoder(ARControllerCodec codec) {
-
-        }
-
-        @Override
-        public void onFrameReceived(ARFrame frame) {
-
-        }
-
-        @Override
-        public void onMatchingMediasFound(int nbMedias) {
-
-        }
-
-        @Override
-        public void onDownloadProgressed(String mediaName, int progress) {
-
-        }
-
-        @Override
-        public void onDownloadComplete(String mediaName) {
-
-        }
-    };
 
     protected void proxyBarsView() {
 
@@ -764,18 +692,33 @@ class ProxyBars extends AppCompatActivity {
     ImageView Drone;
     ImageView ProxJauLeft, ProxOrLeft, ProxRedLeft, ProxJauRight, ProxOrRight, ProxRedRight, ProxJauTop, ProxOrTop, ProxRedTop, ProxJauBot,
             ProxOrBot, ProxRedBot, ProxJauUp, ProxOrUp, ProxRedUp, ProxJauDown, ProxOrDown, ProxRedDown;
+    int indexDrone;
+    int north = 151, south = 151, east = 151, west = 151, above = 151;
+
+    private Handler handlerObstacle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            east = msg.getData().getInt(MessageKEY.OBSTACLEEST);
+            west = msg.getData().getInt(MessageKEY.OBSTACLEWEST);
+            north = msg.getData().getInt(MessageKEY.OBSTACLENORTH);
+            south = msg.getData().getInt(MessageKEY.OBSTACLESOUTH);
+            above = msg.getData().getInt(MessageKEY.OBSTACLEABOVE);
+            hideAndShowBars();
+        }
+    };
 
     public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName) {
         this.context = context;
         this.density = density;
         Ecran = ecran;
 
-        int indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
-
+        indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
+//        GlobalCouple.couples.get(indexDrone).getRaspberry().setHandlerObstacle(handlerObstacle);
         PlageX = GlobalCouple.couples.get(indexDrone).getBebopDrone().getxEssaimView();
         PlageY = GlobalCouple.couples.get(indexDrone).getBebopDrone().getyEssaimView();
 
         show();
+        hideAndShowBars();
 
     }
 
@@ -905,12 +848,124 @@ class ProxyBars extends AppCompatActivity {
 
         Log.i("ContexteD", "" + Drone.getContext());
         Log.i("ContexteE", "" + Ecran.getContext());
+
+    }
+
+    public void hideAndShowBars() {
+        Drone.setVisibility(View.VISIBLE);
+
+        if (west > 100) {
+            ProxJauLeft.setVisibility(View.INVISIBLE);
+            ProxOrLeft.setVisibility(View.INVISIBLE);
+            ProxRedLeft.setVisibility(View.INVISIBLE);
+        } else if (west <= 100 && west > 75) {
+            ProxJauLeft.setVisibility(View.VISIBLE);
+            ProxOrLeft.setVisibility(View.INVISIBLE);
+            ProxRedLeft.setVisibility(View.INVISIBLE);
+        } else if (west <= 75 && west > 50) {
+            ProxJauLeft.setVisibility(View.VISIBLE);
+            ProxOrLeft.setVisibility(View.VISIBLE);
+            ProxRedLeft.setVisibility(View.INVISIBLE);
+        } else if (west <= 50) {
+            ProxJauLeft.setVisibility(View.VISIBLE);
+            ProxOrLeft.setVisibility(View.VISIBLE);
+            ProxRedLeft.setVisibility(View.VISIBLE);
+        }
+
+        if (east > 100) {
+            ProxJauRight.setVisibility(View.INVISIBLE);
+            ProxOrRight.setVisibility(View.INVISIBLE);
+            ProxRedRight.setVisibility(View.INVISIBLE);
+        } else if (east <= 100 && east > 75) {
+            ProxJauRight.setVisibility(View.VISIBLE);
+            ProxOrRight.setVisibility(View.INVISIBLE);
+            ProxRedRight.setVisibility(View.INVISIBLE);
+        } else if (east <= 75 && east > 50) {
+            ProxJauRight.setVisibility(View.VISIBLE);
+            ProxOrRight.setVisibility(View.VISIBLE);
+            ProxRedRight.setVisibility(View.INVISIBLE);
+        } else if (east <= 50) {
+            ProxJauRight.setVisibility(View.VISIBLE);
+            ProxOrRight.setVisibility(View.VISIBLE);
+            ProxRedRight.setVisibility(View.VISIBLE);
+        }
+
+        if (north > 100) {
+            ProxJauTop.setVisibility(View.INVISIBLE);
+            ProxOrTop.setVisibility(View.INVISIBLE);
+            ProxRedTop.setVisibility(View.INVISIBLE);
+        } else if (north <= 100 && north > 75) {
+            ProxJauTop.setVisibility(View.VISIBLE);
+            ProxOrTop.setVisibility(View.INVISIBLE);
+            ProxRedTop.setVisibility(View.INVISIBLE);
+        } else if (north <= 75 && north > 50) {
+            ProxJauTop.setVisibility(View.VISIBLE);
+            ProxOrTop.setVisibility(View.VISIBLE);
+            ProxRedTop.setVisibility(View.INVISIBLE);
+        } else if (north <= 50) {
+            ProxJauTop.setVisibility(View.VISIBLE);
+            ProxOrTop.setVisibility(View.VISIBLE);
+            ProxRedTop.setVisibility(View.VISIBLE);
+        }
+
+        if (south > 100) {
+            ProxJauBot.setVisibility(View.INVISIBLE);
+            ProxOrBot.setVisibility(View.INVISIBLE);
+            ProxRedBot.setVisibility(View.INVISIBLE);
+        } else if (south <= 100 && south > 75) {
+            ProxJauBot.setVisibility(View.VISIBLE);
+            ProxOrBot.setVisibility(View.INVISIBLE);
+            ProxRedBot.setVisibility(View.INVISIBLE);
+        } else if (south <= 75 && south > 50) {
+            ProxJauBot.setVisibility(View.VISIBLE);
+            ProxOrBot.setVisibility(View.VISIBLE);
+            ProxRedBot.setVisibility(View.INVISIBLE);
+        } else if (south <= 50) {
+            ProxJauBot.setVisibility(View.VISIBLE);
+            ProxOrBot.setVisibility(View.VISIBLE);
+            ProxRedBot.setVisibility(View.VISIBLE);
+        }
+
+        if (above > 100) {
+            ProxJauUp.setVisibility(View.INVISIBLE);
+            ProxOrUp.setVisibility(View.INVISIBLE);
+            ProxRedUp.setVisibility(View.INVISIBLE);
+        } else if (above <= 100 && above > 75) {
+            ProxJauUp.setVisibility(View.VISIBLE);
+            ProxOrUp.setVisibility(View.INVISIBLE);
+            ProxRedUp.setVisibility(View.INVISIBLE);
+        } else if (above <= 75 && above > 50) {
+            ProxJauUp.setVisibility(View.VISIBLE);
+            ProxOrUp.setVisibility(View.VISIBLE);
+            ProxRedUp.setVisibility(View.INVISIBLE);
+        } else if (above <= 50) {
+            ProxJauUp.setVisibility(View.VISIBLE);
+            ProxOrUp.setVisibility(View.VISIBLE);
+            ProxRedUp.setVisibility(View.VISIBLE);
+        }
+        if (above > 100) {
+            ProxJauDown.setVisibility(View.INVISIBLE);
+            ProxOrDown.setVisibility(View.INVISIBLE);
+            ProxRedDown.setVisibility(View.INVISIBLE);
+        } else if (above <= 100 && above > 75) {
+            ProxJauDown.setVisibility(View.VISIBLE);
+            ProxOrDown.setVisibility(View.INVISIBLE);
+            ProxRedDown.setVisibility(View.INVISIBLE);
+        } else if (above <= 75 && above > 50) {
+            ProxJauDown.setVisibility(View.VISIBLE);
+            ProxOrDown.setVisibility(View.VISIBLE);
+            ProxRedDown.setVisibility(View.INVISIBLE);
+        } else if (above <= 50) {
+            ProxJauDown.setVisibility(View.VISIBLE);
+            ProxOrDown.setVisibility(View.VISIBLE);
+            ProxRedDown.setVisibility(View.VISIBLE);
+        }
     }
 }
 
-class EssaimViewInfoDrone extends AppCompatActivity{
+class EssaimViewInfoDrone extends AppCompatActivity {
 
-    public EssaimViewInfoDrone(){
+    public EssaimViewInfoDrone() {
 
     }
 

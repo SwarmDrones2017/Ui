@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +55,7 @@ public class EssaimView extends AppCompatActivity {
     int batteryPercentage;
     ImageView batteryDrone1, batteryDrone2, batteryDrone3;
     AbsoluteLayout Ecran;
+    LinearLayout LayoutDroneInfo;
 
     private void updateBatterieLevel() {
         Log.i("updateBattery", "UpdateBatteryView");
@@ -106,6 +106,7 @@ public class EssaimView extends AppCompatActivity {
         LayoutDrone2 = (LinearLayout) findViewById(R.id.LayoutDrone2);
         LayoutDrone3 = (LinearLayout) findViewById(R.id.LayoutDrone3);
         Ecran = (AbsoluteLayout) findViewById(R.id.Ecran);
+        LayoutDroneInfo = (LinearLayout) findViewById(R.id.LayoutDroneInfo);
 
 
         NomDrone1 = (TextView) findViewById(R.id.NomDrone1);
@@ -938,4 +939,12 @@ class ProxyBars extends AppCompatActivity {
         Log.i("ContexteD", "" + Drone.getContext());
         Log.i("ContexteE", "" + Ecran.getContext());
     }
+}
+
+class EssaimViewInfoDrone extends AppCompatActivity{
+
+    public EssaimViewInfoDrone(){
+
+    }
+
 }

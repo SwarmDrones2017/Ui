@@ -5,34 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/grille">
 
-    <FrameLayout
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/lpDrone">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:id="@+id/lpBarH">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="4dp"
-        android:layout_height="40dp"
-        android:id="@+id/lpBarV">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/lpBarUD">
-
-    </FrameLayout>
-
     <ImageButton
         android:id="@+id/btnBackSwapView"
         android:layout_width="wrap_content"
@@ -104,7 +76,7 @@
         android:visibility="gone" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/btnBackSwapView"
@@ -113,91 +85,105 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/LayoutDrone1"
-        android:visibility="gone">
+        android:id="@+id/LayoutDroneInfo">
 
+       <!--
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LigneTitre1">
+            android:layout_toRightOf="@+id/btnBackSwapView"
+            android:layout_toEndOf="@+id/btnBackSwapView"
+            android:layout_alignTop="@+id/btnBackSwapView"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:id="@+id/LayoutDrone1"
+            android:visibility="gone">
 
-            <TextView
-                android:text="Bebop_786238"
-                android:textColor="@android:color/holo_green_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/NomDrone1"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/LigneVitesse1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_speed"
-                android:id="@+id/VitesseD1"
-                android:layout_weight="1" />
-
-            <TextView
-                android:text="12m/s"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/VitessetxtD1"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
+                android:id="@+id/LigneTitre1">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/LigneHauteur1">
+                <TextView
+                    android:text="Bebop_786238"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/NomDrone1"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_height"
-                android:id="@+id/Altitude1"
-                android:layout_weight="1" />
-
-            <TextView
-                android:text="25m"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Altitudetxt1"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
+                android:id="@+id/LigneVitesse1">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/LigneBatterie1">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_speed"
+                    android:id="@+id/VitesseD1"
+                    android:layout_weight="1" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/battery_state_list"
-                android:id="@+id/Batterie1"
-                android:layout_weight="1" />
+                <TextView
+                    android:text="12m/s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/VitessetxtD1"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
 
-            <TextView
-                android:text="90%"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Batterie1txt"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
+                android:id="@+id/LigneHauteur1">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_height"
+                    android:id="@+id/Altitude1"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="25m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/Altitudetxt1"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/LigneBatterie1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/battery_state_list"
+                    android:id="@+id/Batterie1"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="90%"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/Batterie1txt"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -393,6 +379,8 @@
                 android:gravity="center" />
         </LinearLayout>
 
+-->
+
     </LinearLayout>
 
     <AbsoluteLayout
@@ -403,582 +391,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
-        <!-- LayoutDrone1-->
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="90dp"
-            android:layout_y="200dp"
-            android:id="@+id/D1ProxRedDown"
-            android:tint="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="90dp"
-            android:layout_y="204dp"
-            android:id="@+id/D1ProxOrDown"
-            android:tint="@android:color/holo_orange_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="90dp"
-            android:layout_y="208dp"
-            android:id="@+id/D1ProxJauDown"
-            android:tint="#F2EE1A"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/Drone1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="fitXY"
-            android:background="@null"
-            app:srcCompat="@drawable/ic_drone"
-            android:layout_x="80dp"
-            android:layout_y="182dp"
-            android:tint="@android:color/holo_green_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxRedBot"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="85dp"
-            android:layout_y="228dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxOrBot"
-            android:layout_height="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="85dp"
-            android:layout_y="233dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxJauBot"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="85dp"
-            android:layout_y="238dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxRedTop"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="85dp"
-            android:layout_y="182dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxOrTop"
-            android:layout_height="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="85dp"
-            android:layout_y="177dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxJauTop"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="85dp"
-            android:layout_y="172dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxRedRight"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="125dp"
-            android:layout_y="187dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxOrRight"
-            android:layout_width="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="130dp"
-            android:layout_y="187dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxJauRight"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="135dp"
-            android:layout_y="187dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxRedLeft"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="81dp"
-            android:layout_y="187dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxOrLeft"
-            android:layout_width="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="76dp"
-            android:layout_y="187dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D1ProxJauLeft"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="71dp"
-            android:layout_y="187dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="90dp"
-            android:layout_y="186dp"
-            android:id="@+id/D1ProxRedUp"
-            android:tint="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="90dp"
-            android:layout_y="182dp"
-            android:id="@+id/D1ProxOrUp"
-            android:tint="@android:color/holo_orange_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="90dp"
-            android:layout_y="178dp"
-            android:id="@+id/D1ProxJauUp"
-            android:tint="#F2EE1A"
-            android:visibility="gone" />
-
-        <!-- FIN LayoutDrone1 -->
-
-        <!-- LayoutDrone2-->
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="460dp"
-            android:layout_y="122dp"
-            android:id="@+id/D2ProxOrDown"
-            android:tint="@android:color/holo_orange_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="460dp"
-            android:layout_y="118dp"
-            android:id="@+id/D2ProxRedDown"
-            android:tint="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="460dp"
-            android:layout_y="126dp"
-            android:id="@+id/D2ProxJauDown"
-            android:tint="#F2EE1A"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/Drone2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="fitXY"
-            android:layout_x="450dp"
-            android:layout_y="100dp"
-            android:background="@null"
-            app:srcCompat="@drawable/ic_drone"
-            android:tint="@android:color/holo_blue_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxRedTop"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="455dp"
-            android:layout_y="100dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxOrTop"
-            android:layout_height="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="455dp"
-            android:layout_y="95dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxJauTop"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="455dp"
-            android:layout_y="90dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxRedBot"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="455dp"
-            android:layout_y="146dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxOrBot"
-            android:layout_height="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="455dp"
-            android:layout_y="151dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxJauBot"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="455dp"
-            android:layout_y="156dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxRedRight"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="495dp"
-            android:layout_y="105dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxOrRight"
-            android:layout_width="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="500dp"
-            android:layout_y="105dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxJauRight"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="505dp"
-            android:layout_y="105dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxRedLeft"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="451dp"
-            android:layout_y="105dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxOrLeft"
-            android:layout_width="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="446dp"
-            android:layout_y="105dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D2ProxJauLeft"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="441dp"
-            android:layout_y="105dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="460dp"
-            android:layout_y="104dp"
-            android:id="@+id/D2ProxRedUp"
-            android:tint="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="460dp"
-            android:layout_y="100dp"
-            android:id="@+id/D2ProxOrUp"
-            android:tint="@android:color/holo_orange_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="460dp"
-            android:layout_y="96dp"
-            android:id="@+id/D2ProxJauUp"
-            android:tint="#F2EE1A"
-            android:visibility="gone" />
-
-        <!-- FIN LayoutDrone2 -->
-
-        <!-- LayoutDrone3-->
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="280dp"
-            android:layout_y="222dp"
-            android:id="@+id/D3ProxOrDown"
-            android:tint="@android:color/holo_orange_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="280dp"
-            android:layout_y="218dp"
-            android:id="@+id/D3ProxRedDown"
-            android:tint="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_down"
-            android:layout_x="280dp"
-            android:layout_y="226dp"
-            android:id="@+id/D3ProxJauDown"
-            android:tint="#F2EE1A"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/Drone3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="fitXY"
-            android:layout_x="270dp"
-            android:layout_y="200dp"
-            android:background="@null"
-            app:srcCompat="@drawable/ic_drone"
-            android:tint="@android:color/black"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxRedTop"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="275dp"
-            android:layout_y="200dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxOrTop"
-            android:layout_height="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="275dp"
-            android:layout_y="195dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxJauTop"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="275dp"
-            android:layout_y="190dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxRedBot"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="275dp"
-            android:layout_y="246dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxOrBot"
-            android:layout_height="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="275dp"
-            android:layout_y="251dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxJauBot"
-            android:layout_height="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="275dp"
-            android:layout_y="256dp"
-            android:layout_width="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxRedRight"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="315dp"
-            android:layout_y="205dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxOrRight"
-            android:layout_width="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="320dp"
-            android:layout_y="205dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxJauRight"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="325dp"
-            android:layout_y="205dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxRedLeft"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_red_dark"
-            android:layout_x="271dp"
-            android:layout_y="205dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxOrLeft"
-            android:layout_width="4dp"
-            android:layout_marginTop="1dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:layout_x="266dp"
-            android:layout_y="205dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/D3ProxJauLeft"
-            android:layout_width="4dp"
-            app:srcCompat="@android:color/holo_orange_dark"
-            android:tint="#F2EE1A"
-            android:layout_x="261dp"
-            android:layout_y="205dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="280dp"
-            android:layout_y="204dp"
-            android:id="@+id/D3ProxRedUp"
-            android:tint="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="280dp"
-            android:layout_y="200dp"
-            android:id="@+id/D3ProxOrUp"
-            android:tint="@android:color/holo_orange_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_up"
-            android:layout_x="280dp"
-            android:layout_y="196dp"
-            android:id="@+id/D3ProxJauUp"
-            android:tint="#F2EE1A"
-            android:visibility="gone" />
-
-        <!-- FIN LayoutDrone3 -->
 
     </AbsoluteLayout>
 

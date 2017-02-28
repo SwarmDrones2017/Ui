@@ -118,7 +118,9 @@ public class EssaimView extends AppCompatActivity {
         lDroneName = new ArrayList<>(GlobalCouple.couples.size());
         lProxyBars = new ArrayList<>(GlobalCouple.couples.size());
         lToggleBtnSelectDrone = new ArrayList<>(GlobalCouple.couples.size());
-        int tabColor[] = {Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW};
+        lEssaimViewInfoDrone = new ArrayList<>(GlobalCouple.couples.size());
+
+        int tabColor[] = {Color.BLUE, Color.CYAN, Color.RED, Color.MAGENTA};
         int indexColor = -1;
         Random r = new Random();
 
@@ -130,7 +132,8 @@ public class EssaimView extends AppCompatActivity {
             indexColor++;
             if(indexColor > tabColor.length)
                 indexColor=0;
-            EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
+
+            EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
             lEssaimViewInfoDrone.add(essaimViewInfoDrone);
 
             ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
@@ -570,7 +573,6 @@ class ProxyBars extends AppCompatActivity {
 
 class EssaimViewInfoDrone extends AppCompatActivity{
 
-
     Context context;
     LinearLayout LayoutDroneInfo, LayoutDroneVertical, LayoutDroneVitesse, LayoutDroneAltitude, LayoutDroneBatterie;
     TextView NomDrone, MaxSpeed, Altitude, Battery;
@@ -579,12 +581,13 @@ class EssaimViewInfoDrone extends AppCompatActivity{
     double AltitudeDrone;
     BebopDrone.Listener mBebopDroneListener;
     DecimalFormat df;
+    int indexColor;
 
-    public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName){
+    public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName, int color){
         this.context = context;
         LayoutDroneInfo = layoutdroneinfo;
         indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
-
+        this.indexColor = color;
         displayInfos();
 
         mBebopDroneListener = new BebopDrone.Listener() {
@@ -672,9 +675,9 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         LayoutDroneBatterie.setOrientation(LinearLayout.HORIZONTAL);
 
         NomDrone = new TextView(context);
-        NomDrone.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName());
+        NomDrone.setText(" "+GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName()+" ");
         NomDrone.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-        NomDrone.setTextColor(Color.BLACK);
+        NomDrone.setTextColor(indexColor);
         NomDrone.setGravity(Gravity.CENTER);
 
         MaxSpeedImg = new ImageView(context);

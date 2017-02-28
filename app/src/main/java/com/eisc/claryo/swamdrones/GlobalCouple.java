@@ -14,9 +14,13 @@ public class GlobalCouple {
         InetAddress tmp;
         boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            tmp = couples.get(i).getRaspberry().getAddress();
-            if (tmp.equals(address)) {
-                exist = true;
+            if(couples.get(i).getBebopDrone() != null) {
+                if(couples.get(i).getRaspberry() != null){
+                    tmp = couples.get(i).getRaspberry().getAddress();
+                    if (tmp.equals(address)) {
+                        exist = true;
+                    }
+                }
             }
         }
         return exist;
@@ -26,9 +30,11 @@ public class GlobalCouple {
         String tmp;
         boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
-            if (tmp.equals(nameDrone)) {
-                exist = true;
+            if(couples.get(i).getBebopDrone() != null){
+                tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
+                if (tmp.equals(nameDrone)) {
+                    exist = true;
+                }
             }
         }
         return exist;
@@ -87,10 +93,29 @@ public class GlobalCouple {
     static public int whoIsMaster(){
 
         for (int i = 0;i < GlobalCouple.couples.size();i++){
-            if(GlobalCouple.couples.get(i).getBebopDrone().isMaster() == true){
-                return i;
+            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                if(GlobalCouple.couples.get(i).getBebopDrone().isMaster() == true){
+                    return i;
+                }
             }
         }
         return -1;
     }
+    /**
+     *
+     * @param addr
+     * @return l'indice correspondant, -1 si existe pas
+     */
+    static public int raspberryIPCorrespondante(InetAddress addr)
+    {
+        for (int i = 0;i < GlobalCouple.couples.size();i++){
+            if(GlobalCouple.couples.get(i).getRaspberry()!=null){
+                if(GlobalCouple.couples.get(i).getRaspberry().getAddress().equals(addr) == true){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
 }

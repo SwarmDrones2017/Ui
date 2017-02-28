@@ -11,20 +11,18 @@ import java.net.InetAddress;
  */
 
 public class Raspberry {
-    private boolean state;
     private InetAddress address;
+    private int port;
     private Cardinal obstacle = new Cardinal();
     private Bundle messageBundle = new Bundle();
     private Handler handlerObstacle;
+    public final static int SEUIL_OBSTACLE_STOP = 50;
 
-    public Raspberry(InetAddress address) {
+    public Raspberry(InetAddress address,int port) {
         this.address = address;
-        this.state = true;
+        this.port = port;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
-    }
 
     public void setAddress(InetAddress address) {
         this.address = address;
@@ -34,9 +32,10 @@ public class Raspberry {
         return address;
     }
 
-    public boolean isState() {
-        return state;
+    public int getPort() {
+        return port;
     }
+
     public Cardinal getObstacle() {
         return obstacle;
     }
@@ -44,40 +43,12 @@ public class Raspberry {
     public void setHandlerObstacle(Handler handlerObstacle) {
         this.handlerObstacle = handlerObstacle;
     }
-    public Handler getHandlerObstacle() {
-        return handlerObstacle;
-    }
 
     class Cardinal {
         private int north;
         private int west;
         private int south;
-        private int east;
-        private int above;
-
-        public int getAbove() {
-            return above;
-        }
-
-        public void setAbove(int above) {
-            this.above = above;
-        }
-
-        public int getNorth() {
-            return north;
-        }
-
-        public int getWest() {
-            return west;
-        }
-
-        public int getSouth() {
-            return south;
-        }
-
-        public int getEast() {
-            return east;
-        }
+        private int est;
 
         public void setNorth(int north) {
             this.north = north;
@@ -94,7 +65,7 @@ public class Raspberry {
             this.west = west;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLENORTH, west);
+                messageBundle.putInt(MessageKEY.OBSTACLEWEST, west);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);
@@ -105,18 +76,18 @@ public class Raspberry {
             this.south = south;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLENORTH, south);
+                messageBundle.putInt(MessageKEY.OBSTACLESOUTH, south);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);
             }
         }
 
-        public void setEast(int east) {
-            this.east = east;
+        public void setEst(int est) {
+            this.est = est;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLENORTH, east);
+                messageBundle.putInt(MessageKEY.OBSTACLEEST, est);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);

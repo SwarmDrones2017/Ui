@@ -42,23 +42,16 @@ import java.util.Random;
  */
 //TODO Gérer les couleurs et les informations en haut à gauche
 public class EssaimView extends AppCompatActivity {
-    ArrayList<String> lDroneName;
     ArrayList<ProxyBars> lProxyBars;
     ArrayList<EssaimViewInfoDrone> lEssaimViewInfoDrone;
-    ImageView Drone1, D1ProxRedBot, D1ProxOrBot, D1ProxJauBot, D1ProxRedTop, D1ProxOrTop, D1ProxJauTop, D1ProxRedRight, D1ProxOrRight, D1ProxJauRight, D1ProxRedLeft, D1ProxOrLeft, D1ProxJauLeft,
-            D1ProxRedUp, D1ProxOrUp, D1ProxJauUp, D1ProxRedDown, D1ProxOrDown, D1ProxJauDown;
-    ImageView Drone2, D2ProxRedBot, D2ProxOrBot, D2ProxJauBot, D2ProxRedTop, D2ProxOrTop, D2ProxJauTop, D2ProxRedRight, D2ProxOrRight, D2ProxJauRight, D2ProxRedLeft, D2ProxOrLeft, D2ProxJauLeft,
-            D2ProxRedUp, D2ProxOrUp, D2ProxJauUp, D2ProxRedDown, D2ProxOrDown, D2ProxJauDown;
-    ImageView Drone3, D3ProxRedBot, D3ProxOrBot, D3ProxJauBot, D3ProxRedTop, D3ProxOrTop, D3ProxJauTop, D3ProxRedRight, D3ProxOrRight, D3ProxJauRight, D3ProxRedLeft, D3ProxOrLeft, D3ProxJauLeft,
-            D3ProxRedUp, D3ProxOrUp, D3ProxJauUp, D3ProxRedDown, D3ProxOrDown, D3ProxJauDown;
     float density;
     String densite;
-    LinearLayout LayoutDrone1, LayoutDrone2, LayoutDrone3;
     AbsoluteLayout Ecran;
     LinearLayout LayoutToggleBtn;
     LinearLayout LayoutDroneInfo;
     Button btnAllDrones;
     private ArrayList<ToggleBtnSelectDrone> lToggleBtnSelectDrone;
+    String droneName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +68,6 @@ public class EssaimView extends AppCompatActivity {
         Ecran = (AbsoluteLayout) findViewById(R.id.Ecran);
         LayoutDroneInfo = (LinearLayout) findViewById(R.id.LayoutDroneInfo);
         LayoutToggleBtn = (LinearLayout) findViewById(R.id.LayoutToggleButton);
-        //Log.i("ContexteEcran", "" + Ecran.getContext());
-
         density = getResources().getDisplayMetrics().density;
         densite = Float.toString(density);
 
@@ -113,9 +104,6 @@ public class EssaimView extends AppCompatActivity {
             }
         });
 
-        //On gère les boutons de selection des drones
-
-        lDroneName = new ArrayList<>(GlobalCouple.couples.size());
         lProxyBars = new ArrayList<>(GlobalCouple.couples.size());
         lToggleBtnSelectDrone = new ArrayList<>(GlobalCouple.couples.size());
         lEssaimViewInfoDrone = new ArrayList<>(GlobalCouple.couples.size());
@@ -125,6 +113,7 @@ public class EssaimView extends AppCompatActivity {
         Random r = new Random();
 
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            droneName = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
             if (GlobalCouple.couples.get(i).getBebopDrone().getxEssaimView() < 0 && GlobalCouple.couples.get(i).getBebopDrone().getyEssaimView() < 0) {
                 GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
                 GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
@@ -133,18 +122,17 @@ public class EssaimView extends AppCompatActivity {
             if(indexColor > tabColor.length)
                 indexColor=0;
 
-            EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
+            EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, droneName, tabColor[indexColor]);
             lEssaimViewInfoDrone.add(essaimViewInfoDrone);
 
-            ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
-            MyTouchListener1 myTouchListener1 = new MyTouchListener1();
-            myTouchListener1.setDroneName((GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName()));
-            pb.Drone.setOnTouchListener(myTouchListener1);
+            ProxyBars pb = new ProxyBars(getApplicationContext(), Ecran, density, droneName, tabColor[indexColor]);
+            MyTouchListener myTouchListener = new MyTouchListener();
+            myTouchListener.setDroneName((droneName));
+            pb.Drone.setOnTouchListener(myTouchListener);
             lProxyBars.add(pb);
-            lDroneName.add(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
 
             //création des toggleButton pour choisir le/les drones à piloter
-            ToggleBtnSelectDrone toggleBtnSelectDrone = new ToggleBtnSelectDrone(getApplicationContext(), LayoutToggleBtn, GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), tabColor[indexColor]);
+            ToggleBtnSelectDrone toggleBtnSelectDrone = new ToggleBtnSelectDrone(getApplicationContext(), LayoutToggleBtn, droneName, tabColor[indexColor]);
             lToggleBtnSelectDrone.add(toggleBtnSelectDrone);
         }
         //s'il y a un drone ou +, on affiche le bouton pour sélectionner tous les drones en même temps
@@ -166,7 +154,7 @@ public class EssaimView extends AppCompatActivity {
 
     }
 
-    private final class MyTouchListener1 implements View.OnTouchListener {
+    private final class MyTouchListener implements View.OnTouchListener {
         private String droneName;
 
         public void setDroneName(String droneName) {
@@ -764,15 +752,12 @@ class ToggleBtnSelectDrone extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int droneSelected = GlobalCouple.droneNameCorrespondant(droneName);
-
                 if (isChecked) {
                     tglBtnSetDrone.setBackgroundTintList(ColorStateList.valueOf(indexColor));
                     GlobalCouple.couples.get(droneSelected).getBebopDrone().setFlyAuthorization(true);
-                    Log.i("flyAuthorization", "Drone : " + droneName + " fly : " + GlobalCouple.couples.get(droneSelected).getBebopDrone().isFlyAuthorization());
                 } else {
                     buttonView.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
                     GlobalCouple.couples.get(droneSelected).getBebopDrone().setFlyAuthorization(false);
-                    Log.i("flyAuthorization", "Drone : " + droneName + " fly : " + GlobalCouple.couples.get(droneSelected).getBebopDrone().isFlyAuthorization());
                 }
             }
         });

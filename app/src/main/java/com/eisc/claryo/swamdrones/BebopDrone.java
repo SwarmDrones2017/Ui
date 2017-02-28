@@ -12,7 +12,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_ELECTRICFREQUENCYCHANGED_FREQUENCY_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
@@ -85,22 +84,6 @@ public class BebopDrone {
 
     public void setyEssaimView(float yEssaimView) {
         this.yEssaimView = yEssaimView;
-    }
-
-    public boolean isMaster() {
-        return isMaster;
-    }
-
-    public void setMaster(boolean master) {
-        isMaster = master;
-    }
-
-    public boolean isFlyAuthorization() {
-        return flyAuthorization;
-    }
-
-    public void setFlyAuthorization(boolean flyAuthorization) {
-        this.flyAuthorization = flyAuthorization;
     }
 
     public interface Listener {
@@ -184,25 +167,221 @@ public class BebopDrone {
     private Handler handlerBattery;
 
     private ARDeviceController mDeviceController;
-
     private ARCONTROLLER_DEVICE_STATE_ENUM mState;
     private ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM mFlyingState;
     private String mCurrentRunId;
+    private final ARDeviceControllerListener mDeviceControllerListener = new ARDeviceControllerListener() {
+        @Override
+        public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
+            mState = newState;
+            switch (newState) {
+                case ARCONTROLLER_DEVICE_STATE_RUNNING:
+                    mDeviceController.getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
+                    break;
+                case ARCONTROLLER_DEVICE_STATE_STOPPED:
+                    break;
+                case ARCONTROLLER_DEVICE_STATE_STARTING:
+                    break;
+                case ARCONTROLLER_DEVICE_STATE_STOPPING:
+                    break;
 
+                default:
+                    break;
+            }
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyConnectionChanged(mState);
+                }
+            });
+        }
+
+        @Override
+        public void onExtensionStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARDISCOVERY_PRODUCT_ENUM product, String name, ARCONTROLLER_ERROR_ENUM error) {
+        }
+
+
+        @Override
+        public void onCommandReceived(ARDeviceController deviceController, ARCONTROLLER_DICTIONARY_KEY_ENUM commandKey, ARControllerDictionary elementDictionary) {
+            // if event received is the battery update
+            if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    final int battery = (Integer) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT);
+                    infoDrone.battery = battery;
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyBatteryChanged(battery);
+                        }
+                    });
+
+                    if (handlerBattery != null) {
+                        Bundle messageBundle = new Bundle();
+                        Message msg = handlerBattery.obtainMessage();
+                        messageBundle.putInt(MessageKEY.BATTERYLEVEL, battery);
+                        msg.setData(messageBundle);
+                        handlerBattery.sendMessage(msg);
+                    }
+                }
+            }
+            // if event received is the flying state update
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    final ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state = ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE));
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mFlyingState = state;
+                            notifyPilotingStateChanged(state);
+                        }
+                    });
+                }
+            }
+            // if event received is the picture notification
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    final ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error = ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR));
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyPictureTaken(error);
+                        }
+                    });
+                }
+            }
+            // if event received is the run id
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    final String runID = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED_RUNID);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCurrentRunId = runID;
+                        }
+                    });
+                }
+            }
+            //SerialID high
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    String high = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED_HIGH);
+                    infoDrone.serialIDHigh = high;
+                }
+            }
+            //SerialID low
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    String low = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED_LOW);
+                    infoDrone.serialIDLow = low;
+                }
+            }
+            //Drone Version
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.softwareVersion = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_SOFTWARE);
+                    infoDrone.hardwareVersion = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_HARDWARE);
+                }
+            }
+            //GPS Version
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_PRODUCTGPSVERSIONCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.softwareGPSVersion = (String) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_PRODUCTGPSVERSIONCHANGED_SOFTWARE);
+
+                }
+            }
+            //motor flight status
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.nbFlights = (short) ((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_NBFLIGHTS)).intValue();
+                    infoDrone.durationLastFlight = (short) ((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_LASTFLIGHTDURATION)).intValue();
+                    infoDrone.durationTotalFlights = (int) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_TOTALFLIGHTDURATION);
+                }
+            }
+            //Altitude
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXALTITUDECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.altitude_max = (float) ((Double) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXALTITUDECHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Distance
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXDISTANCECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.distance_max = (float) ((Double) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXDISTANCECHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Video resoliution
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.video_resolution = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE));
+                }
+            }
+            //frame
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.framerate = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE));
+                }
+            }
+            //Stabilisation camera
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.videostabilization = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE));
+                }
+            }
+            //Anti-scintillement
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.antiflickering = ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE));
+                }
+            }
+            //Tilt inclinaison
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.tiltmax = (float) ((Double) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //speed tilt
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    float speedtilt = (float) ((Double) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Max vertical speed
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.speedverticale = (float) ((Double) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+            //Max rotation speed
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED) && (elementDictionary != null)) {
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    infoDrone.speedrotation = (float) ((Double) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
+                }
+            }
+        }
+    };
     private InetAddress IP;
     private ARDiscoveryDeviceService deviceService;
-
-    public ARDeviceController getmDeviceController() {
-        return mDeviceController;
-    }
-
-    public void setHandlerBattery(Handler handler) {
-        this.handlerBattery = handler;
-    }
-
-    public Handler getHandlerBattery() {
-        return handlerBattery;
-    }
 
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) throws ARControllerException {
         this.deviceService = deviceService;
@@ -244,6 +423,34 @@ public class BebopDrone {
         } else {
             Log.e(TAG, "DeviceService type is not supported by BebopDrone");
         }
+    }
+
+    public boolean isMaster() {
+        return isMaster;
+    }
+
+    public void setMaster(boolean master) {
+        isMaster = master;
+    }
+
+    public boolean isFlyAuthorization() {
+        return flyAuthorization;
+    }
+
+    public void setFlyAuthorization(boolean flyAuthorization) {
+        this.flyAuthorization = flyAuthorization;
+    }
+
+    public ARDeviceController getmDeviceController() {
+        return mDeviceController;
+    }
+
+    public Handler getHandlerBattery() {
+        return handlerBattery;
+    }
+
+    public void setHandlerBattery(Handler handler) {
+        this.handlerBattery = handler;
     }
 
     public InetAddress getIP() {
@@ -347,6 +554,119 @@ public class BebopDrone {
         }
     }
 
+    public void stationnaire() {
+        setPitch((byte) 0);
+        setRoll((byte) 0);
+        setYaw((byte) 0);
+        setGaz((byte) 0);
+        setFlag((byte) 0);
+    }
+
+    public void startMoveForward() {
+        if (isFlyAuthorization()) {
+            setPitch((byte) 50);
+            setFlag((byte) 1);
+        }
+    }
+
+    public void stopMoveForward() {
+        if (isFlyAuthorization()) {
+            setPitch((byte) 0);
+            setFlag((byte) 0);
+        }
+    }
+
+    public void startMoveBack() {
+        if (isFlyAuthorization()) {
+            setPitch((byte) -50);
+            setFlag((byte) 1);
+        }
+    }
+
+    public void stopMoveBack() {
+        if (isFlyAuthorization()) {
+            setPitch((byte) 0);
+            setFlag((byte) 0);
+        }
+    }
+
+    public void startMoveLeft() {
+        if (isFlyAuthorization()) {
+            setRoll((byte) -50);
+            setFlag((byte) 1);
+        }
+    }
+
+    public void stopMoveLeft() {
+        if (isFlyAuthorization()) {
+            setRoll((byte) 0);
+            setFlag((byte) 0);
+        }
+    }
+
+    public void startMoveRight() {
+        if (isFlyAuthorization()) {
+            setRoll((byte) 50);
+            setFlag((byte) 1);
+        }
+    }
+
+    public void stopMoveRight() {
+        if (isFlyAuthorization()) {
+            setRoll((byte) 0);
+            setFlag((byte) 0);
+        }
+    }
+
+    public void startTurnLeft() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) -50);
+        }
+    }
+
+    public void stopTurnLeft() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) 0);
+        }
+    }
+
+    public void startTurnRight() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) 50);
+        }
+    }
+
+    public void stopTurnRight() {
+        if (isFlyAuthorization()) {
+
+            setYaw((byte) 0);
+        }
+    }
+
+    public void startMoveUp(){
+        if (isFlyAuthorization()){
+            setGaz((byte) 50);
+        }
+    }
+    public void stopMoveUp(){
+        if (isFlyAuthorization()){
+            setGaz((byte) 0);
+        }
+    }
+    public void startMoveDown(){
+        if (isFlyAuthorization()){
+            setGaz((byte) -50);
+        }
+    }
+    public void stopMoveDown(){
+        if (isFlyAuthorization()){
+            setGaz((byte) 0);
+        }
+    }
+
     /**
      * Set the forward/backward angle of the drone
      * Note that {@link BebopDrone#setFlag(byte)} should be set to 1 in order to take in account the pitch value
@@ -394,7 +714,6 @@ public class BebopDrone {
         }
     }
 
-
     private ARDiscoveryDevice createDiscoveryDevice(@NonNull ARDiscoveryDeviceService service, ARDISCOVERY_PRODUCT_ENUM productType) {
         ARDiscoveryDevice device = null;
         try {
@@ -429,7 +748,6 @@ public class BebopDrone {
         return deviceController;
     }
 
-
     //region notify listener block
     private void notifyConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
         List<Listener> listenersCpy = new ArrayList<>(mListeners);
@@ -437,7 +755,6 @@ public class BebopDrone {
             listener.onDroneConnectionChanged(state);
         }
     }
-
 
     private void notifyBatteryChanged(int battery) {
         List<Listener> listenersCpy = new ArrayList<>(mListeners);
@@ -497,224 +814,6 @@ public class BebopDrone {
     }
 
 
-    private final ARDeviceControllerListener mDeviceControllerListener = new ARDeviceControllerListener() {
-        @Override
-        public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
-            mState = newState;
-            switch (newState)
-            {
-                case ARCONTROLLER_DEVICE_STATE_RUNNING:
-                    break;
-                case ARCONTROLLER_DEVICE_STATE_STOPPED:
-                    break;
-                case ARCONTROLLER_DEVICE_STATE_STARTING:
-                    break;
-                case ARCONTROLLER_DEVICE_STATE_STOPPING:
-                    break;
-
-                default:
-                    break;
-            }
-
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    notifyConnectionChanged(mState);
-                }
-            });
-        }
-
-        @Override
-        public void onExtensionStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARDISCOVERY_PRODUCT_ENUM product, String name, ARCONTROLLER_ERROR_ENUM error) {
-        }
-
-
-        @Override
-        public void onCommandReceived (ARDeviceController deviceController, ARCONTROLLER_DICTIONARY_KEY_ENUM commandKey, ARControllerDictionary elementDictionary) {
-            //if event received is the battery level changed
-            if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    final int battery = (Integer) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT);
-                    infoDrone.battery = battery;
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyBatteryChanged(battery);
-                        }
-                    });
-
-                    if(handlerBattery != null) {
-                        Bundle messageBundle = new Bundle();
-                        Message msg = handlerBattery.obtainMessage();
-                        messageBundle.putInt(MessageKEY.BATTERYLEVEL, battery);
-                        msg.setData(messageBundle);
-                        handlerBattery.sendMessage(msg);
-                    }
-                }
-            }
-            // if event received is the flying state update
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    final ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state = ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE));
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mFlyingState = state;
-                            notifyPilotingStateChanged(state);
-                        }
-                    });
-                }
-            }
-            // if event received is the picture notification
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    final ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM error = ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM.getFromValue((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR));
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyPictureTaken(error);
-                        }
-                    });
-                }
-            }
-            // if event received is the run id
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    final String runID = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_RUNSTATE_RUNIDCHANGED_RUNID);
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCurrentRunId = runID;
-                        }
-                    });
-                }
-            }
-            //SerialID high
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    String high = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED_HIGH);
-                    infoDrone.serialIDHigh = high;
-                }
-            }
-            //SerialID low
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    String low = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED_LOW);
-                    infoDrone.serialIDLow = low;
-                }
-            }
-            //Drone Version
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.softwareVersion = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_SOFTWARE);
-                    infoDrone.hardwareVersion = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_HARDWARE);
-                }
-            }
-            //GPS Version
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_PRODUCTGPSVERSIONCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.softwareGPSVersion = (String) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_PRODUCTGPSVERSIONCHANGED_SOFTWARE);
-
-                }
-            }
-            //motor flight status
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED) && (elementDictionary != null)) {
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.nbFlights = (short) ((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_NBFLIGHTS)).intValue();
-                    infoDrone.durationLastFlight = (short) ((Integer) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_LASTFLIGHTDURATION)).intValue();
-                    infoDrone.durationTotalFlights = (int) args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SETTINGSSTATE_MOTORFLIGHTSSTATUSCHANGED_TOTALFLIGHTDURATION);
-                }
-            }
-            //Altitude
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXALTITUDECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.altitude_max = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXALTITUDECHANGED_CURRENT)).doubleValue();
-                }
-            }
-            //Distance
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXDISTANCECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.distance_max = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXDISTANCECHANGED_CURRENT)).doubleValue();
-                }
-            }
-            //Video resoliution
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.video_resolution = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE));
-                }
-            }
-            //frame
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.framerate = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE));
-                }
-            }
-            //Stabilisation camera
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.videostabilization = ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE));
-                }
-            }
-            //Anti-scintillement
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.antiflickering = ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM.getFromValue((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE));
-                }
-            }
-            //Tilt inclinaison
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.tiltmax = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSETTINGSSTATE_MAXTILTCHANGED_CURRENT)).doubleValue();
-                }
-            }
-            //speed tilt
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    float speedtilt = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXPITCHROLLROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
-                }
-            }
-            //Max vertical speed
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.speedverticale = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXVERTICALSPEEDCHANGED_CURRENT)).doubleValue();
-                }
-            }
-            //Max rotation speed
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.speedrotation = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_SPEEDSETTINGSSTATE_MAXROTATIONSPEEDCHANGED_CURRENT)).doubleValue();
-                }
-            }
-            //Current altitude
-            if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ALTITUDECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    infoDrone.altitude = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ALTITUDECHANGED_ALTITUDE);
-                }
-            }
-        }
-    };
-
     private final ARDeviceControllerStreamListener mStreamListener = new ARDeviceControllerStreamListener() {
         @Override
         public ARCONTROLLER_ERROR_ENUM configureDecoder(ARDeviceController deviceController, final ARControllerCodec codec) {
@@ -749,8 +848,8 @@ public class BebopDrone {
         protected short durationLastFlight;
         protected int durationTotalFlights;
         protected String droneName;
-        private float altitude_max;
         protected float distance_max;
+        private float altitude_max;
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM video_resolution;
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM framerate;
         private ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM antiflickering;
@@ -759,6 +858,7 @@ public class BebopDrone {
         private float speedverticale;
         private float speedrotation;
         private double altitude;
+        private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM videostabilization;
 
         public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM getVideostabilization() {
             return videostabilization;
@@ -767,14 +867,13 @@ public class BebopDrone {
         public boolean setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ENUM videostabilization) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoStabilizationMode(videostabilization);
 
-            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
-        private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM videostabilization;
+
         public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM getFramerate() {
             return framerate;
         }
@@ -824,10 +923,11 @@ public class BebopDrone {
         public float getAltitude_max() {
             return altitude_max;
         }
+
         public void setAltitude_max(float altitude_max) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxAltitude(altitude_max);
 
-            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
                 this.altitude_max = altitude_max;
             }
         }
@@ -835,10 +935,11 @@ public class BebopDrone {
         public float getDistance_max() {
             return distance_max;
         }
+
         public void setDistance_max(float distance_max) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxDistance(distance_max);
 
-            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
                 this.distance_max = distance_max;
             }
         }
@@ -849,10 +950,9 @@ public class BebopDrone {
 
         public boolean setVideo_resolution(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM video_resolution) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoResolutions(video_resolution);
-            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
 
@@ -863,10 +963,9 @@ public class BebopDrone {
             //this.framerate = framerate;
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoFramerate(framerate);
 
-            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
 
@@ -879,10 +978,9 @@ public class BebopDrone {
 
         public boolean setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM antiflickering) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendAntiflickeringSetMode(antiflickering);
-            if(test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK){
+            if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
         }

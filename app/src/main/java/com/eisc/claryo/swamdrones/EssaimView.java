@@ -965,11 +965,13 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         NomDrone.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName());
 
         MaxSpeedImg = new ImageView(context);
+        MaxSpeedImg.setImageResource(R.drawable.ic_speed);
 
         MaxSpeed = new TextView(context);
         //MaxSpeed.setText(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone());
 
         AltitudeImg = new ImageView(context);
+        AltitudeImg.setImageResource(R.drawable.ic_height);
 
         Altitude = new TextView(context);
 

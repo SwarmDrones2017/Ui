@@ -102,16 +102,9 @@ public class EssaimView extends AppCompatActivity {
         TglDrone2 = (ToggleButton) findViewById(R.id.TglDrone2);
         TglDrone3 = (ToggleButton) findViewById(R.id.TglDrone3);
         BtnAllDrone = (Button) findViewById(R.id.BtnAllDrone);
-        LayoutDrone1 = (LinearLayout) findViewById(R.id.LayoutDrone1);
-        LayoutDrone2 = (LinearLayout) findViewById(R.id.LayoutDrone2);
-        LayoutDrone3 = (LinearLayout) findViewById(R.id.LayoutDrone3);
         Ecran = (AbsoluteLayout) findViewById(R.id.Ecran);
         LayoutDroneInfo = (LinearLayout) findViewById(R.id.LayoutDroneInfo);
 
-
-        NomDrone1 = (TextView) findViewById(R.id.NomDrone1);
-        NomDrone2 = (TextView) findViewById(R.id.NomDrone2);
-        NomDrone3 = (TextView) findViewById(R.id.NomDrone3);
         TabNomDrone = new TextView[3];
         TabNomDrone[0] = NomDrone1;
         TabNomDrone[1] = NomDrone2;
@@ -119,17 +112,11 @@ public class EssaimView extends AppCompatActivity {
 
         Log.i("ContexteEcran", "" + Ecran.getContext());
 
-        batteryDrone1 = (ImageView) findViewById(R.id.Batterie1);
-        batteryDrone2 = (ImageView) findViewById(R.id.Batterie2);
-        batteryDrone3 = (ImageView) findViewById(R.id.Batterie3);
         TabBatterieDrone = new ImageView[3];
         TabBatterieDrone[0] = batteryDrone1;
         TabBatterieDrone[1] = batteryDrone2;
         TabBatterieDrone[2] = batteryDrone3;
 
-        batteryDrone1txt = (TextView) findViewById(R.id.Batterie1txt);
-        batteryDrone2txt = (TextView) findViewById(R.id.Batterie2txt);
-        batteryDrone3txt = (TextView) findViewById(R.id.Batterie3txt);
         TabBatterieDronetxt = new TextView[3];
         TabBatterieDronetxt[0] = batteryDrone1txt;
         TabBatterieDronetxt[1] = batteryDrone2txt;

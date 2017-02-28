@@ -20,13 +20,6 @@ import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATE
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
-import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
-import com.parrot.arsdk.arcontroller.ARControllerCodec;
-import com.parrot.arsdk.arcontroller.ARFrame;
-
-import static com.eisc.claryo.swamdrones.MessageHandler.BATTERYLEVEL;
 
 /**
  * Classe pour l'interface de controle de vol de l'essaim
@@ -306,12 +299,9 @@ public class Control extends AppCompatActivity {
         GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
         GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
         startVideo(); //on lance la vidéo
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListenerControl);
+//        GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListenerControl);
 
         proxyBars();
-
-        Intent ControlActivity = new Intent();
-        setResult(RESULT_OK, ControlActivity);
 
         /**
          Gestion des boutons

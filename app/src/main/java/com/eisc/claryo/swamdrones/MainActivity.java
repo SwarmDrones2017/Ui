@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ListView list;
     private TextView textViewNbDrones;
+    private TextView textViewDrones;
     static private String[] listDrone;
     private ImageButton btnRefresh;
     private Button btnFly;

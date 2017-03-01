@@ -21,7 +21,7 @@ class Couple {
 
     public void setBebopDrone(BebopDrone bebopDrone) {
         this.bebopDrone = bebopDrone;
-        if(this.raspberry !=null && this.bebopDrone != null)
+        if(this.raspberry !=null)
             couplageOk =true;
     }
 

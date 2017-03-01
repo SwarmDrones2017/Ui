@@ -63,7 +63,7 @@ class GlobalCouple {
         for(int i=0; i<couples.size(); i++){
             byte[] droneAdd = couples.get(i).getBebopDrone().getIP().getAddress();
             byte droneLastOctet = droneAdd[droneAdd.length-1];
-            if(rPiLastOctet == droneLastOctet+1)
+            if(rPiLastOctet == droneLastOctet-1)
                 positionCoupleDansListe = i;
         }
         return positionCoupleDansListe;

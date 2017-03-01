@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i("onDestroy", "Destruction");
         byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
         DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
-        DatagramSocket socket;
         try {
             //socket = new DatagramSocket(ServerUDP.port);
             for (int i = 0;i < GlobalCouple.couples.size();i++){

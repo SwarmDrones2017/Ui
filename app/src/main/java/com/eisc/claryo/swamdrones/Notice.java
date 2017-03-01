@@ -25,6 +25,7 @@ public class Notice extends AppCompatActivity {
             public void onClick(View v) {
                 Notice.this.finish();
                 Intent MainActivity = new Intent(Notice.this, MainActivity.class);
+                MainActivity.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 startActivity(MainActivity);
             }
         });

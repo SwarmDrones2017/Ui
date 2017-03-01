@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -73,10 +74,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //Log.i("onCreate", "create");
         if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<>();
-            //new ServerUDP(getApplicationContext());
+            if(MessageKEY.FLAG_FIRSTUSE) {
+                new ServerUDP(getApplicationContext());
+//                Log.i("newServerUDP", "new Serveur UDP");
+                MessageKEY.FLAG_FIRSTUSE = false;
+            }
         }
 
         list = (ListView) findViewById(R.id.listViewConnectedDrones);
@@ -147,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         btnFly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.finish();
                 Intent ControlActivity = new Intent(MainActivity.this, Control.class);
                 startActivity(ControlActivity);
             }
@@ -155,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
         btnABout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.finish();
                 Intent AboutActivity = new Intent(MainActivity.this, APropos.class);
                 startActivity(AboutActivity);
             }
@@ -164,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
         btnNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.finish();
                 Intent NoticeActivity = new Intent(MainActivity.this, Notice.class);
                 startActivity(NoticeActivity);
             }
@@ -172,30 +174,62 @@ public class MainActivity extends AppCompatActivity {
         discoveryDrone = new DiscoveryDrone(getApplicationContext(), handler);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Log.i("onPause", "pause");
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        Log.i("onStart", "start");
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        Log.i("onStop", "stop");
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Log.i("onResume", "resume");
+//    }
+//
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        Log.i("OnRestart", "restart");
+//    }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        Log.i("onDestroy", "Destruction");
         byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
         DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
         DatagramSocket socket = null;
         try {
             socket = new DatagramSocket(ServerUDP.port);
             for (int i = 0;i < GlobalCouple.couples.size();i++){
+                //On envoie le signal de déconnexion à la raspberry
                 if(GlobalCouple.couples.get(i).getRaspberry() != null){
                     envoi.setAddress(GlobalCouple.couples.get(i).getRaspberry().getAddress());
                     envoi.setPort(GlobalCouple.couples.get(i).getRaspberry().getPort());
                     socket.send(envoi);
+
+                    //on libère tout
+                    socket.close();
+                    envoi = null;
+                    socket = null;
                     GlobalCouple.couples.get(i).setRaspberry(null);
+                }
+                //on détruit les drones de l'application
+                if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                    GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().stop();
+                    GlobalCouple.couples.get(i).setBebopDrone(null);
                 }
             }
         } catch (SocketException e) {

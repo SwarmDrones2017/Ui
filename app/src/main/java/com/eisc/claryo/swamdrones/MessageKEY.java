@@ -17,4 +17,6 @@ public class MessageKEY {
     static final String OBSTACLESOUTH = "Obstacle south";
     static final String OBSTACLEABOVE = "Obstacle above";
 
+    static boolean FLAG_FIRSTUSE = true;
+
 }

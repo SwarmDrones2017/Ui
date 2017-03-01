@@ -69,6 +69,9 @@ public class Control extends AppCompatActivity {
             if (north > 0) {
                 if (north <= 50) {
                     btn_forward.setEnabled(false);
+                    for(int i=0; i<GlobalCouple.couples.size(); i++){
+                        GlobalCouple.couples.get(i).getBebopDrone().stopMoveForward();
+                    }
                     btn_forward.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
                     btn_forward.setEnabled(true);
@@ -78,6 +81,9 @@ public class Control extends AppCompatActivity {
             if (south > 0) {
                 if (south <= 50) {
                     btn_back.setEnabled(false);
+                    for(int i=0; i<GlobalCouple.couples.size(); i++){
+                        GlobalCouple.couples.get(i).getBebopDrone().stopMoveBack();
+                    }
                     btn_back.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
                     btn_back.setEnabled(true);
@@ -87,6 +93,9 @@ public class Control extends AppCompatActivity {
             if (west > 0) {
                 if (west <= 50) {
                     btn_roll_left.setEnabled(false);
+                    for(int i=0; i<GlobalCouple.couples.size(); i++){
+                        GlobalCouple.couples.get(i).getBebopDrone().stopMoveLeft();
+                    }
                     btn_roll_left.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
                     btn_roll_left.setEnabled(true);
@@ -96,6 +105,9 @@ public class Control extends AppCompatActivity {
             if (east > 0) {
                 if (east <= 50) {
                     btn_roll_right.setEnabled(false);
+                    for(int i=0; i<GlobalCouple.couples.size(); i++){
+                        GlobalCouple.couples.get(i).getBebopDrone().stopMoveRight();
+                    }
                     btn_roll_right.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
                     btn_roll_right.setEnabled(true);

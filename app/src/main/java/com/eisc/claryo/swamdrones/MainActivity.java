@@ -175,19 +175,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        try {
+            ServerUDP.t.join(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
         DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
-        DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(ServerUDP.port);
+            //socket = new DatagramSocket(ServerUDP.port);
             for (int i = 0;i < GlobalCouple.couples.size();i++){
                 if(GlobalCouple.couples.get(i).getRaspberry() != null){
                     envoi.setAddress(GlobalCouple.couples.get(i).getRaspberry().getAddress());
                     envoi.setPort(GlobalCouple.couples.get(i).getRaspberry().getPort());
-                    socket.send(envoi);
+                    ServerUDP.socket.send(envoi);
                     GlobalCouple.couples.get(i).setRaspberry(null);
                 }
             }
+            ServerUDP.socket.close();
+
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {

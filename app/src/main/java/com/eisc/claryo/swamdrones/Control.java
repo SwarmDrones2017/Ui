@@ -57,7 +57,10 @@ public class Control extends AppCompatActivity {
             int est = msg.getData().getInt(MessageKEY.OBSTACLEEST);
 
             if(north > 0){
-                if(north <= 50){
+                if(north <= Raspberry.SEUIL_OBSTACLE_STOP){
+                    if(btn_forward.isPressed()){
+                        btn_forward.setPressed(false);
+                    }
                     btn_forward.setEnabled(false);
 
                     //btn_forward.setBackgroundColor(Color.RED);
@@ -69,7 +72,8 @@ public class Control extends AppCompatActivity {
                 }
             }
             if (south > 0){
-                if(south <= 50){
+                if(south <= Raspberry.SEUIL_OBSTACLE_STOP){
+                    btn_back.setPressed(false);
                     btn_back.setEnabled(false);
                     btn_back.setColorFilter(Color.argb(255,255,255,255));
                 }
@@ -79,7 +83,8 @@ public class Control extends AppCompatActivity {
                 }
             }
             if(west > 0){
-                if(west <= 50){
+                if(west <= Raspberry.SEUIL_OBSTACLE_STOP){
+                    btn_roll_left.setPressed(false);
                     btn_roll_left.setEnabled(false);
                     btn_roll_left.setColorFilter(Color.argb(255,255,255,255));
                 }
@@ -89,7 +94,8 @@ public class Control extends AppCompatActivity {
                 }
             }
             if(est > 0){
-                if(est <= 50){
+                if(est <= Raspberry.SEUIL_OBSTACLE_STOP){
+                    btn_roll_right.setPressed(false);
                     btn_roll_right.setEnabled(false);
                     btn_roll_right.setColorFilter(Color.argb(255,255,255,255));
                 }

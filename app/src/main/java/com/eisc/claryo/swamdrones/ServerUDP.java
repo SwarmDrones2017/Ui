@@ -23,13 +23,18 @@ public class ServerUDP {
     final String RPI_REPONSE = "Oui\n";
     final String DECOUPE_SENSOR = ",";
     private final String TAG = "ServerUDP";
+    public static DatagramSocket socket;
+    public static Thread t;
+
 
     ServerUDP(final Context context) {
-        new Thread(new Runnable() {
+        //Thread t = new Thread();
+        //t.start();
+        t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    DatagramSocket socket = new DatagramSocket(port);
+                    socket = new DatagramSocket(port);
                     DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
                     DatagramPacket envoi = null;
                     String str;
@@ -72,13 +77,13 @@ public class ServerUDP {
                                                 if (index != -1){
                                                     try{
                                                         int valeur = Integer.valueOf(val);
-                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                        /*if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
                                                             for (int j = 0; j < GlobalCouple.couples.size(); j++) {
                                                                 if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
                                                                     GlobalCouple.couples.get(j).getBebopDrone().stopMoveForward();
                                                                 }
                                                             }
-                                                        }
+                                                        }*/
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(valeur);
                                                     } catch (NumberFormatException e){
 
@@ -93,13 +98,13 @@ public class ServerUDP {
                                                 if (index != -1){
                                                     try{
                                                         int valeur = Integer.valueOf(val);
-                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                        /*if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
                                                             for (int j = 0; j < GlobalCouple.couples.size(); j++) {
                                                                 if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
                                                                     GlobalCouple.couples.get(j).getBebopDrone().stopMoveLeft();
                                                                 }
                                                             }
-                                                        }
+                                                        }*/
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(valeur);
                                                     } catch(NumberFormatException e){
 
@@ -113,13 +118,13 @@ public class ServerUDP {
                                                 if (index != -1) {
                                                     try {
                                                         int valeur = Integer.valueOf(val);
-                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                        /*if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
                                                             for (int j = 0; j < GlobalCouple.couples.size(); j++) {
                                                                 if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
                                                                     GlobalCouple.couples.get(j).getBebopDrone().stopMoveBack();
                                                                 }
                                                             }
-                                                        }
+                                                        }*/
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(valeur);
                                                     }
                                                     catch(NumberFormatException e){
@@ -136,13 +141,13 @@ public class ServerUDP {
                                                 if (index != -1) {
                                                     try {
                                                         int valeur = Integer.valueOf(val);
-                                                        if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                                                        /*if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
                                                             for (int j = 0; j < GlobalCouple.couples.size(); j++) {
                                                                 if (GlobalCouple.couples.get(j).getBebopDrone() != null) {
                                                                     GlobalCouple.couples.get(j).getBebopDrone().stopMoveRight();
                                                                 }
                                                             }
-                                                        }
+                                                        }*/
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(valeur);
                                                     } catch (NumberFormatException e) {
 
@@ -205,7 +210,8 @@ public class ServerUDP {
 
 
             }
-        }).start();
+        });
+        t.start();
 /* new Thread(new Runnable() {
 @Override
 public void run() {

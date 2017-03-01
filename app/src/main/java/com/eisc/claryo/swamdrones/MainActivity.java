@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Log.i("onCreate", "create");
+
         if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<>();
             if(MessageKEY.FLAG_FIRSTUSE) {
@@ -202,23 +202,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        try {
+            ServerUDP.t.join(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Log.i("onDestroy", "Destruction");
         byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
         DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
         DatagramSocket socket;
         try {
-            socket = new DatagramSocket(ServerUDP.port);
+            //socket = new DatagramSocket(ServerUDP.port);
             for (int i = 0;i < GlobalCouple.couples.size();i++){
                 //On envoie le signal de déconnexion à la raspberry
                 if(GlobalCouple.couples.get(i).getRaspberry() != null){
                     envoi.setAddress(GlobalCouple.couples.get(i).getRaspberry().getAddress());
                     envoi.setPort(GlobalCouple.couples.get(i).getRaspberry().getPort());
-                    socket.send(envoi);
-
-                    //on libère tout
-                    socket.close();
-                    envoi = null;
-                    socket = null;
+                    ServerUDP.socket.send(envoi);
                     GlobalCouple.couples.get(i).setRaspberry(null);
                 }
                 //on détruit les drones de l'application
@@ -227,6 +227,10 @@ public class MainActivity extends AppCompatActivity {
                     GlobalCouple.couples.get(i).setBebopDrone(null);
                 }
             }
+            ServerUDP.socket.close();
+
+        } catch (SocketException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

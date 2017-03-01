@@ -12,9 +12,9 @@ import java.net.InetAddress;
 
 public class Raspberry {
     private InetAddress address;
-    private int port;
-    private Cardinal obstacle = new Cardinal();
-    private Bundle messageBundle = new Bundle();
+    private final int port;
+    private final Cardinal obstacle = new Cardinal();
+    private final Bundle messageBundle = new Bundle();
     private Handler handlerObstacle;
     public final static int SEUIL_OBSTACLE_STOP = 50;
 

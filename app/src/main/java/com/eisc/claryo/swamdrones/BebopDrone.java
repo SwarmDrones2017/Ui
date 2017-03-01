@@ -50,14 +50,13 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.parrot.arsdk.arcontroller.ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ALTITUDECHANGED;
 import static com.parrot.arsdk.arcontroller.ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY;
 
 public class BebopDrone {
     private static final String TAG = "BebopDrone";
     private static final int DEVICE_PORT = 21;
     private boolean flyAuthorization = true;
-    private InfoDrone infoDrone = new InfoDrone();
+    private final InfoDrone infoDrone = new InfoDrone();
     private boolean isMaster = false;
     private BebopVideoView bebopVideoView;
 
@@ -171,9 +170,9 @@ public class BebopDrone {
     private ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM mFlyingState;
     private String mCurrentRunId;
     private InetAddress IP;
-    private ARDiscoveryDeviceService deviceService;
+    private final ARDiscoveryDeviceService deviceService;
 
-    public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) throws ARControllerException {
+    public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
         this.deviceService = deviceService;
         mListeners = new ArrayList<>();
 
@@ -463,7 +462,7 @@ public class BebopDrone {
      *
      * @param pitch value in percentage from -100 to 100
      */
-    public void setPitch(byte pitch) {
+    private void setPitch(byte pitch) {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch);
         }
@@ -475,19 +474,19 @@ public class BebopDrone {
      *
      * @param roll value in percentage from -100 to 100
      */
-    public void setRoll(byte roll) {
+    private void setRoll(byte roll) {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().setPilotingPCMDRoll(roll);
         }
     }
 
-    public void setYaw(byte yaw) {
+    private void setYaw(byte yaw) {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(yaw);
         }
     }
 
-    public void setGaz(byte gaz) {
+    private void setGaz(byte gaz) {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().setPilotingPCMDGaz(gaz);
         }
@@ -498,7 +497,7 @@ public class BebopDrone {
      *
      * @param flag 1 if the pitch and roll values should be used, 0 otherwise
      */
-    public void setFlag(byte flag) {
+    private void setFlag(byte flag) {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().setPilotingPCMDFlag(flag);
         }
@@ -705,16 +704,14 @@ public class BebopDrone {
             else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED) && (elementDictionary != null)) {
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
-                    String high = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED_HIGH);
-                    infoDrone.serialIDHigh = high;
+                    infoDrone.serialIDHigh = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED_HIGH);
                 }
             }
             //SerialID low
             else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED) && (elementDictionary != null)) {
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
-                    String low = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED_LOW);
-                    infoDrone.serialIDLow = low;
+                    infoDrone.serialIDLow = (String) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED_LOW);
                 }
             }
             //Drone Version
@@ -845,18 +842,18 @@ public class BebopDrone {
     }
 
     public class InfoDrone {
-        protected String serialID;
-        protected String serialIDLow;
-        protected String serialIDHigh;
-        protected int battery;
-        protected String hardwareVersion;
-        protected String softwareVersion;
-        protected String softwareGPSVersion;
-        protected short nbFlights;
-        protected short durationLastFlight;
-        protected int durationTotalFlights;
-        protected String droneName;
-        protected float distance_max;
+        String serialID;
+        String serialIDLow;
+        String serialIDHigh;
+        int battery;
+        String hardwareVersion;
+        String softwareVersion;
+        String softwareGPSVersion;
+        short nbFlights;
+        short durationLastFlight;
+        int durationTotalFlights;
+        String droneName;
+        float distance_max;
         private float altitude_max;
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM video_resolution;
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM framerate;

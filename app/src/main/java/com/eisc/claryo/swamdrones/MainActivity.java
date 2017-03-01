@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 
 import java.io.IOException;
-import java.lang.annotation.Target;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -34,10 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewNbDrones;
     private TextView textViewDrones;
     static private String[] listDrone;
-    private ImageButton btnRefresh;
     private Button btnFly;
     private DiscoveryDrone discoveryDrone;
-    private Handler handler = new Handler() {
+    private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             listDrone = msg.getData().getStringArray(MessageKEY.LISTDRONEUPDATE);
@@ -45,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    /**
-     * @author : Sofiane
-     */
     private void ShowDroneList() {
         if (listDrone != null) {
             if (listDrone[0].equals(MSG_ANY_DRONES)) {
@@ -57,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 btnFly.setVisibility(View.INVISIBLE);
             } else {
                 textViewNbDrones.setText("" + listDrone.length);
-                ArrayAdapter<String> listitems = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listDrone);
+                ArrayAdapter<String> listitems = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listDrone);
                 list.setAdapter(listitems);
                 list.setVisibility(View.VISIBLE);
                 btnFly.setVisibility(View.VISIBLE);
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnNotice = (Button) findViewById(R.id.btnNotice);
         textViewNbDrones = (TextView) findViewById(R.id.textViewNbDrones);
         textViewDrones = (TextView) findViewById(R.id.textViewDrones);
-        btnRefresh = (ImageButton) findViewById(R.id.btnMainActivityRefresh);
+        ImageButton btnRefresh = (ImageButton) findViewById(R.id.btnMainActivityRefresh);
 
         ShowDroneList();
 
@@ -210,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("onDestroy", "Destruction");
         byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
         DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
-        DatagramSocket socket = null;
+        DatagramSocket socket;
         try {
             socket = new DatagramSocket(ServerUDP.port);
             for (int i = 0;i < GlobalCouple.couples.size();i++){
@@ -232,13 +227,9 @@ public class MainActivity extends AppCompatActivity {
                     GlobalCouple.couples.get(i).setBebopDrone(null);
                 }
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
 

@@ -204,6 +204,7 @@
 
             <ImageButton
                 android:id="@+id/btnRetour"
+                android:contentDescription="bouton retour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_back_btn" />
@@ -212,13 +213,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_position_logo"
-                android:id="@+id/btnPositConf" />
+                android:id="@+id/btnPositConf"
+                android:contentDescription="bouton position conf"/>
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_video_logo"
-                android:id="@+id/btnVideoConf" />
+                android:id="@+id/btnVideoConf"
+                android:contentDescription="bouton video conf"/>
 
             <ImageButton
                 android:layout_width="match_parent"
@@ -226,6 +229,7 @@
                 app:srcCompat="@drawable/ic_info_logo"
                 android:layout_marginTop="7dp"
                 android:id="@+id/btnInfoConf"
+                android:contentDescription="bouton info conf"
                 android:backgroundTint="@color/colorPrimary" />
 
         </LinearLayout>

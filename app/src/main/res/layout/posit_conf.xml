@@ -195,6 +195,7 @@
 
             <ImageButton
                 android:id="@+id/btnRetour"
+                android:contentDescription="bouton retour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_back_btn" />
@@ -204,20 +205,23 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_position_logo"
                 android:id="@+id/btnPositConf"
+                android:contentDescription="bouton conf position"
                 android:backgroundTint="@color/colorPrimary" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_video_logo"
-                android:id="@+id/btnVideoConf" />
+                android:id="@+id/btnVideoConf"
+                android:contentDescription="bouton conf video"/>
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_info_logo"
                 android:layout_marginTop="7dp"
-                android:id="@+id/btnInfoConf" />
+                android:id="@+id/btnInfoConf"
+                android:contentDescription="bouton conf info"/>
 
         </LinearLayout>
     </ScrollView>

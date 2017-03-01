@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -15,14 +14,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.parrot.arsdk.ARSDK;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_ERROR_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerException;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiver;
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiverDelegate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,13 +31,12 @@ import java.util.List;
  * @version 1.0
  *          Class permet de decouvrir les drones sur le reseau
  */
-public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedReceiverDelegate {
+class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedReceiverDelegate {
 
     private final static String TAG = "DiscoveryDrone";
-    private Context context;
-    private List<ARDiscoveryDeviceService> deviceList;
+    private final Context context;
 
-    private Handler handler;
+    private final Handler handler;
 
     /////////Start discovery:
     private ARDiscoveryService mArdiscoveryService;
@@ -82,7 +78,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
     }
 
     ///////////The libARDiscovery will let you know when BLE and Wifi devices have been found on network:
-    ARDiscoveryServicesDevicesListUpdatedReceiver mArdiscoveryServicesDevicesListUpdatedReceiver;
+    private ARDiscoveryServicesDevicesListUpdatedReceiver mArdiscoveryServicesDevicesListUpdatedReceiver;
 
     // your class should implement ARDiscoveryServicesDevicesListUpdatedReceiverDelegate
     private void registerReceivers() {
@@ -96,7 +92,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
         Log.d(TAG, "onServicesDevicesListUpdated ...");
 
         if (mArdiscoveryService != null) {
-            deviceList = mArdiscoveryService.getDeviceServicesArray();
+            List<ARDiscoveryDeviceService> deviceList = mArdiscoveryService.getDeviceServicesArray();
 
             // Do what you want with the device list
             String[] listDrone;
@@ -112,29 +108,21 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
 
                 }
 
-                if (deviceList.size() == 0) {
-                    //GlobalCouple.couples.clear();
-                } else {
+                if (deviceList.size() != 0) {
                     //Construction
                     for (int i = 0; i < deviceList.size(); i++) {
-                        BebopDrone bebop = null;
-                        try {
-                            bebop = new BebopDrone(context, deviceList.get(i));
-                        } catch (ARControllerException e) {
-                            e.printStackTrace();
-                        }
-                        if (GlobalCouple.droneExist(bebop.getdeviceService().getName())) {
-                            bebop = null; //si le drone existait déjà, je supprime ce nouvel objet
-                        } else {
-                            if (bebop != null) { //si l'objet bebop n'est pas détruit c'est qu'il n'existait pas avant, donc je fais un connect avant de l'ajouter à la liste
-                                boolean isConnect = bebop.connect();
-                                if (!isConnect)
-                                    Toast.makeText(context, "Problème de connexion du drone", Toast.LENGTH_SHORT);
-                                else
-                                    bebop.getmDeviceController().getFeatureCommon().sendSettingsAllSettings();
-                            }
+                        BebopDrone bebop;
+                        bebop = new BebopDrone(context, deviceList.get(i));
+                        if (!GlobalCouple.droneExist(bebop.getdeviceService().getName())) {
+
+                            boolean isConnect = bebop.connect();
+                            if (!isConnect)
+                                Toast.makeText(context, "Problème de connexion du drone", Toast.LENGTH_SHORT);
+                            else
+                                bebop.getmDeviceController().getFeatureCommon().sendSettingsAllSettings();
+
                             int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop); //verification sur l'IP
-                            if(GlobalCouple.whoIsMaster() == -1){//si personne n'est maître alors il est maître
+                            if (GlobalCouple.whoIsMaster() == -1) {//si personne n'est maître alors il est maître
                                 bebop.setMaster(true);
                             }
                             if (positionRpiCorres == -1) {
@@ -143,6 +131,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                                 GlobalCouple.couples.get(positionRpiCorres).setBebopDrone(bebop);
                             }
                         }
+
                     }
                 }
                 Bundle messageBundle = new Bundle();

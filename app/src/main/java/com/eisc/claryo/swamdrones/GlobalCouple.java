@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by jolwarden on 15/02/17.
  */
 
-public class GlobalCouple {
+class GlobalCouple {
     static public ArrayList<Couple> couples;
 
     static public boolean raspberryExist(InetAddress address) {
@@ -71,8 +71,8 @@ public class GlobalCouple {
 
     /**
      * Retourne l'indice du couple dans lequel il contient le bebop avec le nom name
-     * @param name
-     * @return
+     * @param name nom du drone
+     * @return l'indice du couple dans lequel il contient le bebop name
      */
     static public int droneNameCorrespondant(String name){
         for (int i = 0;i < GlobalCouple.couples.size();i++){
@@ -94,7 +94,7 @@ public class GlobalCouple {
 
         for (int i = 0;i < GlobalCouple.couples.size();i++){
             if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                if(GlobalCouple.couples.get(i).getBebopDrone().isMaster() == true){
+                if(GlobalCouple.couples.get(i).getBebopDrone().isMaster()){
                     return i;
                 }
             }
@@ -103,14 +103,14 @@ public class GlobalCouple {
     }
     /**
      *
-     * @param addr
+     * @param addr l'adresse IP d'un Bebop
      * @return l'indice correspondant, -1 si existe pas
      */
     static public int raspberryIPCorrespondante(InetAddress addr)
     {
         for (int i = 0;i < GlobalCouple.couples.size();i++){
             if(GlobalCouple.couples.get(i).getRaspberry()!=null){
-                if(GlobalCouple.couples.get(i).getRaspberry().getAddress().equals(addr) == true){
+                if(GlobalCouple.couples.get(i).getRaspberry().getAddress().equals(addr)){
                     return i;
                 }
             }

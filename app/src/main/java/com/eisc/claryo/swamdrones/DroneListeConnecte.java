@@ -9,8 +9,8 @@ package com.eisc.claryo.swamdrones;
 
 public class DroneListeConnecte {
 
-    private String name;
-    private String connect;
+    private final String name;
+    private final String connect;
 
     public DroneListeConnecte(String name, String connect) {
         super();

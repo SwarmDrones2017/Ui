@@ -19,6 +19,7 @@
     <ImageView
         app:srcCompat="@drawable/drone_shape"
         android:id="@+id/imageViewDroneShape"
+        android:contentDescription="Image drone"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/textViewBattery"
         android:layout_width="100dp"
@@ -26,6 +27,7 @@
 
     <ImageButton
         app:srcCompat="@drawable/ic_back_btn"
+        android:contentDescription="bouton retour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

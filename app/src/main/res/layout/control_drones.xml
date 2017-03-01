@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.eisc.claryo.swamdrones.BebopVideoView"
+        android:layout_toRightOf="@+id/ProxRougeGauche"
         android:layout_toEndOf="@+id/ProxRougeGauche"
         android:id="@+id/bebopVideoView"
         android:layout_alignParentBottom="true"
@@ -125,6 +126,7 @@
 
     <ImageButton
         android:id="@+id/btnRetourMenuPrincipal1"
+        android:contentDescription="bouton retour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/battery_indicator"
@@ -136,6 +138,7 @@
 
     <ImageButton
         android:id="@+id/btnSettings"
+        android:contentDescription="bouton settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -146,6 +149,7 @@
     <!-- Alerte proximité jaune-->
     <ImageView
         android:id="@+id/ProxJauneGauche"
+        android:contentDescription="bouton barre jaune gauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_centerVertical="true"
@@ -157,6 +161,7 @@
 
     <ImageView
         android:id="@+id/ProxJauneDroite"
+        android:contentDescription="bouton barre jaune droite"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxJauneGauche"
@@ -168,6 +173,7 @@
 
     <ImageView
         android:id="@+id/ProxJauneDevant"
+        android:contentDescription="bouton barre jaune devant"
         android:layout_width="100dp"
         android:layout_height="8dp"
         android:layout_alignLeft="@+id/ProxJauneDerriere"
@@ -177,6 +183,7 @@
 
     <ImageView
         android:id="@+id/ProxJauneDerriere"
+        android:contentDescription="bouton barre jaune derriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
         android:layout_above="@+id/toggle_takeoff_land"
@@ -187,6 +194,7 @@
     <!--Alerte proximité orange-->
     <ImageView
         android:id="@+id/ProxOrangeGauche"
+        android:contentDescription="bouton barre orange gauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxJauneGauche"
@@ -198,6 +206,7 @@
 
     <ImageView
         android:id="@+id/ProxOrangeDroite"
+        android:contentDescription="bouton barre orange droite"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxJauneDroite"
@@ -209,6 +218,7 @@
 
     <ImageView
         android:id="@+id/ProxOrangeDerriere"
+        android:contentDescription="bouton orange derriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
         android:layout_above="@+id/ProxJauneDerriere"
@@ -219,6 +229,7 @@
 
     <ImageView
         android:id="@+id/ProxOrangeDevant"
+        android:contentDescription="bouton barre orange avant"
         android:layout_width="100dp"
         android:layout_height="8dp"
         android:layout_alignLeft="@+id/ProxJauneDevant"
@@ -230,6 +241,7 @@
     <!--Alerte Proximité Rouge-->
     <ImageView
         android:id="@+id/ProxRougeDerriere"
+        android:contentDescription="barre rouge arriere"
         android:layout_width="100dp"
         android:layout_height="8dp"
         android:layout_above="@+id/ProxOrangeDerriere"
@@ -240,6 +252,7 @@
 
     <ImageView
         android:id="@+id/ProxRougeDevant"
+        android:contentDescription="barre rouge avant"
         android:layout_width="100dp"
         android:layout_height="8dp"
         android:layout_alignLeft="@+id/ProxOrangeDevant"
@@ -250,6 +263,7 @@
 
     <ImageView
         android:id="@+id/ProxRougeDroite"
+        android:contentDescription="barre rouge droite"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxOrangeDroite"
@@ -261,6 +275,7 @@
 
     <ImageView
         android:id="@+id/ProxRougeGauche"
+        android:contentDescription="barre rouge gauche"
         android:layout_width="8dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/ProxOrangeGauche"
@@ -285,6 +300,7 @@
 
     <ImageButton
         android:id="@+id/btnSwapView"
+        android:contentDescription="bouton swap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -293,6 +309,7 @@
 
     <ImageView
         android:id="@+id/Height"
+        android:contentDescription="height"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -301,6 +318,7 @@
 
     <ImageView
         android:id="@+id/ProxRougeAbove"
+        android:contentDescription="bouton rouge dessus"
         android:layout_width="25dp"
         android:layout_height="8dp"
         android:layout_above="@+id/Height"
@@ -310,6 +328,7 @@
 
     <ImageView
         android:id="@+id/ProxOrangeAbove"
+        android:contentDescription="barre orange dessus"
         android:layout_width="25dp"
         android:layout_height="8dp"
         android:layout_above="@+id/ProxRougeAbove"
@@ -319,6 +338,7 @@
 
     <ImageView
         android:id="@+id/ProxJauneAbove"
+        android:contentDescription="barre jaune dessus"
         android:layout_width="25dp"
         android:layout_height="8dp"
         android:layout_above="@+id/ProxOrangeAbove"
@@ -328,6 +348,7 @@
 
     <ImageView
         android:id="@+id/ProxRougeBelow"
+        android:contentDescription="barre rouge dessous"
         android:layout_width="25dp"
         android:layout_height="8dp"
         android:layout_below="@+id/Height"
@@ -337,6 +358,7 @@
 
     <ImageView
         android:id="@+id/ProxOrangeBelow"
+        android:contentDescription="barre orange dessous"
         android:layout_width="25dp"
         android:layout_height="8dp"
         android:layout_below="@+id/ProxRougeBelow"
@@ -346,6 +368,7 @@
 
     <ImageView
         android:id="@+id/ProxJauneBelow"
+        android:contentDescription="barre jaune dessous"
         android:layout_width="25dp"
         android:layout_height="8dp"
         android:layout_below="@+id/ProxOrangeBelow"

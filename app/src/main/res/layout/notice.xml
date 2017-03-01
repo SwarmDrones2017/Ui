@@ -11,7 +11,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/btnBackNotice" />
+        android:id="@+id/btnBackNotice"
+        android:contentDescription="bouton retour"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,6 +27,7 @@
             app:srcCompat="@drawable/workinprogress"
             android:layout_above="@+id/txtAVenir"
             android:id="@+id/ImgWorkInProgress"
+            android:contentDescription="A venir"
             android:adjustViewBounds="true" />
 
         <TextView

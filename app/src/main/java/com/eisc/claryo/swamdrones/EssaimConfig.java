@@ -4,17 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -50,7 +45,7 @@ public class EssaimConfig extends AppCompatActivity {
         final LinearLayout linearLayoutB = (LinearLayout) findViewById(R.id.linearLayoutB);
         final LinearLayout linearLayoutA = (LinearLayout) findViewById(R.id.linearLayoutA);
 
-        final ArrayList<Listdronereglage> listbutton = new ArrayList<Listdronereglage>();
+        final ArrayList<Listdronereglage> listbutton = new ArrayList<>();
 
         int whoismaster = GlobalCouple.whoIsMaster();
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
@@ -62,7 +57,7 @@ public class EssaimConfig extends AppCompatActivity {
                 choixdrone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked == true) {
+                        if (isChecked) {
                             for (int j = 0; j < listbutton.size(); j++) {
                                 if (buttonView == listbutton.get(j).getChoixdrone()) {
                                     GlobalCouple.couples.get(j).getBebopDrone().setMaster(true);
@@ -146,8 +141,8 @@ public class EssaimConfig extends AppCompatActivity {
 
 class Listdronereglage {
 
-    private ToggleButton choixdrone;
-    private ImageButton setting;
+    private final ToggleButton choixdrone;
+    private final ImageButton setting;
 
     Listdronereglage(ToggleButton choixdrone, ImageButton setting) {
         this.choixdrone = choixdrone;

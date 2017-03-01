@@ -147,9 +147,9 @@ public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callbac
         mIsCodecConfigured = true;
     }
 
-    private void initMediaCodec(String type) {
+    private void initMediaCodec() {
         try {
-            mMediaCodec = MediaCodec.createDecoderByType(type);
+            mMediaCodec = MediaCodec.createDecoderByType(BebopVideoView.VIDEO_MIME_TYPE);
         } catch (IOException e) {
             Log.e(TAG, "Exception", e);
         }
@@ -173,7 +173,7 @@ public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callbac
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         mReadyLock.lock();
-        initMediaCodec(VIDEO_MIME_TYPE);
+        initMediaCodec();
         mReadyLock.unlock();
     }
 

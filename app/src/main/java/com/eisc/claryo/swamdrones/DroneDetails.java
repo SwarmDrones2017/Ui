@@ -28,10 +28,10 @@ import java.util.Locale;
 
 public class DroneDetails extends AppCompatActivity {
 
-    TextView TextViewBattery;
-    ProgressBar ProgressBarBattery;
-    int progress;
-    private Handler handlerBattery = new Handler() {
+    private TextView TextViewBattery;
+    private ProgressBar ProgressBarBattery;
+    private int progress;
+    private final Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             progress = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
@@ -55,7 +55,6 @@ public class DroneDetails extends AppCompatActivity {
                 }
 
             }
-
 
             short durationLastFlight = extras.getShort("LastFlight");
             int rsDurationLastFlight = durationLastFlight % 60;
@@ -100,6 +99,9 @@ public class DroneDetails extends AppCompatActivity {
                     new CaractDrone("null", "null"),
             };
             progress = 0;
+            ArrayAdapter<CaractDrone> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, caract);
+            ListView listC = (ListView) findViewById(R.id.ListViewCaract);
+            listC.setAdapter(adapter);
         }
         final Intent DroneDetailsActivity = new Intent();
         setResult(RESULT_OK, DroneDetailsActivity);

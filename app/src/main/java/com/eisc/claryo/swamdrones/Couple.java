@@ -4,10 +4,10 @@ package com.eisc.claryo.swamdrones;
  * Created by jolwarden on 15/02/17.
  */
 
-public class Couple {
+class Couple {
     private BebopDrone bebopDrone;
     private Raspberry raspberry;
-    boolean couplageOk =false;
+    private boolean couplageOk =false;
 
 
     public Couple(BebopDrone bebopDrone, Raspberry raspberry) {
@@ -31,7 +31,7 @@ public class Couple {
 
     public void setRaspberry(Raspberry raspberry) {
         this.raspberry = raspberry;
-        if(this.bebopDrone != null && this.bebopDrone != null)
+        if(this.bebopDrone != null)
             couplageOk = true;
     }
 

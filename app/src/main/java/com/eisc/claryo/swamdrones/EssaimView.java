@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -42,16 +41,16 @@ import java.util.Random;
  */
 //TODO Gérer les couleurs et les informations en haut à gauche
 public class EssaimView extends AppCompatActivity {
-    ArrayList<ProxyBars> lProxyBars;
-    ArrayList<EssaimViewInfoDrone> lEssaimViewInfoDrone;
-    float density;
-    String densite;
-    AbsoluteLayout Ecran;
-    LinearLayout LayoutToggleBtn;
-    LinearLayout LayoutDroneInfo;
-    Button btnAllDrones;
+    private ArrayList<ProxyBars> lProxyBars;
+    private ArrayList<EssaimViewInfoDrone> lEssaimViewInfoDrone;
+    private float density;
+    private String densite;
+    private AbsoluteLayout Ecran;
+    private LinearLayout LayoutToggleBtn;
+    private LinearLayout LayoutDroneInfo;
+    private Button btnAllDrones;
     private ArrayList<ToggleBtnSelectDrone> lToggleBtnSelectDrone;
-    String droneName;
+    private String droneName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,8 +179,8 @@ public class EssaimView extends AppCompatActivity {
     }
 
     class MyDragListener implements View.OnDragListener {
-        Drawable enterShape = getResources().getDrawable(R.drawable.shape_dropout);
-        Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+        final Drawable enterShape = getResources().getDrawable(R.drawable.shape_dropout);
+        final Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -273,28 +272,21 @@ public class EssaimView extends AppCompatActivity {
 }
 
 class ProxyBars extends AppCompatActivity {
-    float PlageY, PlageX;
-    AbsoluteLayout Ecran;
-    Context context;
-    float density;
+    private final float PlageY;
+    private final float PlageX;
+    private final AbsoluteLayout Ecran;
+    private final Context context;
+    private final float density;
     ImageView Drone;
     ImageView ProxJauLeft, ProxOrLeft, ProxRedLeft, ProxJauRight, ProxOrRight, ProxRedRight, ProxJauTop, ProxOrTop, ProxRedTop, ProxJauBot,
             ProxOrBot, ProxRedBot, ProxJauUp, ProxOrUp, ProxRedUp, ProxJauDown, ProxOrDown, ProxRedDown;
-    int indexDrone;
-    int north = 151, south = 151, east = 151, west = 151, above = 151;
-    int indexColor;
-
-    private Handler handlerObstacle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            east = msg.getData().getInt(MessageKEY.OBSTACLEEST);
-            west = msg.getData().getInt(MessageKEY.OBSTACLEWEST);
-            north = msg.getData().getInt(MessageKEY.OBSTACLENORTH);
-            south = msg.getData().getInt(MessageKEY.OBSTACLESOUTH);
-            above = msg.getData().getInt(MessageKEY.OBSTACLEABOVE);
-            hideAndShowBars();
-        }
-    };
+    private final int indexDrone;
+    private int north = 151;
+    private int south = 151;
+    private int east = 151;
+    private int west = 151;
+    private int above = 151;
+    private final int indexColor;
 
     public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName, int indexColor) {
         this.context = context;
@@ -306,6 +298,17 @@ class ProxyBars extends AppCompatActivity {
         if (GlobalCouple.couples.get(indexDrone).getRaspberry() == null) {
             Toast.makeText(context, "Raspberry Pi non trouvée", Toast.LENGTH_LONG);
         } else {
+            Handler handlerObstacle = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    east = msg.getData().getInt(MessageKEY.OBSTACLEEST);
+                    west = msg.getData().getInt(MessageKEY.OBSTACLEWEST);
+                    north = msg.getData().getInt(MessageKEY.OBSTACLENORTH);
+                    south = msg.getData().getInt(MessageKEY.OBSTACLESOUTH);
+                    above = msg.getData().getInt(MessageKEY.OBSTACLEABOVE);
+                    hideAndShowBars();
+                }
+            };
             GlobalCouple.couples.get(indexDrone).getRaspberry().setHandlerObstacle(handlerObstacle);
         }
 
@@ -317,7 +320,7 @@ class ProxyBars extends AppCompatActivity {
 
     }
 
-    public void show() {
+    private void show() {
         Drone = new ImageView(context);
         Drone.setX(PlageX);
         Drone.setY(PlageY);
@@ -447,7 +450,7 @@ class ProxyBars extends AppCompatActivity {
 
     }
 
-    public void hideAndShowBars() {
+    private void hideAndShowBars() {
 //        Drone.setVisibility(View.VISIBLE);
 
         if (west > 100) {
@@ -561,15 +564,25 @@ class ProxyBars extends AppCompatActivity {
 
 class EssaimViewInfoDrone extends AppCompatActivity{
 
-    Context context;
-    LinearLayout LayoutDroneInfo, LayoutDroneVertical, LayoutDroneVitesse, LayoutDroneAltitude, LayoutDroneBatterie;
-    TextView NomDrone, MaxSpeed, Altitude, Battery;
-    ImageView MaxSpeedImg, AltitudeImg, BatteryImg;
-    int indexDrone, batteryPercentage;
-    double AltitudeDrone;
-    BebopDrone.Listener mBebopDroneListener;
-    DecimalFormat df;
-    int indexColor;
+    private final Context context;
+    private final LinearLayout LayoutDroneInfo;
+    private LinearLayout LayoutDroneVertical;
+    private LinearLayout LayoutDroneVitesse;
+    private LinearLayout LayoutDroneAltitude;
+    private LinearLayout LayoutDroneBatterie;
+    private TextView NomDrone;
+    private TextView MaxSpeed;
+    private TextView Altitude;
+    private TextView Battery;
+    private ImageView MaxSpeedImg;
+    private ImageView AltitudeImg;
+    private ImageView BatteryImg;
+    private final int indexDrone;
+    private int batteryPercentage;
+    private double AltitudeDrone;
+    private final BebopDrone.Listener mBebopDroneListener;
+    private DecimalFormat df;
+    private final int indexColor;
 
     public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName, int color){
         this.context = context;
@@ -646,7 +659,7 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         GlobalCouple.couples.get(indexDrone).getBebopDrone().addListener(mBebopDroneListener);
     }
 
-    public void displayInfos(){
+    private void displayInfos(){
 
         df = new DecimalFormat("0.0");
 
@@ -736,7 +749,7 @@ class EssaimViewInfoDrone extends AppCompatActivity{
 }
 @TargetApi(21)
 class ToggleBtnSelectDrone extends AppCompatActivity {
-    ToggleButton tglBtnSetDrone;
+    final ToggleButton tglBtnSetDrone;
 
     public ToggleBtnSelectDrone(Context context, LinearLayout TglLayout, final String droneName, final int indexColor) {
         tglBtnSetDrone = new ToggleButton(context);

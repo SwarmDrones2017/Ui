@@ -13,15 +13,15 @@ import java.nio.charset.Charset;
  * Created by sofiane on 14/02/17.
  */
 
-public class ServerUDP {
+class ServerUDP {
 
     public final static int port = 55555;
-    final static int taille = 1024;
-    static byte buffer[] = new byte[taille];
-    final String RPI_SMARTPHONE = "Telephone";
-    final String RPI_SENSORS = "Sensor";
-    final String RPI_REPONSE = "Oui\n";
-    final String DECOUPE_SENSOR = ",";
+    private final static int taille = 1024;
+    private static final byte[] buffer = new byte[taille];
+    private final String RPI_SMARTPHONE = "Telephone";
+    private final String RPI_SENSORS = "Sensor";
+    private final String RPI_REPONSE = "Oui\n";
+    private final String DECOUPE_SENSOR = ",";
     private final String TAG = "ServerUDP";
 
     ServerUDP(final Context context) {
@@ -31,13 +31,13 @@ public class ServerUDP {
                 try {
                     DatagramSocket socket = new DatagramSocket(port);
                     DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
-                    DatagramPacket envoi = null;
+                    DatagramPacket envoi;
                     String str;
                     while (true) {
                         do {
                             socket.receive(paquet);
                             str = new String(paquet.getData());
-                        } while (str.indexOf("\n") == -1);
+                        } while (!str.contains("\n"));
 
                         String sframe = str.substring(0, str.indexOf("\n"));
                         String scmd = sframe.substring(0, sframe.indexOf(" "));
@@ -56,11 +56,11 @@ public class ServerUDP {
                                     String[] listSensor = ssensor.split(DECOUPE_SENSOR);
                                     Log.e(TAG, "Message sensor :" + ssensor);
 
-                                    for (int i = 0; i < listSensor.length; i++) {
+                                    for (String aListSensor : listSensor) {
 
-                                        Log.e(TAG, "Message vsensor : " + listSensor[i]);
-                                        String val = listSensor[i].substring(1, listSensor[i].indexOf(":"));
-                                        String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
+                                        Log.e(TAG, "Message vsensor : " + aListSensor);
+                                        String val = aListSensor.substring(1, aListSensor.indexOf(":"));
+                                        String capt = aListSensor.substring(aListSensor.lastIndexOf(":") + 1, aListSensor.length());
                                         Log.e(TAG, "Message val : " + val);
                                         Log.e(TAG, "Message capt : " + capt);
                                         int index = GlobalCouple.raspberryIPCorrespondante(paquet.getAddress());
@@ -69,8 +69,8 @@ public class ServerUDP {
                                             if (capt.equals("n")) {
                                                 north = val;
                                                 Log.e(TAG, "Capteur nord : " + north);
-                                                if (index != -1){
-                                                    try{
+                                                if (index != -1) {
+                                                    try {
                                                         int valeur = Integer.valueOf(val);
                                                         if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
                                                             for (int j = 0; j < GlobalCouple.couples.size(); j++) {
@@ -80,8 +80,8 @@ public class ServerUDP {
                                                             }
                                                         }
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setNorth(valeur);
-                                                    } catch (NumberFormatException e){
-
+                                                    } catch (NumberFormatException e) {
+                                                        e.printStackTrace();
                                                     }
                                                 }
 
@@ -90,8 +90,8 @@ public class ServerUDP {
                                             if (capt.equals("w")) {
                                                 west = val;
                                                 Log.e(TAG, "Capteur ouest : " + west);
-                                                if (index != -1){
-                                                    try{
+                                                if (index != -1) {
+                                                    try {
                                                         int valeur = Integer.valueOf(val);
                                                         if (valeur <= Raspberry.SEUIL_OBSTACLE_STOP) {
                                                             for (int j = 0; j < GlobalCouple.couples.size(); j++) {
@@ -101,8 +101,8 @@ public class ServerUDP {
                                                             }
                                                         }
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setWest(valeur);
-                                                    } catch(NumberFormatException e){
-
+                                                    } catch (NumberFormatException e) {
+                                                        e.printStackTrace();
                                                     }
                                                 }
                                             }
@@ -121,9 +121,8 @@ public class ServerUDP {
                                                             }
                                                         }
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setSouth(valeur);
-                                                    }
-                                                    catch(NumberFormatException e){
-
+                                                    } catch (NumberFormatException e) {
+                                                        e.printStackTrace();
                                                     }
                                                 }
 
@@ -145,7 +144,7 @@ public class ServerUDP {
                                                         }
                                                         GlobalCouple.couples.get(index).getRaspberry().getObstacle().setEst(valeur);
                                                     } catch (NumberFormatException e) {
-
+                                                        e.printStackTrace();
                                                     }
                                                 }
 
@@ -196,9 +195,6 @@ public class ServerUDP {
                         paquet.setLength(buffer.length);
                     }
 
-
-                } catch (SocketException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

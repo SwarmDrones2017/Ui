@@ -293,6 +293,7 @@
 
             <ImageButton
                 android:id="@+id/btnRetour"
+                android:contentDescription="bouton retour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_back_btn" />
@@ -302,6 +303,7 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_pilotage_control"
                 android:id="@+id/btnPilotConf"
+                android:contentDescription="bouton conf pilote"
                 android:backgroundTint="@color/colorPrimary" />
 
         </LinearLayout>

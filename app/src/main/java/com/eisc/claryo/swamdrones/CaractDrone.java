@@ -6,7 +6,7 @@ package com.eisc.claryo.swamdrones;
  * A voir dans DroneDetails.java
  */
 
-public class CaractDrone {
+class CaractDrone {
 
     private String categorie;
     private String caracteristique;

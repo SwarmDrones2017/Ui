@@ -30,30 +30,26 @@ public class Control extends AppCompatActivity {
     private ProgressBar progressBarBatterie;
     private ImageView batteryIndicator;
     private int batteryPercentage;
-    int positionMaster;
+    private int positionMaster;
     private ImageButton btnRetour;
-    private ImageButton btnSettings;
-    private ImageButton btnSwapView;
 
     private ImageButton btn_forward;
     private ImageButton btn_roll_left;
     private ImageButton btn_roll_right;
     private ImageButton btn_back;
-    private ImageButton btn_gaz_up;
-    private ImageButton btn_gaz_down;
-    private ImageButton btn_yaw_left;
-    private ImageButton btn_yaw_right;
 
-    private Button btn_emergency;
-    private ToggleButton toggle_takeoff_land;
-
-    int north = 151, south = 151, west = 151, east = 151, above = 151, below = 151;
+    private int north = 151;
+    private int south = 151;
+    private int west = 151;
+    private int east = 151;
+    private int above = 151;
+    private final int below = 151;
 
     private ImageView ProxJauneGauche, ProxOrangeGauche, ProxRougeGauche, ProxJauneDroite, ProxOrangeDroite,
             ProxRougeDroite, ProxJauneDevant, ProxOrangeDevant, ProxRougeDevant, ProxJauneDerriere, ProxOrangeDerriere,
             ProxRougeDerriere, ProxJauneAbove, ProxOrangeAbove, ProxRougeAbove, ProxJauneBelow, ProxOrangeBelow, ProxRougeBelow;
 
-    private Handler handlerBattery = new Handler() {
+    private final Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             batteryPercentage = msg.getData().getInt(MessageKEY.BATTERYLEVEL);
@@ -61,7 +57,7 @@ public class Control extends AppCompatActivity {
         }
     };
 
-    private Handler handlerObstacle = new Handler() {
+    private final Handler handlerObstacle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             north = msg.getData().getInt(MessageKEY.OBSTACLENORTH);
@@ -141,7 +137,7 @@ public class Control extends AppCompatActivity {
 
     }
 
-    protected void proxyBars() {
+    private void proxyBars() {
         //Gérer l'apparition des lignes de proximité
 
         if (west > 100) {
@@ -266,21 +262,19 @@ public class Control extends AppCompatActivity {
         batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
 
         btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
-        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
+        ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
         btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
-        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
         btn_forward = (ImageButton) findViewById(R.id.btn_forward);
         btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
         btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
         btn_back = (ImageButton) findViewById(R.id.btn_back);
-        btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
-        btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
-        btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
-        btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
-        btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
-        btn_emergency = (Button) findViewById(R.id.btn_emergency);
-        toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
+        ImageButton btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
+        ImageButton btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
+        ImageButton btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
+        ImageButton btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+        Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
+        ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
 
         ProxJauneGauche = (ImageView) findViewById(R.id.ProxJauneGauche);
         ProxOrangeGauche = (ImageView) findViewById(R.id.ProxOrangeGauche);

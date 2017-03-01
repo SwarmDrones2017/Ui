@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import static com.eisc.claryo.swamdrones.EssaimConfig.NumeroDrone;
-
 /**
  * Classe permettant de voir les infos du drone choisit
  */

@@ -164,7 +164,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn1080p.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setVideo_resolution(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_REC1080_STREAM480);
-                    if (test == true) {
+                    if (test) {
                         btn720p.setChecked(false);
                         btn1080p.setClickable(false);
                     } else {
@@ -182,7 +182,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn720p.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setVideo_resolution(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_REC720_STREAM720);
-                    if (test == true) {
+                    if (test) {
                         btn1080p.setChecked(false);
                         btn720p.setClickable(false);
                     } else {
@@ -230,7 +230,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn24fps.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setFramerate(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_24_FPS);
-                    if (test == true) {
+                    if (test) {
                         btn25fps.setChecked(false);
                         btn30fps.setChecked(false);
                         btn24fps.setClickable(false);
@@ -248,7 +248,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn25fps.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setFramerate(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_25_FPS);
-                    if (test == true) {
+                    if (test) {
                         btn24fps.setChecked(false);
                         btn30fps.setChecked(false);
                         btn25fps.setClickable(false);
@@ -266,7 +266,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn30fps.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setFramerate(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_30_FPS);
-                    if (test == true) {
+                    if (test) {
                         btn24fps.setChecked(false);
                         btn25fps.setChecked(false);
                         btn30fps.setClickable(false);
@@ -286,7 +286,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btnStabNon.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_NONE);
-                    if (test == true) {
+                    if (test) {
                         btnStabOui.setChecked(false);
                         btnStabNon.setClickable(false);
                     } else {
@@ -304,7 +304,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btnStabOui.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ROLL_PITCH);
-                    if (test == true) {
+                    if (test) {
                         btnStabNon.setChecked(false);
                         btnStabOui.setClickable(false);
                     } else {
@@ -324,7 +324,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn50Hz.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_FIXEDFIFTYHERTZ);
-                    if (test == true) {
+                    if (test) {
                         btn60Hz.setChecked(false);
                         btnAutoHz.setChecked(false);
                         btn50Hz.setClickable(false);
@@ -342,7 +342,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btn60Hz.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_FIXEDSIXTYHERTZ);
-                    if (test == true) {
+                    if (test) {
                         btn50Hz.setChecked(false);
                         btnAutoHz.setChecked(false);
                         btn50Hz.setClickable(false);
@@ -361,7 +361,7 @@ public class VideoConf extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (btnAutoHz.isChecked()) {
                     boolean test = GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_AUTO);
-                    if (test == true){
+                    if (test){
                         btn50Hz.setChecked(false);
                         btn60Hz.setChecked(false);
                         btnAutoHz.setClickable(false);

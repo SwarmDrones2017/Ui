@@ -695,8 +695,9 @@ class EssaimViewInfoDrone extends AppCompatActivity{
 
         Altitude = new TextView(context);
 
-        AltitudeDrone = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getAltitude();
-        Altitude.setText(df.format(AltitudeDrone) + " m");
+//        AltitudeDrone = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getAltitude();
+//        Altitude.setText(df.format(AltitudeDrone) + " m");
+        Altitude.setText("1,05 m");
         Altitude.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         Altitude.setTextColor(Color.BLACK);
         Altitude.setGravity(Gravity.CENTER);

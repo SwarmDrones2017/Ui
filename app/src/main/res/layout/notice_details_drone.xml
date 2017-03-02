@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/noticeDetailsDroneLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <ImageButton
+        android:id="@+id/btnBackNoticeDetailsDrone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="bouton retour"
+        app:srcCompat="@drawable/ic_back_btn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/img_notice_drone_details"
+        android:id="@+id/imgNoticeDetailsDrone"
+        android:layout_below="@+id/btnBackNoticeDetailsDrone"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imgNoticeDetailsDrone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/text_notice_drone_details"
+                android:id="@+id/textNoticeDetailsDrone"
+                android:adjustViewBounds="true"
+                android:layout_below="@+id/imgNoticeDetailsDrone"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:cropToPadding="true"
+                android:background="#FFFFFF" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

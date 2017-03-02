@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/noticeMenuPrincipal"
+    android:backgroundTint="@android:color/white"
+    android:background="#FFFFFF">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_back_btn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnBackNoticeMenuPrincipal"
+        android:contentDescription="bouton retour"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/notice_menu_principal"
+        android:id="@+id/imgNoticeMenuPrincipal"
+        android:layout_below="@+id/btnBackNoticeMenuPrincipal"
+        android:clickable="false"
+        android:adjustViewBounds="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imgNoticeMenuPrincipal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/notice_menu_principal_text"
+                android:id="@+id/textNoticeMenuPrincipal"
+                android:contentDescription="text notice menu principal"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:layout_below="@+id/imgNoticeMenuPrincipal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

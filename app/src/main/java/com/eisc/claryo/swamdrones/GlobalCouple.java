@@ -1,5 +1,7 @@
 package com.eisc.claryo.swamdrones;
 
+import com.parrot.arsdk.arcontroller.ARDeviceController;
+
 import java.net.InetAddress;
 import java.util.ArrayList;
 
@@ -85,6 +87,17 @@ class GlobalCouple {
         }
         return -1;
     }
+    static public int indexDroneCorrespondant(ARDeviceController deviceController) {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                if (GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController() == deviceController) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
 
     /**
      *

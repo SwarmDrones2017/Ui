@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ToggleButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -27,16 +26,26 @@ import com.parrot.arsdk.arcontroller.ARFrame;
  */
 
 public class Control extends AppCompatActivity {
+    private static boolean already_stop_forward = false;
+    private static boolean already_stop_back = false;
+    private static boolean already_stop_left = false;
+    private static boolean already_stop_right = false;
+    int positionMaster;
     private ProgressBar progressBarBatterie;
     private ImageView batteryIndicator;
     private int batteryPercentage;
     private int positionMaster;
     private ImageButton btnRetour;
-
+    private ImageButton btnSettings;
     private ImageButton btn_forward;
     private ImageButton btn_roll_left;
     private ImageButton btn_roll_right;
     private ImageButton btn_back;
+    private ImageButton btnSwapView;
+    private ImageButton btn_gaz_up;
+    private ImageButton btn_gaz_down;
+    private ImageButton btn_yaw_left;
+    private ImageButton btn_yaw_right;
 
     private int north = 151;
     private int south = 151;
@@ -68,44 +77,59 @@ public class Control extends AppCompatActivity {
 
             if (north > 0) {
                 if (north <= Raspberry.SEUIL_OBSTACLE_STOP) {
-                    if (btn_forward.isPressed()) {
-                        btn_forward.setPressed(false);
+                    if (already_stop_forward == false) {
+                        allStopMoveForward();
+                        already_stop_forward = true;
                     }
                     btn_forward.setEnabled(false);
+
                     btn_forward.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
                     btn_forward.setEnabled(true);
                     btn_forward.setColorFilter(Color.argb(0, 0, 0, 0));
+                    already_stop_forward = false;
                 }
             }
             if (south > 0) {
                 if (south <= Raspberry.SEUIL_OBSTACLE_STOP) {
-                    btn_back.setPressed(false);
+                    if (already_stop_back == false) {
+                        allStopMoveBack();
+                        already_stop_back = true;
+                    }
                     btn_back.setEnabled(false);
                     btn_back.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
+                    already_stop_back = false;
                     btn_back.setEnabled(true);
-                    btn_back.setColorFilter(Color.argb(0, 0, 0, 0));
+                    btn_back.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
             if (west > 0) {
                 if (west <= Raspberry.SEUIL_OBSTACLE_STOP) {
-                    btn_roll_left.setPressed(false);
+                    if (already_stop_left == false) {
+                        already_stop_left = true;
+                        allStopMoveLeft();
+                    }
                     btn_roll_left.setEnabled(false);
                     btn_roll_left.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
+                    already_stop_left = false;
                     btn_roll_left.setEnabled(true);
-                    btn_roll_left.setColorFilter(Color.argb(0, 0, 0, 0));
+                    btn_roll_left.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
-            if (east > 0) {
-                if (east <= Raspberry.SEUIL_OBSTACLE_STOP) {
-                    btn_roll_right.setPressed(false);
+            if (est > 0) {
+                if (est <= Raspberry.SEUIL_OBSTACLE_STOP) {
+                    if (already_stop_right == false) {
+                        already_stop_right = true;
+                        allStopMoveRight();
+                    }
                     btn_roll_right.setEnabled(false);
                     btn_roll_right.setColorFilter(Color.argb(255, 255, 255, 255));
                 } else {
+                    already_stop_right = false;
                     btn_roll_right.setEnabled(true);
-                    btn_roll_right.setColorFilter(Color.argb(0, 0, 0, 0));
+                    btn_roll_right.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
             proxyBars();
@@ -275,10 +299,14 @@ public class Control extends AppCompatActivity {
         btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
         btn_roll_right = (ImageButton) findViewById(R.id.btn_roll_right);
         btn_back = (ImageButton) findViewById(R.id.btn_back);
-        ImageButton btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
-        ImageButton btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
-        ImageButton btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
-        ImageButton btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+        btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
+        btn_gaz_up = (ImageButton) findViewById(R.id.btn_gaz_up);
+        btn_gaz_down = (ImageButton) findViewById(R.id.btn_gaz_down);
+        btn_yaw_left = (ImageButton) findViewById(R.id.btn_yaw_left);
+        btn_yaw_right = (ImageButton) findViewById(R.id.btn_yaw_right);
+
+        ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
+
         Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
         ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
 
@@ -309,7 +337,7 @@ public class Control extends AppCompatActivity {
         positionMaster = -1;
         batteryPercentage = 100;
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
                 if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                     positionMaster = i;
 
@@ -329,11 +357,15 @@ public class Control extends AppCompatActivity {
         //affichage batterie
         updateLevelBattery();
 
+
+
+
+        Intent ControlActivity = new Intent();
 //        //set video
         GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
         GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
         startVideo(); //on lance la vidéo
-
+        setResult(RESULT_OK, ControlActivity);
         proxyBars();
 
         /**
@@ -415,6 +447,7 @@ public class Control extends AppCompatActivity {
                 }
             }
         });
+
         btn_forward.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -430,11 +463,7 @@ public class Control extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
-                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveForward();
-                            }
-                        }
+                        allStopMoveForward();
                         break;
                     default:
                         break;
@@ -457,11 +486,7 @@ public class Control extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
-                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveBack();
-                            }
-                        }
+                        allStopMoveBack();
                         break;
                     default:
                         break;
@@ -485,11 +510,7 @@ public class Control extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
-                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveLeft();
-                            }
-                        }
+                        allStopMoveLeft();
                         break;
                     default:
                         break;
@@ -513,11 +534,7 @@ public class Control extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
-                        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
-                                GlobalCouple.couples.get(i).getBebopDrone().stopMoveRight();
-                            }
-                        }
+                        allStopMoveRight();
                         break;
                     default:
                         break;
@@ -714,5 +731,37 @@ public class Control extends AppCompatActivity {
 
     private void startVideo() {
         GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
+    }
+
+    private void allStopMoveForward() {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                GlobalCouple.couples.get(i).getBebopDrone().stopMoveForward();
+            }
+        }
+    }
+
+    private void allStopMoveBack() {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                GlobalCouple.couples.get(i).getBebopDrone().stopMoveBack();
+            }
+        }
+    }
+
+    private void allStopMoveLeft() {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                GlobalCouple.couples.get(i).getBebopDrone().stopMoveLeft();
+            }
+        }
+    }
+
+    private void allStopMoveRight() {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                GlobalCouple.couples.get(i).getBebopDrone().stopMoveRight();
+            }
+        }
     }
 }

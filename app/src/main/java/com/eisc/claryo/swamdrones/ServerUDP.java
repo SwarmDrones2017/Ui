@@ -49,12 +49,6 @@ public class ServerUDP {
                         switch (scmd) {
                             case RPI_SENSORS:
 
-                                String north;
-                                String west;
-                                String south;
-                                String est;
-
-
                                 String ssensor = sframe.substring(sframe.lastIndexOf(" "), sframe.length());
 
                                 if (ssensor != null) {
@@ -68,7 +62,6 @@ public class ServerUDP {
                                             String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
 
                                             if (capt.equals("n")) {
-                                                north = val;
                                                 if (index != -1) {
                                                     try {
                                                         int valeur = Integer.valueOf(val);
@@ -82,7 +75,6 @@ public class ServerUDP {
                                             }
 
                                             if (capt.equals("w")) {
-                                                west = val;
                                                 if (index != -1) {
                                                     try {
                                                         int valeur = Integer.valueOf(val);
@@ -95,7 +87,6 @@ public class ServerUDP {
                                             }
 
                                             if (capt.equals("s")) {
-                                                south = val;
                                                 if (index != -1) {
                                                     try {
                                                         int valeur = Integer.valueOf(val);
@@ -108,8 +99,6 @@ public class ServerUDP {
                                             }
 
                                             if (capt.equals("e")) {
-                                                est = val;
-
                                                 if (index != -1) {
                                                     try {
                                                         int valeur = Integer.valueOf(val);
@@ -121,7 +110,6 @@ public class ServerUDP {
                                                 }
 
                                             }
-
 
                                         }
                                         sendAck(paquet.getAddress(), paquet.getPort());

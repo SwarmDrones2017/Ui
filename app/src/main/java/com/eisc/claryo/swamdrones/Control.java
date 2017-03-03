@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ToggleButton;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
@@ -30,7 +31,6 @@ public class Control extends AppCompatActivity {
     private static boolean already_stop_back = false;
     private static boolean already_stop_left = false;
     private static boolean already_stop_right = false;
-    int positionMaster;
     private ProgressBar progressBarBatterie;
     private ImageView batteryIndicator;
     private int batteryPercentage;
@@ -118,8 +118,8 @@ public class Control extends AppCompatActivity {
                     btn_roll_left.setColorFilter(Color.argb(0,0,0,0));
                 }
             }
-            if (est > 0) {
-                if (est <= Raspberry.SEUIL_OBSTACLE_STOP) {
+            if (east > 0) {
+                if (east <= Raspberry.SEUIL_OBSTACLE_STOP) {
                     if (already_stop_right == false) {
                         already_stop_right = true;
                         allStopMoveRight();
@@ -308,7 +308,6 @@ public class Control extends AppCompatActivity {
         ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
 
         Button btn_emergency = (Button) findViewById(R.id.btn_emergency);
-        ToggleButton toggle_takeoff_land = (ToggleButton) findViewById(R.id.toggle_takeoff_land);
 
         ProxJauneGauche = (ImageView) findViewById(R.id.ProxJauneGauche);
         ProxOrangeGauche = (ImageView) findViewById(R.id.ProxOrangeGauche);
@@ -357,15 +356,11 @@ public class Control extends AppCompatActivity {
         //affichage batterie
         updateLevelBattery();
 
-
-
-
-        Intent ControlActivity = new Intent();
-//        //set video
+        //set video
         GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
         GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
         startVideo(); //on lance la vidéo
-        setResult(RESULT_OK, ControlActivity);
+
         proxyBars();
 
         /**

@@ -458,113 +458,106 @@ class ProxyBars extends AppCompatActivity {
 
     private void hideAndShowBars() {
 //        Drone.setVisibility(View.VISIBLE);
-
-        if (west > 100) {
-            ProxJauLeft.setVisibility(View.INVISIBLE);
-            ProxOrLeft.setVisibility(View.INVISIBLE);
-            ProxRedLeft.setVisibility(View.INVISIBLE);
-        } else if (west <= 100 && west > 75) {
-            ProxJauLeft.setVisibility(View.VISIBLE);
-            ProxOrLeft.setVisibility(View.INVISIBLE);
-            ProxRedLeft.setVisibility(View.INVISIBLE);
-        } else if (west <= 75 && west > 50) {
-            ProxJauLeft.setVisibility(View.VISIBLE);
-            ProxOrLeft.setVisibility(View.VISIBLE);
-            ProxRedLeft.setVisibility(View.INVISIBLE);
-        } else if (west <= 50) {
-            ProxJauLeft.setVisibility(View.VISIBLE);
-            ProxOrLeft.setVisibility(View.VISIBLE);
-            ProxRedLeft.setVisibility(View.VISIBLE);
+        if (west > 0) {
+            if (west > 100) {
+                ProxJauLeft.setVisibility(View.INVISIBLE);
+                ProxOrLeft.setVisibility(View.INVISIBLE);
+                ProxRedLeft.setVisibility(View.INVISIBLE);
+            } else if (west <= 100 && west > 75) {
+                ProxJauLeft.setVisibility(View.VISIBLE);
+                ProxOrLeft.setVisibility(View.INVISIBLE);
+                ProxRedLeft.setVisibility(View.INVISIBLE);
+            } else if (west <= 75 && west > 50) {
+                ProxJauLeft.setVisibility(View.VISIBLE);
+                ProxOrLeft.setVisibility(View.VISIBLE);
+                ProxRedLeft.setVisibility(View.INVISIBLE);
+            } else if (west <= 50) {
+                ProxJauLeft.setVisibility(View.VISIBLE);
+                ProxOrLeft.setVisibility(View.VISIBLE);
+                ProxRedLeft.setVisibility(View.VISIBLE);
+            }
+        }
+        if (east > 0) {
+            if (east > 100) {
+                ProxJauRight.setVisibility(View.INVISIBLE);
+                ProxOrRight.setVisibility(View.INVISIBLE);
+                ProxRedRight.setVisibility(View.INVISIBLE);
+            } else if (east <= 100 && east > 75) {
+                ProxJauRight.setVisibility(View.VISIBLE);
+                ProxOrRight.setVisibility(View.INVISIBLE);
+                ProxRedRight.setVisibility(View.INVISIBLE);
+            } else if (east <= 75 && east > 50) {
+                ProxJauRight.setVisibility(View.VISIBLE);
+                ProxOrRight.setVisibility(View.VISIBLE);
+                ProxRedRight.setVisibility(View.INVISIBLE);
+            } else if (east <= 50) {
+                ProxJauRight.setVisibility(View.VISIBLE);
+                ProxOrRight.setVisibility(View.VISIBLE);
+                ProxRedRight.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (east > 100) {
-            ProxJauRight.setVisibility(View.INVISIBLE);
-            ProxOrRight.setVisibility(View.INVISIBLE);
-            ProxRedRight.setVisibility(View.INVISIBLE);
-        } else if (east <= 100 && east > 75) {
-            ProxJauRight.setVisibility(View.VISIBLE);
-            ProxOrRight.setVisibility(View.INVISIBLE);
-            ProxRedRight.setVisibility(View.INVISIBLE);
-        } else if (east <= 75 && east > 50) {
-            ProxJauRight.setVisibility(View.VISIBLE);
-            ProxOrRight.setVisibility(View.VISIBLE);
-            ProxRedRight.setVisibility(View.INVISIBLE);
-        } else if (east <= 50) {
-            ProxJauRight.setVisibility(View.VISIBLE);
-            ProxOrRight.setVisibility(View.VISIBLE);
-            ProxRedRight.setVisibility(View.VISIBLE);
+        if (north > 0) {
+            if (north > 100) {
+                ProxJauTop.setVisibility(View.INVISIBLE);
+                ProxOrTop.setVisibility(View.INVISIBLE);
+                ProxRedTop.setVisibility(View.INVISIBLE);
+            } else if (north <= 100 && north > 75) {
+                ProxJauTop.setVisibility(View.VISIBLE);
+                ProxOrTop.setVisibility(View.INVISIBLE);
+                ProxRedTop.setVisibility(View.INVISIBLE);
+            } else if (north <= 75 && north > 50) {
+                ProxJauTop.setVisibility(View.VISIBLE);
+                ProxOrTop.setVisibility(View.VISIBLE);
+                ProxRedTop.setVisibility(View.INVISIBLE);
+            } else if (north <= 50) {
+                ProxJauTop.setVisibility(View.VISIBLE);
+                ProxOrTop.setVisibility(View.VISIBLE);
+                ProxRedTop.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (north > 100) {
-            ProxJauTop.setVisibility(View.INVISIBLE);
-            ProxOrTop.setVisibility(View.INVISIBLE);
-            ProxRedTop.setVisibility(View.INVISIBLE);
-        } else if (north <= 100 && north > 75) {
-            ProxJauTop.setVisibility(View.VISIBLE);
-            ProxOrTop.setVisibility(View.INVISIBLE);
-            ProxRedTop.setVisibility(View.INVISIBLE);
-        } else if (north <= 75 && north > 50) {
-            ProxJauTop.setVisibility(View.VISIBLE);
-            ProxOrTop.setVisibility(View.VISIBLE);
-            ProxRedTop.setVisibility(View.INVISIBLE);
-        } else if (north <= 50) {
-            ProxJauTop.setVisibility(View.VISIBLE);
-            ProxOrTop.setVisibility(View.VISIBLE);
-            ProxRedTop.setVisibility(View.VISIBLE);
+        if (south > 0) {
+            if (south > 100) {
+                ProxJauBot.setVisibility(View.INVISIBLE);
+                ProxOrBot.setVisibility(View.INVISIBLE);
+                ProxRedBot.setVisibility(View.INVISIBLE);
+            } else if (south <= 100 && south > 75) {
+                ProxJauBot.setVisibility(View.VISIBLE);
+                ProxOrBot.setVisibility(View.INVISIBLE);
+                ProxRedBot.setVisibility(View.INVISIBLE);
+            } else if (south <= 75 && south > 50) {
+                ProxJauBot.setVisibility(View.VISIBLE);
+                ProxOrBot.setVisibility(View.VISIBLE);
+                ProxRedBot.setVisibility(View.INVISIBLE);
+            } else if (south <= 50) {
+                ProxJauBot.setVisibility(View.VISIBLE);
+                ProxOrBot.setVisibility(View.VISIBLE);
+                ProxRedBot.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (south > 100) {
-            ProxJauBot.setVisibility(View.INVISIBLE);
-            ProxOrBot.setVisibility(View.INVISIBLE);
-            ProxRedBot.setVisibility(View.INVISIBLE);
-        } else if (south <= 100 && south > 75) {
-            ProxJauBot.setVisibility(View.VISIBLE);
-            ProxOrBot.setVisibility(View.INVISIBLE);
-            ProxRedBot.setVisibility(View.INVISIBLE);
-        } else if (south <= 75 && south > 50) {
-            ProxJauBot.setVisibility(View.VISIBLE);
-            ProxOrBot.setVisibility(View.VISIBLE);
-            ProxRedBot.setVisibility(View.INVISIBLE);
-        } else if (south <= 50) {
-            ProxJauBot.setVisibility(View.VISIBLE);
-            ProxOrBot.setVisibility(View.VISIBLE);
-            ProxRedBot.setVisibility(View.VISIBLE);
+        if (above > 0) {
+            if (above > 100) {
+                ProxJauUp.setVisibility(View.INVISIBLE);
+                ProxOrUp.setVisibility(View.INVISIBLE);
+                ProxRedUp.setVisibility(View.INVISIBLE);
+            } else if (above <= 100 && above > 75) {
+                ProxJauUp.setVisibility(View.VISIBLE);
+                ProxOrUp.setVisibility(View.INVISIBLE);
+                ProxRedUp.setVisibility(View.INVISIBLE);
+            } else if (above <= 75 && above > 50) {
+                ProxJauUp.setVisibility(View.VISIBLE);
+                ProxOrUp.setVisibility(View.VISIBLE);
+                ProxRedUp.setVisibility(View.INVISIBLE);
+            } else if (above <= 50) {
+                ProxJauUp.setVisibility(View.VISIBLE);
+                ProxOrUp.setVisibility(View.VISIBLE);
+                ProxRedUp.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (above > 100) {
-            ProxJauUp.setVisibility(View.INVISIBLE);
-            ProxOrUp.setVisibility(View.INVISIBLE);
-            ProxRedUp.setVisibility(View.INVISIBLE);
-        } else if (above <= 100 && above > 75) {
-            ProxJauUp.setVisibility(View.VISIBLE);
-            ProxOrUp.setVisibility(View.INVISIBLE);
-            ProxRedUp.setVisibility(View.INVISIBLE);
-        } else if (above <= 75 && above > 50) {
-            ProxJauUp.setVisibility(View.VISIBLE);
-            ProxOrUp.setVisibility(View.VISIBLE);
-            ProxRedUp.setVisibility(View.INVISIBLE);
-        } else if (above <= 50) {
-            ProxJauUp.setVisibility(View.VISIBLE);
-            ProxOrUp.setVisibility(View.VISIBLE);
-            ProxRedUp.setVisibility(View.VISIBLE);
-        }
-        if (above > 100) {
-            ProxJauDown.setVisibility(View.INVISIBLE);
-            ProxOrDown.setVisibility(View.INVISIBLE);
-            ProxRedDown.setVisibility(View.INVISIBLE);
-        } else if (above <= 100 && above > 75) {
-            ProxJauDown.setVisibility(View.VISIBLE);
-            ProxOrDown.setVisibility(View.INVISIBLE);
-            ProxRedDown.setVisibility(View.INVISIBLE);
-        } else if (above <= 75 && above > 50) {
-            ProxJauDown.setVisibility(View.VISIBLE);
-            ProxOrDown.setVisibility(View.VISIBLE);
-            ProxRedDown.setVisibility(View.INVISIBLE);
-        } else if (above <= 50) {
-            ProxJauDown.setVisibility(View.VISIBLE);
-            ProxOrDown.setVisibility(View.VISIBLE);
-            ProxRedDown.setVisibility(View.VISIBLE);
-        }
+
     }
 }
 

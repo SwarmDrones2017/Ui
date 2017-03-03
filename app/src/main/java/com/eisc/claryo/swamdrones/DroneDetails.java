@@ -114,8 +114,10 @@ public class DroneDetails extends AppCompatActivity {
                 Intent MainActivity = new Intent(DroneDetails.this, MainActivity.class);
                 startActivity(MainActivity);
                 for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
-                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                            GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                    }
                 }
             }
         });

@@ -14,44 +14,46 @@ class GlobalCouple {
 
     static public boolean raspberryExist(InetAddress address) {
         InetAddress tmp;
-        boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            if(couples.get(i).getBebopDrone() != null) {
-                if(couples.get(i).getRaspberry() != null){
-                    tmp = couples.get(i).getRaspberry().getAddress();
-                    if (tmp.equals(address)) {
-                        exist = true;
-                    }
+            if (couples.get(i).getRaspberry() != null) {
+                tmp = couples.get(i).getRaspberry().getAddress();
+                if (tmp.equals(address)) {
+                    return true;
                 }
             }
+
         }
-        return exist;
+        return false;
     }
 
     static public boolean droneExist(String nameDrone) {
         String tmp;
-        boolean exist = false;
         for (int i = 0; i < couples.size(); i++) {
-            if(couples.get(i).getBebopDrone() != null){
+            if (couples.get(i).getBebopDrone() != null) {
                 tmp = couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
                 if (tmp.equals(nameDrone)) {
-                    exist = true;
+                    return true;
                 }
             }
         }
-        return exist;
+        return false;
     }
 
-   static public int raspberryCorrespondante(BebopDrone drone){
-       int positionCoupleDansListe =-1;
-       byte[] droneAdd = drone.getIP().getAddress();
-       byte droneLastOctet = droneAdd[droneAdd.length-1];
+    /**
+     * Chercher la pi correspondante au drone
+     * @param drone
+     * @return index du couple
+     */
+    static public int raspberryCorrespondante(BebopDrone drone) {
+        int positionCoupleDansListe = -1;
+        byte[] droneAdd = drone.getIP().getAddress();
+        byte droneLastOctet = droneAdd[droneAdd.length - 1];
 
         for (int i = 0; i < couples.size(); i++) {
             if (couples.get(i).getRaspberry() != null) {
                 byte[] rpiAdd = couples.get(i).getRaspberry().getAddress().getAddress();
                 byte rPiLastOctet = rpiAdd[rpiAdd.length - 1];
-                if (rPiLastOctet - 1 == droneLastOctet)
+                if (rPiLastOctet + 1 == droneLastOctet)
                     positionCoupleDansListe = i;
             }
         }
@@ -61,12 +63,12 @@ class GlobalCouple {
     static public int droneCorrespondant(Raspberry raspberry) {
         int positionCoupleDansListe = -1;
         byte[] rpiAdd = raspberry.getAddress().getAddress();
-        byte rPiLastOctet = rpiAdd[rpiAdd.length-1];
-        for(int i=0; i<couples.size(); i++){
-            if(couples.get(i).getBebopDrone() != null){
+        byte rPiLastOctet = rpiAdd[rpiAdd.length - 1];
+        for (int i = 0; i < couples.size(); i++) {
+            if (couples.get(i).getBebopDrone() != null) {
                 byte[] droneAdd = couples.get(i).getBebopDrone().getIP().getAddress();
-                byte droneLastOctet = droneAdd[droneAdd.length-1];
-                if(rPiLastOctet == droneLastOctet-1)
+                byte droneLastOctet = droneAdd[droneAdd.length - 1];
+                if (rPiLastOctet == droneLastOctet - 1)
                     positionCoupleDansListe = i;
             }
         }
@@ -75,13 +77,14 @@ class GlobalCouple {
 
     /**
      * Retourne l'indice du couple dans lequel il contient le bebop avec le nom name
+     *
      * @param name nom du drone
      * @return l'indice du couple dans lequel il contient le bebop name
      */
-    static public int droneNameCorrespondant(String name){
-        for (int i = 0;i < GlobalCouple.couples.size();i++){
-            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                if(name.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName())){
+    static public int droneNameCorrespondant(String name) {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                if (name.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName())) {
                     return i;
                 }
             }
@@ -89,6 +92,7 @@ class GlobalCouple {
         }
         return -1;
     }
+
     static public int indexDroneCorrespondant(ARDeviceController deviceController) {
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
@@ -102,30 +106,28 @@ class GlobalCouple {
 
 
     /**
-     *
      * @return l'indice du master, si aucun aster alors -1
      */
-    static public int whoIsMaster(){
+    static public int whoIsMaster() {
 
-        for (int i = 0;i < GlobalCouple.couples.size();i++){
-            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                if(GlobalCouple.couples.get(i).getBebopDrone().isMaster()){
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
+                if (GlobalCouple.couples.get(i).getBebopDrone().isMaster()) {
                     return i;
                 }
             }
         }
         return -1;
     }
+
     /**
-     *
      * @param addr l'adresse IP d'un Bebop
      * @return l'indice correspondant, -1 si existe pas
      */
-    static public int raspberryIPCorrespondante(InetAddress addr)
-    {
-        for (int i = 0;i < GlobalCouple.couples.size();i++){
-            if(GlobalCouple.couples.get(i).getRaspberry()!=null){
-                if(GlobalCouple.couples.get(i).getRaspberry().getAddress().equals(addr)){
+    static public int raspberryIPCorrespondante(InetAddress addr) {
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+            if (GlobalCouple.couples.get(i).getRaspberry() != null) {
+                if (GlobalCouple.couples.get(i).getRaspberry().getAddress().equals(addr)) {
                     return i;
                 }
             }

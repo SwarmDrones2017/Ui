@@ -112,16 +112,17 @@ public class EssaimView extends AppCompatActivity {
         Random r = new Random();
 
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+            if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
                 droneName = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
                 if (GlobalCouple.couples.get(i).getBebopDrone().getxEssaimView() < 0 && GlobalCouple.couples.get(i).getBebopDrone().getyEssaimView() < 0) {
                     GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
                     GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
                 }
-                indexColor++;
-                if(indexColor > tabColor.length)
-                    indexColor=0;
             }
+            indexColor++;
+            if (indexColor > tabColor.length)
+                indexColor = 0;
+
             EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, droneName, tabColor[indexColor]);
             lEssaimViewInfoDrone.add(essaimViewInfoDrone);
 
@@ -136,15 +137,15 @@ public class EssaimView extends AppCompatActivity {
             lToggleBtnSelectDrone.add(toggleBtnSelectDrone);
         }
         //s'il y a un drone ou +, on affiche le bouton pour sélectionner tous les drones en même temps
-        if(GlobalCouple.couples.size()>0){
+        if (GlobalCouple.couples.size() > 0) {
             btnAllDrones.setVisibility(View.VISIBLE);
         }
         //Listener du bouton AllDrone
         btnAllDrones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=0; i<GlobalCouple.couples.size(); i++){
-                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                    if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
                         GlobalCouple.couples.get(i).getBebopDrone().setFlyAuthorization(true);//on autorise tous les drones à voler
                     }
                     lToggleBtnSelectDrone.get(i).tglBtnSetDrone.setChecked(true);//on met tous les toggle button à true
@@ -211,7 +212,7 @@ public class EssaimView extends AppCompatActivity {
                     view.setVisibility(View.VISIBLE);
 
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if (GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
                             if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName())) {
 
                                 lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
@@ -282,16 +283,16 @@ class ProxyBars extends AppCompatActivity {
     private final AbsoluteLayout Ecran;
     private final Context context;
     private final float density;
+    private final int indexDrone;
+    private final int indexColor;
     ImageView Drone;
     ImageView ProxJauLeft, ProxOrLeft, ProxRedLeft, ProxJauRight, ProxOrRight, ProxRedRight, ProxJauTop, ProxOrTop, ProxRedTop, ProxJauBot,
             ProxOrBot, ProxRedBot, ProxJauUp, ProxOrUp, ProxRedUp, ProxJauDown, ProxOrDown, ProxRedDown;
-    private final int indexDrone;
     private int north = 151;
     private int south = 151;
     private int east = 151;
     private int west = 151;
     private int above = 151;
-    private final int indexColor;
 
     public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName, int indexColor) {
         this.context = context;
@@ -567,10 +568,13 @@ class ProxyBars extends AppCompatActivity {
     }
 }
 
-class EssaimViewInfoDrone extends AppCompatActivity{
+class EssaimViewInfoDrone extends AppCompatActivity {
 
     private final Context context;
     private final LinearLayout LayoutDroneInfo;
+    private final int indexDrone;
+    private final BebopDrone.Listener mBebopDroneListener;
+    private final int indexColor;
     private LinearLayout LayoutDroneVertical;
     private LinearLayout LayoutDroneVitesse;
     private LinearLayout LayoutDroneAltitude;
@@ -582,14 +586,11 @@ class EssaimViewInfoDrone extends AppCompatActivity{
     private ImageView MaxSpeedImg;
     private ImageView AltitudeImg;
     private ImageView BatteryImg;
-    private final int indexDrone;
     private int batteryPercentage;
     private double AltitudeDrone;
-    private final BebopDrone.Listener mBebopDroneListener;
     private DecimalFormat df;
-    private final int indexColor;
 
-    public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName, int color){
+    public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName, int color) {
         this.context = context;
         LayoutDroneInfo = layoutdroneinfo;
         indexDrone = GlobalCouple.droneNameCorrespondant(droneName);
@@ -604,7 +605,7 @@ class EssaimViewInfoDrone extends AppCompatActivity{
 
             @Override
             public void onBatteryChargeChanged(int batteryPercentage) {
-                if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+                if ((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)) {
                     batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
                 }
 
@@ -664,12 +665,12 @@ class EssaimViewInfoDrone extends AppCompatActivity{
 
             }
         };
-        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+        if ((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)) {
             GlobalCouple.couples.get(indexDrone).getBebopDrone().addListener(mBebopDroneListener);
         }
     }
 
-    private void displayInfos(){
+    private void displayInfos() {
 
         df = new DecimalFormat("0.0");
 
@@ -686,10 +687,9 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         LayoutDroneBatterie.setOrientation(LinearLayout.HORIZONTAL);
 
         NomDrone = new TextView(context);
-        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
-            NomDrone.setText(" "+GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName()+" ");
-        }
-        else {
+        if ((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)) {
+            NomDrone.setText(" " + GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName() + " ");
+        } else {
             NomDrone.setText(" Nop ");
         }
 
@@ -701,10 +701,9 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         MaxSpeedImg.setImageResource(R.drawable.ic_speed);
 
         MaxSpeed = new TextView(context);
-        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+        if ((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)) {
             MaxSpeed.setText(df.format(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getSpeedtilt()) + "\n°/s");
-        }
-        else {
+        } else {
             MaxSpeed.setText(" Nop ");
         }
         MaxSpeed.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
@@ -724,7 +723,7 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         Altitude.setGravity(Gravity.CENTER);
 
         BatteryImg = new ImageView(context);
-        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+        if ((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)) {
             batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
         }
 
@@ -771,6 +770,7 @@ class EssaimViewInfoDrone extends AppCompatActivity{
     }
 
 }
+
 @TargetApi(21)
 class ToggleBtnSelectDrone extends AppCompatActivity {
     final ToggleButton tglBtnSetDrone;

@@ -377,8 +377,10 @@ public class Control extends AppCompatActivity {
                     GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
                     GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
-                            GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                        if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                            if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                                GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                        }
                     }
                 }
                 Control.this.finish();

@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 //        super.onRestart();
 //        Log.i("OnRestart", "restart");
 //    }
-
+/*
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -234,5 +234,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    */
 }
 

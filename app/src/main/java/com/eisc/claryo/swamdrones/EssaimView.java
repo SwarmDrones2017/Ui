@@ -112,15 +112,16 @@ public class EssaimView extends AppCompatActivity {
         Random r = new Random();
 
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-            droneName = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
-            if (GlobalCouple.couples.get(i).getBebopDrone().getxEssaimView() < 0 && GlobalCouple.couples.get(i).getBebopDrone().getyEssaimView() < 0) {
-                GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
-                GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
+            if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                droneName = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
+                if (GlobalCouple.couples.get(i).getBebopDrone().getxEssaimView() < 0 && GlobalCouple.couples.get(i).getBebopDrone().getyEssaimView() < 0) {
+                    GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(r.nextInt(633));
+                    GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(r.nextInt(360));
+                }
+                indexColor++;
+                if(indexColor > tabColor.length)
+                    indexColor=0;
             }
-            indexColor++;
-            if(indexColor > tabColor.length)
-                indexColor=0;
-
             EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, droneName, tabColor[indexColor]);
             lEssaimViewInfoDrone.add(essaimViewInfoDrone);
 
@@ -143,7 +144,9 @@ public class EssaimView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 for(int i=0; i<GlobalCouple.couples.size(); i++){
-                    GlobalCouple.couples.get(i).getBebopDrone().setFlyAuthorization(true);//on autorise tous les drones à voler
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        GlobalCouple.couples.get(i).getBebopDrone().setFlyAuthorization(true);//on autorise tous les drones à voler
+                    }
                     lToggleBtnSelectDrone.get(i).tglBtnSetDrone.setChecked(true);//on met tous les toggle button à true
                 }
             }
@@ -208,55 +211,57 @@ public class EssaimView extends AppCompatActivity {
                     view.setVisibility(View.VISIBLE);
 
                     for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                        if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName())) {
+                        if (GlobalCouple.couples.get(i).getBebopDrone() != null){
+                            if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName())) {
 
-                            lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxJauDown.setY(y + 65 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxOrDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxOrDown.setY(y + 55 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxRedDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxRedDown.setY(y + 45 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxJauDown.setY(y + 65 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxOrDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxOrDown.setY(y + 55 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxRedDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxRedDown.setY(y + 45 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).Drone.setX(x - imgDroneWidth / 2);
-                            lProxyBars.get(i).Drone.setY(y - imgDroneHeight / 2);
+                                lProxyBars.get(i).Drone.setX(x - imgDroneWidth / 2);
+                                lProxyBars.get(i).Drone.setY(y - imgDroneHeight / 2);
 
-                            GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(lProxyBars.get(i).Drone.getX());
-                            GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(lProxyBars.get(i).Drone.getY());
+                                GlobalCouple.couples.get(i).getBebopDrone().setxEssaimView(lProxyBars.get(i).Drone.getX());
+                                GlobalCouple.couples.get(i).getBebopDrone().setyEssaimView(lProxyBars.get(i).Drone.getY());
 
-                            lProxyBars.get(i).ProxJauLeft.setX(x - 30 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxJauLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxOrLeft.setX(x - 20 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxOrLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxRedLeft.setX(x - 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxRedLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxJauLeft.setX(x - 30 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxJauLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxOrLeft.setX(x - 20 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxOrLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxRedLeft.setX(x - 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxRedLeft.setY(y + 10 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauRight.setX(x + 121 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxJauRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxOrRight.setX(x + 111 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxOrRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxRedRight.setX(x + 101 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxRedRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxJauRight.setX(x + 121 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxJauRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxOrRight.setX(x + 111 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxOrRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxRedRight.setX(x + 101 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxRedRight.setY(y + 10 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxJauTop.setY(y - 30 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxOrTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxOrTop.setY(y - 20 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxRedTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxRedTop.setY(y - 10 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxJauTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxJauTop.setY(y - 30 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxOrTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxOrTop.setY(y - 20 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxRedTop.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxRedTop.setY(y - 10 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxJauBot.setY(y + 121 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxOrBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxOrBot.setY(y + 111 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxRedBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxRedBot.setY(y + 101 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxJauBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxJauBot.setY(y + 121 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxOrBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxOrBot.setY(y + 111 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxRedBot.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxRedBot.setY(y + 101 * density / 2 - imgDroneHeight / 2);
 
-                            lProxyBars.get(i).ProxJauUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxJauUp.setY(y - 5 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxOrUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxOrUp.setY(y + 5 * density / 2 - imgDroneHeight / 2);
-                            lProxyBars.get(i).ProxRedUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
-                            lProxyBars.get(i).ProxRedUp.setY(y + 15 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxJauUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxJauUp.setY(y - 5 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxOrUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxOrUp.setY(y + 5 * density / 2 - imgDroneHeight / 2);
+                                lProxyBars.get(i).ProxRedUp.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                lProxyBars.get(i).ProxRedUp.setY(y + 15 * density / 2 - imgDroneHeight / 2);
+                            }
                         }
                     }
                     break;
@@ -311,7 +316,7 @@ class ProxyBars extends AppCompatActivity {
             };
             GlobalCouple.couples.get(indexDrone).getRaspberry().setHandlerObstacle(handlerObstacle);
         }
-
+        // peut pas le proteger
         PlageX = GlobalCouple.couples.get(indexDrone).getBebopDrone().getxEssaimView();
         PlageY = GlobalCouple.couples.get(indexDrone).getBebopDrone().getyEssaimView();
 
@@ -599,7 +604,10 @@ class EssaimViewInfoDrone extends AppCompatActivity{
 
             @Override
             public void onBatteryChargeChanged(int batteryPercentage) {
-                batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
+                if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+                    batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
+                }
+
 
                 if (batteryPercentage > 97)
                     BatteryImg.setImageResource(R.drawable.ic_battery_full_24dp);
@@ -656,7 +664,9 @@ class EssaimViewInfoDrone extends AppCompatActivity{
 
             }
         };
-        GlobalCouple.couples.get(indexDrone).getBebopDrone().addListener(mBebopDroneListener);
+        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+            GlobalCouple.couples.get(indexDrone).getBebopDrone().addListener(mBebopDroneListener);
+        }
     }
 
     private void displayInfos(){
@@ -676,7 +686,13 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         LayoutDroneBatterie.setOrientation(LinearLayout.HORIZONTAL);
 
         NomDrone = new TextView(context);
-        NomDrone.setText(" "+GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName()+" ");
+        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+            NomDrone.setText(" "+GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getDroneName()+" ");
+        }
+        else {
+            NomDrone.setText(" Nop ");
+        }
+
         NomDrone.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         NomDrone.setTextColor(indexColor);
         NomDrone.setGravity(Gravity.CENTER);
@@ -685,7 +701,12 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         MaxSpeedImg.setImageResource(R.drawable.ic_speed);
 
         MaxSpeed = new TextView(context);
-        MaxSpeed.setText(df.format(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getSpeedtilt()) + "\n°/s");
+        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+            MaxSpeed.setText(df.format(GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getSpeedtilt()) + "\n°/s");
+        }
+        else {
+            MaxSpeed.setText(" Nop ");
+        }
         MaxSpeed.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         MaxSpeed.setTextColor(Color.BLACK);
         MaxSpeed.setGravity(Gravity.CENTER);
@@ -703,8 +724,10 @@ class EssaimViewInfoDrone extends AppCompatActivity{
         Altitude.setGravity(Gravity.CENTER);
 
         BatteryImg = new ImageView(context);
+        if((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)){
+            batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
+        }
 
-        batteryPercentage = GlobalCouple.couples.get(indexDrone).getBebopDrone().getInfoDrone().getBattery();
 
         if (batteryPercentage > 97)
             BatteryImg.setImageResource(R.drawable.ic_battery_full_24dp);

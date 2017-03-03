@@ -357,9 +357,11 @@ public class Control extends AppCompatActivity {
         updateLevelBattery();
 
         //set video
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
-        startVideo(); //on lance la vidéo
+        if(positionMaster != -1){
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
+            startVideo(); //on lance la vidéo
+        }
 
         proxyBars();
 
@@ -371,11 +373,13 @@ public class Control extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 stopVideo();
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
-                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                if(positionMaster != -1){
+                    GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
+                    GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                    for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                        if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                            GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                    }
                 }
                 Control.this.finish();
                 Intent MainActivity = new Intent(Control.this, MainActivity.class);
@@ -387,14 +391,18 @@ public class Control extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 stopVideo();
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                if(positionMaster != -1){
+                    GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
+                    GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                }
                 Control.this.finish();
                 Control.this.finish();
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
                 for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
-                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+                            GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+                    }
                 }
                 startActivity(EssaimConfigActivity);
             }
@@ -404,8 +412,10 @@ public class Control extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 stopVideo();
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
-                GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                if(positionMaster != -1){
+                    GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
+                    GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
+                }
                 Control.this.finish();
                 Intent EssaimViewActivity = new Intent(Control.this, EssaimView.class);
                 startActivity(EssaimViewActivity);
@@ -438,7 +448,9 @@ public class Control extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    GlobalCouple.couples.get(i).getBebopDrone().emergency();
+                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+                        GlobalCouple.couples.get(i).getBebopDrone().emergency();
+                    }
                 }
             }
         });
@@ -696,12 +708,14 @@ public class Control extends AppCompatActivity {
 
         @Override
         public void configureDecoder(ARControllerCodec codec) {
-            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(codec);
+            if(positionMaster != -1)
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(codec);
         }
 
         @Override
         public void onFrameReceived(ARFrame frame) {
-            GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
+            if (positionMaster != -1)
+                GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
         }
 
         @Override
@@ -721,11 +735,13 @@ public class Control extends AppCompatActivity {
     };
 
     private void stopVideo() {
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
+        if(positionMaster != -1)
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
     }
 
     private void startVideo() {
-        GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
+        if(positionMaster != -1)
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
     }
 
     private void allStopMoveForward() {

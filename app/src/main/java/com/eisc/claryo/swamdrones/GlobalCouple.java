@@ -63,10 +63,12 @@ class GlobalCouple {
         byte[] rpiAdd = raspberry.getAddress().getAddress();
         byte rPiLastOctet = rpiAdd[rpiAdd.length-1];
         for(int i=0; i<couples.size(); i++){
-            byte[] droneAdd = couples.get(i).getBebopDrone().getIP().getAddress();
-            byte droneLastOctet = droneAdd[droneAdd.length-1];
-            if(rPiLastOctet == droneLastOctet-1)
-                positionCoupleDansListe = i;
+            if(couples.get(i).getBebopDrone() != null){
+                byte[] droneAdd = couples.get(i).getBebopDrone().getIP().getAddress();
+                byte droneLastOctet = droneAdd[droneAdd.length-1];
+                if(rPiLastOctet == droneLastOctet-1)
+                    positionCoupleDansListe = i;
+            }
         }
         return positionCoupleDansListe;
     }

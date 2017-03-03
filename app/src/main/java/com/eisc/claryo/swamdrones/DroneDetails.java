@@ -91,7 +91,8 @@ public class DroneDetails extends AppCompatActivity {
             updateBatteryLevel();
 
             for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerDetails);
+                if(GlobalCouple.couples.get(i).getBebopDrone() != null)
+                    GlobalCouple.couples.get(i).getBebopDrone().addListener(mBebopListenerDetails);
             }
 
         } else {

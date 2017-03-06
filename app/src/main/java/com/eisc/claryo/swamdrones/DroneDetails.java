@@ -46,6 +46,10 @@ public class DroneDetails extends AppCompatActivity {
         }
     };
 
+    /**
+     * Création de l'interface des details d'un drone
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +97,10 @@ public class DroneDetails extends AppCompatActivity {
             listC.setAdapter(adapter);
             progress = extras.getInt("Battery");
 
-            //On gère l'affichage de la batterie des drones à la création de la vue
+            /**
+             * Affichage de l'état de la batterie
+             */
+
             updateBatteryLevel();
 
             for (int i = 0; i < GlobalCouple.couples.size(); i++) {
@@ -128,7 +135,6 @@ public class DroneDetails extends AppCompatActivity {
             }
         });
     }
-
     /**
      * Récupère la valeur de la batterie et met à jour le texte et la progressBar
      * Méthode utiliser à la création de la vue
@@ -158,6 +164,10 @@ public class DroneDetails extends AppCompatActivity {
 
         }
 
+        /**
+         * Listener pour le pourcentage de batterie restant
+         * @param batteryPercentage the battery remaining (in percent)
+         */
         @Override
         public void onBatteryChargeChanged(int batteryPercentage) {
             Log.i("updateBattery", "UpdateBatteryDetails");

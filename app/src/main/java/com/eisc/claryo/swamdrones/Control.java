@@ -47,6 +47,10 @@ public class Control extends AppCompatActivity {
     private ImageButton btn_yaw_left;
     private ImageButton btn_yaw_right;
 
+    /**
+     * Configuration par defaut des distances captées
+     */
+
     private int north = 151;
     private int south = 151;
     private int west = 151;
@@ -58,6 +62,10 @@ public class Control extends AppCompatActivity {
             ProxRougeDroite, ProxJauneDevant, ProxOrangeDevant, ProxRougeDevant, ProxJauneDerriere, ProxOrangeDerriere,
             ProxRougeDerriere, ProxJauneAbove, ProxOrangeAbove, ProxRougeAbove, ProxJauneBelow, ProxOrangeBelow, ProxRougeBelow;
 
+    /**
+     * Handler pour l'affichage de la batterie
+     */
+
     private final Handler handlerBattery = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -65,6 +73,10 @@ public class Control extends AppCompatActivity {
             updateLevelBattery();
         }
     };
+
+    /**
+     * Handler pour le controle du mouvement des drones en présence d'un obstacle
+     */
 
     private final Handler handlerObstacle = new Handler() {
         @Override
@@ -136,8 +148,12 @@ public class Control extends AppCompatActivity {
         }
     };
 
+    /**
+     * Fonction de mise à jour de la batterie
+     */
+
     private void updateLevelBattery() {
-        Log.i("updateBattery", "UpdateBatteryControl");
+        //Log.i("updateBattery", "UpdateBatteryControl");
         if (batteryPercentage > 65)
             progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
         else if (batteryPercentage > 35)
@@ -167,8 +183,11 @@ public class Control extends AppCompatActivity {
 
     }
 
+    /**
+     * Fonction d'affichage des indicateurs de proximité
+     */
+
     private void proxyBars() {
-        //Gérer l'apparition des lignes de proximité
 
         if (west > 100) {
             ProxJauneGauche.setVisibility(View.INVISIBLE);
@@ -279,6 +298,11 @@ public class Control extends AppCompatActivity {
         }
     }
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -292,8 +316,7 @@ public class Control extends AppCompatActivity {
         batteryIndicator = (ImageView) findViewById(R.id.battery_indicator);
 
         btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
-        ImageButton btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        ImageButton btnSwapView = (ImageButton) findViewById(R.id.btnSwapView);
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
         btnRetour = (ImageButton) findViewById(R.id.btnRetourMenuPrincipal1);
         btn_forward = (ImageButton) findViewById(R.id.btn_forward);
         btn_roll_left = (ImageButton) findViewById(R.id.btn_roll_left);
@@ -335,6 +358,11 @@ public class Control extends AppCompatActivity {
 
         positionMaster = -1;
         batteryPercentage = 100;
+
+        /**
+         * Affichage de la batterie à la création de l'interface
+         */
+
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if(GlobalCouple.couples.get(i).getBebopDrone() != null){
                 if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
@@ -353,10 +381,16 @@ public class Control extends AppCompatActivity {
         }
 //        Log.i("PositionMaster", "Position Master : " + positionMaster);
 
-        //affichage batterie
+        /**
+         * Mise à jour de l'affichage de la batterie
+         */
+
         updateLevelBattery();
 
-        //set video
+        /**
+         * Gestion de l'affichage de la video
+         */
+
         if(positionMaster != -1){
             GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
             GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
@@ -366,8 +400,9 @@ public class Control extends AppCompatActivity {
         proxyBars();//création des barres de proximité
 
         /**
-         Gestion des boutons
+         * Gestion des boutons
          */
+
         /*Boutons pour changer de vue*/
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -424,6 +459,7 @@ public class Control extends AppCompatActivity {
         });
 
         /*Boutons de pilotage*/
+
         toggle_takeoff_land.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -659,6 +695,10 @@ public class Control extends AppCompatActivity {
         setResult(RESULT_OK, ControlActivity);
     }
 
+    /**
+     * Gestion des listeners
+     */
+
     private final BebopDrone.Listener mBebopListener = new BebopDrone.Listener() {
 
         @Override
@@ -666,9 +706,14 @@ public class Control extends AppCompatActivity {
 
         }
 
+        /**
+         * Listener pour l'affichage de la batterie
+         * @param batteryPercentage the battery remaining (in percent)
+         */
+
         @Override
         public void onBatteryChargeChanged(int batteryPercentage) {
-            Log.i("updateBattery", "UpdateBatteryControl");
+            //Log.i("updateBattery", "UpdateBatteryControl");
             if (batteryPercentage > 65)
                 progressBarBatterie.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal));
             else if (batteryPercentage > 35)
@@ -707,16 +752,22 @@ public class Control extends AppCompatActivity {
 
         }
 
+        /**
+         * Configuration du codec pour l'affichage de la video
+         * @param codec the codec to configure the decoder with
+         */
         @Override
         public void configureDecoder(ARControllerCodec codec) {
-            //configuration vidéo
             if(positionMaster != -1)
                 GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(codec);
         }
 
+        /**
+         * Gestion de la video en frame
+         * @param frame the video frame
+         */
         @Override
         public void onFrameReceived(ARFrame frame) {
-            //affichage video
             if (positionMaster != -1)
                 GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
         }
@@ -737,18 +788,25 @@ public class Control extends AppCompatActivity {
         }
     };
 
+    /**
+     * Gestion de l'arret du streaming video
+     */
     private void stopVideo() {
-        //arreter le stream
         if(positionMaster != -1)
             GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
     }
 
+    /**
+     * Gestion de lancement du streaming video
+     */
     private void startVideo() {
-        //autoriser le stream
         if(positionMaster != -1)
             GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
     }
 
+    /**
+     * Arret des mouvements des drones lors de la detection d'un obstacle
+     */
     private void allStopMoveForward() {
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if (GlobalCouple.couples.get(i).getBebopDrone() != null) {

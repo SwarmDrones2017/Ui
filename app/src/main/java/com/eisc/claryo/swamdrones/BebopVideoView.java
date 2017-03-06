@@ -1,5 +1,9 @@
 package com.eisc.claryo.swamdrones;
 
+/**
+ * Classe gérant l'affichage de la vidéo selon le sdk de Parrot
+ */
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.MediaCodec;

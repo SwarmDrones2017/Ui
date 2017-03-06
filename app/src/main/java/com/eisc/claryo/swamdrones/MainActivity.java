@@ -1,5 +1,10 @@
 package com.eisc.claryo.swamdrones;
 
+/**
+ * Classe correspondant au menu principal
+ * Présence des drones de l'essaim
+ */
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +22,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Classe principale qui se créée au lancement de l'application
- */
 public class MainActivity extends AppCompatActivity {
 
     public static final String MSG_ANY_DRONES = "Aucun";

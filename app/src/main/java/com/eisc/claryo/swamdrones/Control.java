@@ -368,7 +368,7 @@ public class Control extends AppCompatActivity {
                 if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                     positionMaster = i;
 
-                if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)
+                if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)//gestion du pire cas
                     batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
                 if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
@@ -379,7 +379,7 @@ public class Control extends AppCompatActivity {
                 GlobalCouple.couples.get(i).getRaspberry().setHandlerObstacle(handlerObstacle);
             }
         }
-        //Log.i("PositionMaster", "Position Master : " + positionMaster);
+//        Log.i("PositionMaster", "Position Master : " + positionMaster);
 
         /**
          * Mise à jour de l'affichage de la batterie
@@ -392,19 +392,18 @@ public class Control extends AppCompatActivity {
          */
 
         if(positionMaster != -1){
-            GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView)); //set la vue VideoView avec l'objet BebopVideoView du drone maitre
-            GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener); //ajout des listener au drone maitre
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView((BebopVideoView) findViewById(R.id.bebopVideoView));//set la vue VideoView avec l'objet BebopVideoView du drone maitre
+            GlobalCouple.couples.get(positionMaster).getBebopDrone().addListener(mBebopListener);//ajout des listener au drone maitre
             startVideo(); //on lance la vidéo
         }
 
-        proxyBars();
+        proxyBars();//création des barres de proximité
 
         /**
          * Gestion des boutons
          */
 
         /*Boutons pour changer de vue*/
-
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -433,7 +432,6 @@ public class Control extends AppCompatActivity {
                     GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
                     GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
                 }
-                Control.this.finish();
                 Control.this.finish();
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
                 for (int i = 0; i < GlobalCouple.couples.size(); i++) {

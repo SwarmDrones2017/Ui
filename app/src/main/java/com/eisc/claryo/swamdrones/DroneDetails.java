@@ -24,6 +24,13 @@ import java.util.Locale;
 
 /**
  * Classe gérant les détails du drone choisit
+ * Méthodes :
+ *          -   onCreate : construit la vue, initialise les boutons, et récupère les informations des drones
+ *          dans les extras remplie par la classe MainActivity, puis construit la classe CaractDrone avec toutes
+ *          les informations à afficher.
+ *          -   updateBatteryLevel : met à jour la valeur de la barre de la batterie, ainsi que sa couleur,
+ *          cette méthode est appelée une fois à la création de la vue, puis par un handler à chaque changement
+ *          de la valeur de la batterie
  */
 
 public class DroneDetails extends AppCompatActivity {
@@ -39,6 +46,10 @@ public class DroneDetails extends AppCompatActivity {
         }
     };
 
+    /**
+     * Création de l'interface des details d'un drone
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +59,13 @@ public class DroneDetails extends AppCompatActivity {
         TextViewBattery = (TextView) findViewById(R.id.textViewBattery);
         Bundle extras = getIntent().getExtras();
         if (!extras.isEmpty()) {
-            for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
-                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
-                }
-
-            }
+//            for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+//                if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+//                    if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
+//                        GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(handlerBattery);
+//                }
+//
+//            }
 
             short durationLastFlight = extras.getShort("LastFlight");
             int rsDurationLastFlight = durationLastFlight % 60;
@@ -86,7 +97,9 @@ public class DroneDetails extends AppCompatActivity {
             listC.setAdapter(adapter);
             progress = extras.getInt("Battery");
 
-            //On gère l'affichage de la batterie des drones
+            /**
+             * Affichage de l'état de la batterie
+             */
 
             updateBatteryLevel();
 
@@ -113,16 +126,21 @@ public class DroneDetails extends AppCompatActivity {
                 DroneDetails.this.finish();
                 Intent MainActivity = new Intent(DroneDetails.this, MainActivity.class);
                 startActivity(MainActivity);
-                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
-                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                        if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
-                            GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
-                    }
-                }
+//                for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+//                    if(GlobalCouple.couples.get(i).getBebopDrone() != null){
+//                        if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() != null)
+//                            GlobalCouple.couples.get(i).getBebopDrone().setHandlerBattery(null);
+//                    }
+//                }
             }
         });
     }
-
+    /**
+     * Récupère la valeur de la batterie et met à jour le texte et la progressBar
+     * Méthode utiliser à la création de la vue
+     * Les fichiers custom_progress_bar_horizontal sont des fichiers XML situés dans le dossier Drawable
+     * Ils modifient les couleurs de la progressBar
+     */
     private void updateBatteryLevel() {
         Log.i("updateBattery", "UpdateBatteryDetails");
         String textBattery = Integer.toString(progress) + "%";
@@ -136,12 +154,20 @@ public class DroneDetails extends AppCompatActivity {
             ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
     }
 
+    /**
+     * Listener du drone
+     * Utilisé pour recevoir des notifications de changement du niveau de batterie
+     */
     private final BebopDrone.Listener mBebopListenerDetails = new BebopDrone.Listener() {
         @Override
         public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
 
         }
 
+        /**
+         * Listener pour le pourcentage de batterie restant
+         * @param batteryPercentage the battery remaining (in percent)
+         */
         @Override
         public void onBatteryChargeChanged(int batteryPercentage) {
             Log.i("updateBattery", "UpdateBatteryDetails");
@@ -154,7 +180,6 @@ public class DroneDetails extends AppCompatActivity {
                 ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_orange));
             else
                 ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
-
         }
 
         @Override

@@ -18,11 +18,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 /**
- * Created by Claryo on 15/02/2017.
+ * Classe présentant la notice
+ * Page des chapitres
  */
 
 public class Notice extends AppCompatActivity {
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,9 @@ public class Notice extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Notice.this, android.R.layout.simple_list_item_1, menus);
         listView.setAdapter(adapter);
 
+        /**
+         * Gestion du changement d'activité
+         */
         btnBackNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

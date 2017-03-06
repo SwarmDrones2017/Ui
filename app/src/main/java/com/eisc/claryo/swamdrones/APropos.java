@@ -12,6 +12,10 @@ import android.widget.ImageButton;
 
 public class APropos extends AppCompatActivity {
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

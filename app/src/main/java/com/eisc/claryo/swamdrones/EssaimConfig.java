@@ -16,15 +16,19 @@ import java.util.ArrayList;
 
 /**
  * Classe permettant la configuration de l'essaim
- * - paramètres communs ou pas
+ * - paramètres communs à l'essaim
  * - Liste des drones et choix du drone "maitre" ainsi que possibilité d'acceder
- * aux paramètres des drones
+ * aux paramètres individuels des drones
  */
 
 public class EssaimConfig extends AppCompatActivity {
 
     static int NumeroDrone = 0;
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,10 @@ public class EssaimConfig extends AppCompatActivity {
 
         final ArrayList<Listdronereglage> listbutton = new ArrayList<>();
 
+        /**
+         * Gestion de l'affichage dynamique des drones de l'essaim
+         * pour la selection du drone maitre
+         */
         int whoismaster = GlobalCouple.whoIsMaster();
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
@@ -103,7 +111,9 @@ public class EssaimConfig extends AppCompatActivity {
             }
         }
 
-        //On gère le retour à l'état initial de l'interface
+        /**
+         * Remise à zéro du choix du drone maitre
+         */
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +126,9 @@ public class EssaimConfig extends AppCompatActivity {
         });
 
 
-        //On gère le passage au paramétrage des drones
+        /**
+         * Gestion du passage aux interfaces de paramétrages
+         */
 
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override

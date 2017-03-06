@@ -1,12 +1,16 @@
 package com.eisc.claryo.swamdrones;
 
+/**
+ * Classe correspondant au menu principal
+ * Présence des drones de l'essaim
+ */
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,26 +20,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String MSG_ANY_DRONES = "Aucun";
-    public static DroneListeConnecte[] items;
-    private ArrayAdapter<String> adapter;
-    private ListView list;
-    private TextView textViewNbDrones;
-    private TextView textViewDrones;
-    static private String[] listDrone;
-    private Button btnFly;
-    private DiscoveryDrone discoveryDrone;
-    private final Handler handler = new Handler() {
+    private ListView list; //liste des drones
+    private TextView textViewNbDrones; //texte nombre de drone
+    private TextView textViewDrones; //texte "Drone(s)"
+    static private String[] listDrone; //liste des drones par nom
+    private Button btnFly; //bouton "Fly"
+    private DiscoveryDrone discoveryDrone; //objet DiscoveryDrone issu du SDK
+    private final Handler handler = new Handler() { //handler pour la détection d'un nouveau drone sur le réseau
         @Override
         public void handleMessage(Message msg) {
             listDrone = msg.getData().getStringArray(MessageKEY.LISTDRONEUPDATE);
@@ -43,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Affiche la liste des drones connectés au réseau
+     */
     private void ShowDroneList() {
         if (listDrone != null) {
             if (listDrone[0].equals(MSG_ANY_DRONES)) {
@@ -65,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Méthode onCreate lancée à la création de la vue
+     * Cette méthode créer la vue principale et appelle :
+     *      * La classe ServerUDP qui relie l'application au script des raspberry (récupération des données capteurs)
+     *      * La classe DiscoveryDrone qui lance la recherche des drones connectés au réseau
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         if (GlobalCouple.couples == null) {
             GlobalCouple.couples = new ArrayList<>();
             if(MessageKEY.FLAG_FIRSTUSE) {
-                new ServerUDP(getApplicationContext());
+                new ServerUDP(getApplicationContext());//recherche des raspberry sur le réseau et création des objets Raspberry
 //                Log.i("newServerUDP", "new Serveur UDP");
                 MessageKEY.FLAG_FIRSTUSE = false;
             }
@@ -88,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         textViewDrones = (TextView) findViewById(R.id.textViewDrones);
         ImageButton btnRefresh = (ImageButton) findViewById(R.id.btnMainActivityRefresh);
 
-        ShowDroneList();
+        ShowDroneList();//afficher les drones découverts
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                    if(droneSelected !=-1){
+                    if(droneSelected !=-1){ //on ajoute en extra pour la vue DroneDetails les informations du drone sélectionné
 
                         DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
                                 .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
@@ -121,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         DroneDetailsActivity.putExtra("Name", "null");
                     }
 
-                    startActivity(DroneDetailsActivity);
+                    startActivity(DroneDetailsActivity);//on démarre l'activité DroneDetails concernant le drone sélectionné
                 }
 
             }
@@ -130,7 +136,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
             }
         });
-
+/**
+ * Bouton pour rafraichir la liste si aucun drone n'est découvert alors qu'il y en a connecté au réseau
+ */
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("LongLogTag")
             @Override
@@ -166,74 +174,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(NoticeActivity);
             }
         });
-        discoveryDrone = new DiscoveryDrone(getApplicationContext(), handler);
+        discoveryDrone = new DiscoveryDrone(getApplicationContext(), handler); //lancement de l'activité de découverte de drone
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Log.i("onPause", "pause");
-//    }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        Log.i("onStart", "start");
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        Log.i("onStop", "stop");
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Log.i("onResume", "resume");
-//    }
-//
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Log.i("OnRestart", "restart");
-//    }
-/*
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        try {
-            ServerUDP.t.join(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.i("onDestroy", "Destruction");
-        byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
-        DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
-        try {
-            //socket = new DatagramSocket(ServerUDP.port);
-            for (int i = 0;i < GlobalCouple.couples.size();i++){
-                //On envoie le signal de déconnexion à la raspberry
-                if(GlobalCouple.couples.get(i).getRaspberry() != null){
-                    envoi.setAddress(GlobalCouple.couples.get(i).getRaspberry().getAddress());
-                    envoi.setPort(GlobalCouple.couples.get(i).getRaspberry().getPort());
-                    ServerUDP.socket.send(envoi);
-                    GlobalCouple.couples.get(i).setRaspberry(null);
-                }
-                //on détruit les drones de l'application
-                if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                    GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().stop();
-                    GlobalCouple.couples.get(i).setBebopDrone(null);
-                }
-            }
-            ServerUDP.socket.close();
-
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 }
 

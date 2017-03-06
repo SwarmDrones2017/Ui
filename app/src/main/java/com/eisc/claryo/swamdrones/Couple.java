@@ -2,6 +2,8 @@ package com.eisc.claryo.swamdrones;
 
 /**
  * Created by jolwarden on 15/02/17.
+ * Création d'un couple Drone/Raspberry
+ * Stockage des objets Drone/Raspberry
  */
 
 class Couple {

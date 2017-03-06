@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 /**
- * Created by jolwarden on 02/03/17.
+ * Classe présentant la notice
+ * Config drone
  */
 
 public class NoticeConfigurationDrone extends AppCompatActivity {

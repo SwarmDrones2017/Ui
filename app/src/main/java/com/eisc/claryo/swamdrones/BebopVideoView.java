@@ -1,5 +1,9 @@
 package com.eisc.claryo.swamdrones;
 
+/**
+ * Classe gérant l'affichage de la vidéo selon le sdk de Parrot
+ */
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.MediaCodec;
@@ -18,6 +22,9 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Classe fournit avec le SDK Parrot pour gérer le streaming et l'enregistrement Video
+ */
 @TargetApi(17)
 public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callback {
 

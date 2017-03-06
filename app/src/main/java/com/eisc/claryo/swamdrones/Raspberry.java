@@ -8,6 +8,7 @@ import java.net.InetAddress;
 
 /**
  * Created by jolwarden on 15/02/17.
+ * Gestion des Raspberry
  */
 
 public class Raspberry {
@@ -26,17 +27,8 @@ public class Raspberry {
         this.port = port;
     }
 
-
-    public void setAddress(InetAddress address) {
-        this.address = address;
-    }
-
     public InetAddress getAddress() {
         return address;
-    }
-
-    public int getPort() {
-        return port;
     }
 
     public Cardinal getObstacle() {
@@ -52,6 +44,10 @@ public class Raspberry {
         private int west;
         private int south;
         private int est;
+
+        /**
+         * Enregistrement des données capteurs
+         */
 
         public void setNorth(int north) {
             this.north = north;

@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 public class InfoConf extends AppCompatActivity {
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +40,17 @@ public class InfoConf extends AppCompatActivity {
         TextView txtVerSoft = (TextView) findViewById(R.id.txtVerSoft);
         TextView txtVerMat = (TextView) findViewById(R.id.txtVerMat);
 
-        //Gerer le nom du drone à afficher dans le réglages des paramètres
+        /**
+         * Gerer le nom du drone à afficher dans le réglages des paramètres
+         */
         txtDroneNom.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getDroneName());
 
         txtVerSoft.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getSoftwareVersion());
         txtVerMat.setText(GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getHardwareVersion());
-        //On gère le passage aux autres menus
 
+        /**
+         * Gerer le passage aux autres menus de paramétrage
+         */
         btnPositConf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

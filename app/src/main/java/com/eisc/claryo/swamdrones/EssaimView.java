@@ -42,6 +42,7 @@ import static com.eisc.claryo.swamdrones.Raspberry.SEUIL_OBSTACLE_STOP;
 
 /**
  * Classe permettant de voir la formation de l'essaim
+ * ainsi que les infos de vols de chaque drone
  */
 //TODO Gérer les couleurs et les informations en haut à gauche
 public class EssaimView extends AppCompatActivity {
@@ -56,6 +57,10 @@ public class EssaimView extends AppCompatActivity {
     private ArrayList<ToggleBtnSelectDrone> lToggleBtnSelectDrone;
     private String droneName;
 
+    /**
+     * Création de l'interface d'affichage des drones de l'essaim vu de dessus
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,9 @@ public class EssaimView extends AppCompatActivity {
         // return 3.0 if it's XXHDPI
         // return 4.0 if it's XXXHDPI
 
+        /**
+         * Gestion des boutons
+         */
         btnRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +123,9 @@ public class EssaimView extends AppCompatActivity {
         int indexColor = -1;
         Random r = new Random();
 
+        /**
+         * Initialisation de l'objet Drone sur l'interface
+         */
         for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
                 droneName = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName();
@@ -127,6 +138,9 @@ public class EssaimView extends AppCompatActivity {
             if (indexColor > tabColor.length)
                 indexColor = 0;
 
+            /**
+             * Création d'arrayList pour stocker les objets essaimViewInfoDrone et ProxyBars
+             */
             EssaimViewInfoDrone essaimViewInfoDrone = new EssaimViewInfoDrone(getApplicationContext(), LayoutDroneInfo, droneName, tabColor[indexColor]);
             lEssaimViewInfoDrone.add(essaimViewInfoDrone);
 
@@ -161,6 +175,9 @@ public class EssaimView extends AppCompatActivity {
 
     }
 
+    /**
+     * Listener pour l'appui sur un drone
+     */
     private final class MyTouchListener implements View.OnTouchListener {
         private String droneName;
 
@@ -168,6 +185,12 @@ public class EssaimView extends AppCompatActivity {
             this.droneName = droneName;
         }
 
+        /**
+         * Méthode pour recuperer le bon élement à déplacer
+         * @param view
+         * @param motionEvent
+         * @return true ou false suivant la reussite ou non de l'operation
+         */
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
@@ -186,10 +209,19 @@ public class EssaimView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Classe MyDragListener pour déplacer l'objet sélectionné précédemment dans le listener
+     */
     class MyDragListener implements View.OnDragListener {
         final Drawable enterShape = getResources().getDrawable(R.drawable.shape_dropout);
         final Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 
+        /**
+         * Méthode onDrag de l'élement Drone choisi ainsi que des barres de proximité correspondantes
+         * @param v
+         * @param event
+         * @return true si réussite du Drag'n'drop
+         */
         @Override
         public boolean onDrag(View v, DragEvent event) {
             switch (event.getAction()) {
@@ -219,7 +251,8 @@ public class EssaimView extends AppCompatActivity {
                         if (GlobalCouple.couples.get(i).getBebopDrone() != null) {
                             if (event.getClipData().getDescription().getLabel().equals(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName())) {
 
-                               /* lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
+                                //Déplacement des barres de proximité en fonction du déplacement de l'objet Drone
+                                /*lProxyBars.get(i).ProxJauDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
                                 lProxyBars.get(i).ProxJauDown.setY(y + 65 * density / 2 - imgDroneHeight / 2);
                                 lProxyBars.get(i).ProxOrDown.setX(x + 10 * density / 2 - imgDroneWidth / 2);
                                 lProxyBars.get(i).ProxOrDown.setY(y + 55 * density / 2 - imgDroneHeight / 2);
@@ -281,6 +314,10 @@ public class EssaimView extends AppCompatActivity {
     }
 }
 
+/**
+ * Classe permettant la création de l'objet Drone et de ses barres de proximités
+ * ainsi que l'affichage ou non des barres en fonction des données capteurs
+ */
 class ProxyBars extends AppCompatActivity {
     private final float PlageY;
     private final float PlageX;
@@ -297,6 +334,14 @@ class ProxyBars extends AppCompatActivity {
     private int east = 151;
     private int west = 151;
 
+    /**
+     * Constructeur pour instancier la classe ProxyBars
+     * @param context
+     * @param ecran
+     * @param density
+     * @param droneName
+     * @param indexColor
+     */
     public ProxyBars(Context context, AbsoluteLayout ecran, float density, String droneName, int indexColor) {
         this.context = context;
         this.density = density;
@@ -344,6 +389,9 @@ class ProxyBars extends AppCompatActivity {
 
     }
 
+    /**
+     * Création des objets Drone et barres de proximité
+     */
     private void show() {
         Drone = new ImageView(context);
         Drone.setX(PlageX);
@@ -474,9 +522,8 @@ class ProxyBars extends AppCompatActivity {
 
     }
 
-    /*
-    ProxJauLeft, ProxOrLeft, ProxRedLeft, ProxJauRight, ProxOrRight, ProxRedRight, ProxJauTop, ProxOrTop, ProxRedTop, ProxJauBot,
-                ProxOrBot, ProxRedBot, ProxJauUp, ProxOrUp, ProxRedUp, ProxJauDown, ProxOrDown, ProxRedDown
+    /**
+     * Gestion de l'apparition des barres de proximité suivant les données capteurs
      */
     private void hideAndShowBars() {
         if (west > SEUIL_NOT_OBSTACLE) {
@@ -554,6 +601,9 @@ class ProxyBars extends AppCompatActivity {
     }
 }
 
+/**
+ * Classe gérant les listes d'informations de chaque drone de l'essaim de manière dynamique
+ */
 class EssaimViewInfoDrone extends AppCompatActivity {
 
     private final Context context;
@@ -576,6 +626,13 @@ class EssaimViewInfoDrone extends AppCompatActivity {
     private double AltitudeDrone;
     private DecimalFormat df;
 
+    /**
+     * Méthode pour la création de liste d'informations
+     * @param context
+     * @param layoutdroneinfo
+     * @param droneName
+     * @param color
+     */
     public EssaimViewInfoDrone(Context context, LinearLayout layoutdroneinfo, String droneName, int color) {
         this.context = context;
         LayoutDroneInfo = layoutdroneinfo;
@@ -589,6 +646,10 @@ class EssaimViewInfoDrone extends AppCompatActivity {
 
             }
 
+            /**
+             * Listener pour le niveau de batterie
+             * @param batteryPercentage the battery remaining (in percent)
+             */
             @Override
             public void onBatteryChargeChanged(int batteryPercentage) {
                 if ((indexDrone != -1) && (GlobalCouple.couples.get(indexDrone).getBebopDrone() != null)) {
@@ -656,6 +717,9 @@ class EssaimViewInfoDrone extends AppCompatActivity {
         }
     }
 
+    /**
+     * Création dynamique de la liste d'infos sur les drone de l'essaim
+     */
     private void displayInfos() {
 
         df = new DecimalFormat("0.0");
@@ -756,10 +820,20 @@ class EssaimViewInfoDrone extends AppCompatActivity {
 
 }
 
+/**
+ * Classe pour créer les boutons de selection des drones à piloter de l'essaim dynamiquement
+ */
 @TargetApi(21)
 class ToggleBtnSelectDrone extends AppCompatActivity {
     final ToggleButton tglBtnSetDrone;
 
+    /**
+     * Constructeur pour instancié la classe ToggleBtnSelectDrone
+     * @param context
+     * @param TglLayout
+     * @param droneName
+     * @param indexColor
+     */
     public ToggleBtnSelectDrone(Context context, LinearLayout TglLayout, final String droneName, final int indexColor) {
         tglBtnSetDrone = new ToggleButton(context);
         tglBtnSetDrone.setChecked(true);

@@ -27,6 +27,10 @@ import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VI
 
 public class VideoConf extends AppCompatActivity {
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,9 @@ public class VideoConf extends AppCompatActivity {
         final ToggleButton btn60Hz = (ToggleButton) findViewById(R.id.btn60Hz);
         final ToggleButton btnAutoHz = (ToggleButton) findViewById(R.id.btnAutoHz);
 
+        /**
+         * Reglage vidéo d'après le sdk de Parrot
+         */
         Bundle extras = getIntent().getExtras();
         final int correspondant = extras.getInt(MessageKEY.POSITIONCOUPLE);
         switch (GlobalCouple.couples.get(correspondant).getBebopDrone().getInfoDrone().getVideo_resolution()) {
@@ -157,6 +164,9 @@ public class VideoConf extends AppCompatActivity {
 
         }
 
+        /**
+         * Gestion des boutons
+         */
         //Résolution de l'enregistrement
 
         btn1080p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

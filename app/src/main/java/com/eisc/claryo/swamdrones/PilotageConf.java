@@ -19,6 +19,10 @@ public class PilotageConf extends AppCompatActivity {
     private final static String SPEEDTILT = "°/s";
     private final static String SPEEDDISTANCE = "m/s";
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,13 @@ public class PilotageConf extends AppCompatActivity {
         sBInclinMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 5;
 
+            /**
+             * Gestion du paramétrage des drones en fonction de la valeur de la seekbar
+             * Changement de la plage de valeur de la seekbar
+             * @param seekBar
+             * @param progress
+             * @param fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = 5 + progress;
@@ -80,6 +91,13 @@ public class PilotageConf extends AppCompatActivity {
         sBInclinSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 80;
 
+            /**
+             * Gestion du paramétrage des drones en fonction de la valeur de la seekbar
+             * Changement de la plage de valeur de la seekbar
+             * @param seekBar
+             * @param progress
+             * @param fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = 80 + progress;
@@ -109,7 +127,13 @@ public class PilotageConf extends AppCompatActivity {
             int progressChanged = 5;
             float temp = 0;
 
-
+            /**
+             * Gestion du paramétrage des drones en fonction de la valeur de la seekbar
+             * Changement de la plage de valeur de la seekbar
+             * @param seekBar
+             * @param progress
+             * @param fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((5 + progress));
@@ -140,6 +164,13 @@ public class PilotageConf extends AppCompatActivity {
         sBRotatSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 10;
 
+            /**
+             * Gestion du paramétrage des drones en fonction de la valeur de la seekbar
+             * Changement de la plage de valeur de la seekbar
+             * @param seekBar
+             * @param progress
+             * @param fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = 10 + progress;
@@ -163,6 +194,9 @@ public class PilotageConf extends AppCompatActivity {
             }
         });
 
+        /**
+         * Gestion des boutons
+         */
         //On gère le reset des réglages
 
         btnReset.setOnClickListener(new View.OnClickListener() {

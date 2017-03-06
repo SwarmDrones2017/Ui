@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 public class PositionConf extends AppCompatActivity {
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,13 @@ public class PositionConf extends AppCompatActivity {
             int progressChanged = 5;
             double temp = 0;
 
+            /**
+             * Gestion du paramétrage des drones en fonction de la valeur de la seekbar
+             * Changement de la plage de valeur de la seekbar
+             * @param seekBar
+             * @param progress
+             * @param fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((5 + progress));
@@ -85,6 +96,13 @@ public class PositionConf extends AppCompatActivity {
             int progressChanged = 10;
             double temp = 0;
 
+            /**
+             * Gestion du paramétrage des drones en fonction de la valeur de la seekbar
+             * Changement de la plage de valeur de la seekbar
+             * @param seekBar
+             * @param progress
+             * @param fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((10 + progress));
@@ -105,6 +123,10 @@ public class PositionConf extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * Gestion des boutons
+         */
         //On gère le reset des réglages
 
         btnReset.setOnClickListener(new View.OnClickListener() {

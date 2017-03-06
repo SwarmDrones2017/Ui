@@ -340,7 +340,7 @@ public class Control extends AppCompatActivity {
                 if (GlobalCouple.couples.get(i).getBebopDrone().isMaster())
                     positionMaster = i;
 
-                if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)
+                if (GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery() < batteryPercentage)//gestion du pire cas
                     batteryPercentage = GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getBattery();
 
                 if (GlobalCouple.couples.get(i).getBebopDrone().getHandlerBattery() == null)
@@ -351,7 +351,7 @@ public class Control extends AppCompatActivity {
                 GlobalCouple.couples.get(i).getRaspberry().setHandlerObstacle(handlerObstacle);
             }
         }
-        Log.i("PositionMaster", "Position Master : " + positionMaster);
+//        Log.i("PositionMaster", "Position Master : " + positionMaster);
 
         //affichage batterie
         updateLevelBattery();
@@ -363,7 +363,7 @@ public class Control extends AppCompatActivity {
             startVideo(); //on lance la vidéo
         }
 
-        proxyBars();
+        proxyBars();//création des barres de proximité
 
         /**
          Gestion des boutons
@@ -397,7 +397,6 @@ public class Control extends AppCompatActivity {
                     GlobalCouple.couples.get(positionMaster).getBebopDrone().setBebopVideoView(null);
                     GlobalCouple.couples.get(positionMaster).getBebopDrone().removeListener(mBebopListener);
                 }
-                Control.this.finish();
                 Control.this.finish();
                 Intent EssaimConfigActivity = new Intent(Control.this, EssaimConfig.class);
                 for (int i = 0; i < GlobalCouple.couples.size(); i++) {
@@ -710,12 +709,14 @@ public class Control extends AppCompatActivity {
 
         @Override
         public void configureDecoder(ARControllerCodec codec) {
+            //configuration vidéo
             if(positionMaster != -1)
                 GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().configureDecoder(codec);
         }
 
         @Override
         public void onFrameReceived(ARFrame frame) {
+            //affichage video
             if (positionMaster != -1)
                 GlobalCouple.couples.get(positionMaster).getBebopDrone().getBebopVideoView().displayFrame(frame);
         }
@@ -737,11 +738,13 @@ public class Control extends AppCompatActivity {
     };
 
     private void stopVideo() {
+        //arreter le stream
         if(positionMaster != -1)
             GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 0);
     }
 
     private void startVideo() {
+        //autoriser le stream
         if(positionMaster != -1)
             GlobalCouple.couples.get(positionMaster).getBebopDrone().getmDeviceController().getFeatureARDrone3().sendMediaStreamingVideoEnable((byte) 1);
     }

@@ -2,6 +2,19 @@ package com.eisc.claryo.swamdrones;
 
 /**
  * Created by sofiane on 11/02/17.
+ * La classe BebopDrone contient toutes les informations d'un drone Bebop.
+ * Attributs :
+ *      - boolean flyAuthorization : active/désactive le contrôle du drone
+ *      - InfoDrone infoDrone : contient les informations du drone
+ *      - boolean isMaster : choix du drone maître
+ *      - Handler handlerBattery : handler permettant de mettre à jour en temps réel l'état de la batterie
+ *      - ARDeviceController mDeviceController : deviceController du drone (nécessaire pour le pilotage)
+ *      - ARCONTROLLER_DEVICE_STATE_ENUM mState : état drone (en vol, arreté ...)
+ *      - ARDeviceControllerListener mDeviceControllerListener : listener d'état du drone
+ *      - ARDeviceControllerStreamListener mStreamListener : listener pour le stream vidéo du drone
+ *      - InetAddress IP : l'adresse IP du drone
+ *      - ARDiscoveryDeviceService deviceService : deviceService du drone
+ *
  */
 
 
@@ -420,6 +433,14 @@ public class BebopDrone {
     private InetAddress IP;
     private final ARDiscoveryDeviceService deviceService;
 
+    /**
+     * Constructeur
+     * Dans le constructeur on enregistre le deviceService et on crée et enregistre le deviceController.
+     * Le constructeur enregistre également le nom du drone et son adresse IP dans la sous-classe InfoDrone, puis démarre le protocole FTP.
+     * @param context Contexte de l'application
+     * @param deviceService deviceService du drone découvert, c'est la fonction Discovery du SDK
+     *                      qui construit automatiquement le deviceService. Il est nécessaire pour avoir des informations du drone.
+     */
     public BebopDrone(Context context, @NonNull ARDiscoveryDeviceService deviceService) {
         this.deviceService = deviceService;
         mListeners = new ArrayList<>();
@@ -462,52 +483,96 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Getter isMaster
+     * @return retourne si le drone est maître ou non
+     */
     public boolean isMaster() {
         return isMaster;
     }
 
+    /**
+     * Setter isMaster
+     * @param master boolean, si true le drone est maître, si false le drone n'est pas maitre de l'essaim
+     */
     public void setMaster(boolean master) {
         isMaster = master;
     }
 
+    /**
+     * Getter flyAuthorization
+     * @return true si le drone est autorisé à volé, false sinon
+     */
     public boolean isFlyAuthorization() {
         return flyAuthorization;
     }
 
+    /**
+     * Setter flyAuthorization
+     * @param flyAuthorization boolean true si le drone est autorisé à voler, false sinon
+     */
     public void setFlyAuthorization(boolean flyAuthorization) {
         this.flyAuthorization = flyAuthorization;
     }
 
+    /**
+     * Getter mDeviceController
+     * @return le device controller du drone
+     */
     public ARDeviceController getmDeviceController() {
         return mDeviceController;
     }
 
+    /**
+     * Getter HandlerBattery
+     * @return le handler s'il est non nul, null sinon
+     */
     public Handler getHandlerBattery() {
         return handlerBattery;
     }
 
+    /**
+     * Setter handlerBattery
+     * @param handler un handler, à utiliser pour un affichage dynamique de la batterie sur l'activité souhaité
+     */
     public void setHandlerBattery(Handler handler) {
         this.handlerBattery = handler;
     }
 
+    /**
+     * Getter IP
+     * @return l'adresse IP du drone
+     */
     public InetAddress getIP() {
         return IP;
     }
 
+    /**
+     * Getter deviceService
+     * @return le device Service du drone
+     */
     public ARDiscoveryDeviceService getdeviceService() {
         return deviceService;
     }
 
-    public void dispose() {
-        if (mDeviceController != null)
-            mDeviceController.dispose();
-    }
+//    public void dispose() {
+//        if (mDeviceController != null)
+//            mDeviceController.dispose();
+//    }
 
-    //region Listener functions
+    /** region Listener functions **/
+    /**
+     * AddListener permet d'ajouter des listeners configurés au drone
+     * @param listener un listener configuré
+     */
     public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
+    /**
+     * removeListener supprime un listener configuré de la liste des listeners
+     * @param listener le listener à supprimer
+     */
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
@@ -567,30 +632,45 @@ public class BebopDrone {
         return mFlyingState;
     }
 
+    /**
+     * Decollage
+     */
     public void takeOff() {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendPilotingTakeOff();
         }
     }
 
+    /**
+     * Atterrissage
+     */
     public void land() {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendPilotingLanding();
         }
     }
 
+    /**
+     * Atterrissage d'urgence
+     */
     public void emergency() {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendPilotingEmergency();
         }
     }
 
+    /**
+     * Prendre une photo
+     */
     public void takePicture() {
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
         }
     }
 
+    /**
+     * Vol Stationnaire
+     */
     public void stationnaire() {
         setPitch((byte) 0);
         setRoll((byte) 0);
@@ -599,6 +679,9 @@ public class BebopDrone {
         setFlag((byte) 0);
     }
 
+    /**
+     * Avancer
+     */
     public void startMoveForward() {
         if (isFlyAuthorization()) {
             setPitch((byte) 50);
@@ -606,6 +689,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Arreter d'avancer
+     */
     public void stopMoveForward() {
         if (isFlyAuthorization()) {
             setPitch((byte) 0);
@@ -613,6 +699,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Reculer
+     */
     public void startMoveBack() {
         if (isFlyAuthorization()) {
             setPitch((byte) -50);
@@ -620,6 +709,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Arreter de reculer
+     */
     public void stopMoveBack() {
         if (isFlyAuthorization()) {
             setPitch((byte) 0);
@@ -627,6 +719,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Déplacement à gauche
+     */
     public void startMoveLeft() {
         if (isFlyAuthorization()) {
             setRoll((byte) -50);
@@ -634,6 +729,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Arreter le déplacement à gauche
+     */
     public void stopMoveLeft() {
         if (isFlyAuthorization()) {
             setRoll((byte) 0);
@@ -641,6 +739,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Déplacement à droite
+     */
     public void startMoveRight() {
         if (isFlyAuthorization()) {
             setRoll((byte) 50);
@@ -648,6 +749,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Arreter le déplacement à droite
+     */
     public void stopMoveRight() {
         if (isFlyAuthorization()) {
             setRoll((byte) 0);
@@ -655,6 +759,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Tourner dans le sens anti-horaire
+     */
     public void startTurnLeft() {
         if (isFlyAuthorization()) {
 
@@ -662,6 +769,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Arreter de tourner
+     */
     public void stopTurnLeft() {
         if (isFlyAuthorization()) {
 
@@ -669,6 +779,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Tourner dans le sens horaire
+     */
     public void startTurnRight() {
         if (isFlyAuthorization()) {
 
@@ -676,6 +789,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Arreter de tourner
+     */
     public void stopTurnRight() {
         if (isFlyAuthorization()) {
 
@@ -683,6 +799,9 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Monter
+     */
     public void startMoveUp(){
         if (isFlyAuthorization()){
             setGaz((byte) 50);
@@ -693,11 +812,19 @@ public class BebopDrone {
             setGaz((byte) 0);
         }
     }
+
+    /**
+     * Arreter de monter
+     */
     public void startMoveDown(){
         if (isFlyAuthorization()){
             setGaz((byte) -50);
         }
     }
+
+    /**
+     * Arreter de monter
+     */
     public void stopMoveDown(){
         if (isFlyAuthorization()){
             setGaz((byte) 0);
@@ -751,6 +878,12 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Methode du SDK pour commencer la découverte des drones connectés au point d'accès
+     * @param service
+     * @param productType
+     * @return
+     */
     private ARDiscoveryDevice createDiscoveryDevice(@NonNull ARDiscoveryDeviceService service, ARDISCOVERY_PRODUCT_ENUM productType) {
         ARDiscoveryDevice device = null;
         try {
@@ -767,10 +900,15 @@ public class BebopDrone {
         return device;
     }
 
-    public ARDeviceControllerStreamListener getmStreamListener() {
-        return mStreamListener;
-    }
+//    public ARDeviceControllerStreamListener getmStreamListener() {
+//        return mStreamListener;
+//    }
 
+    /**
+     * Méthode du SDK permettant la création du device Controller
+     * @param discoveryDevice
+     * @return
+     */
     private ARDeviceController createDeviceController(@NonNull ARDiscoveryDevice discoveryDevice) {
         ARDeviceController deviceController = null;
         try {
@@ -850,12 +988,20 @@ public class BebopDrone {
         }
     }
 
+    /**
+     * Getter de la classe InfoDrone
+     * @return la classe InfoDrone de l'objet BebopDrone instancié
+     */
     public InfoDrone getInfoDrone() {
         return infoDrone;
     }
 
-
-
+    /**
+     * La classe InfoDrone permet d'enregistrer les informations utiles à l'application concernant
+     * l'objet BebopDrone créé, et donc le drone découvert.
+     * Elle contient les attributs serialID, battery, la version hardware et software du drone, ainsi que
+     * des informations/paramètres de vol
+     */
     public class InfoDrone {
         protected String serialID;
         protected String serialIDLow;
@@ -880,10 +1026,19 @@ public class BebopDrone {
         private double altitude;
         private ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM videostabilization;
 
+        /**
+         * Getter de la stabilisation video
+         * @return l'état de la stabilisation de la camera
+         */
         public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOSTABILIZATIONMODECHANGED_MODE_ENUM getVideostabilization() {
             return videostabilization;
         }
 
+        /**
+         * Setter de la stabilisation vidéo
+         * @param videostabilization mode du SDK pour activer/desactiver la stabilisation de la camera
+         * @return true si l'opération s'est bien déroulée, false sinon
+         */
         public boolean setVideostabilization(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOSTABILIZATIONMODE_MODE_ENUM videostabilization) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoStabilizationMode(videostabilization);
 
@@ -894,56 +1049,108 @@ public class BebopDrone {
             }
         }
 
+        /**
+         * Getter du framerate
+         * @return le framerate de la camera (24, 25 ou 30)
+         */
         public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEOFRAMERATECHANGED_FRAMERATE_ENUM getFramerate() {
             return framerate;
         }
 
+        /**
+         * Getter drone Name
+         * @return le nom du drone
+         */
         public String getDroneName() {
             return droneName;
         }
 
+        /**
+         * Getter NbFlights
+         * @return le nombre de vol enregistrés
+         */
         public short getNbFlights() {
             return nbFlights;
         }
 
+        /**
+         * Getter durationLastFlight
+         * @return la durée du dernier vol enregistré
+         */
         public short getDurationLastFlight() {
             return durationLastFlight;
         }
 
+        /**
+         * Getter durationTotalFlights
+         * @return la durée de vol total
+         */
         public int getDurationTotalFlights() {
             return durationTotalFlights;
         }
 
+        /**
+         * Getter de la version du GPS
+         * @return la version du GPS
+         */
         public String getSoftwareGPSVersion() {
             return softwareGPSVersion;
         }
 
+        /**
+         * Getter de la version du matériel
+         * @return la version du matériel
+         */
         public String getHardwareVersion() {
             return hardwareVersion;
         }
 
+        /**
+         * Getter de la version du logiciel
+         * @return la version du logiciel
+         */
         public String getSoftwareVersion() {
             return softwareVersion;
         }
 
+        /**
+         * Getter du niveau de batterie
+         * @return int : le niveau de batterie (0-100)
+         */
         public int getBattery() {
             return battery;
         }
 
+        /**
+         * Getter de l'altitude
+         * @return double : l'altitude
+         */
         public double getAltitude() {
             return altitude;
         }
 
+        /**
+         * Getter du numéro de série
+         * @return numéro de série
+         */
         public String getSerialID() {
             serialID = serialIDHigh + serialIDLow;
 
             return serialID;
         }
 
+        /**
+         * Getter de l'altitude maximum paramétrée
+         * @return l'altitude maximum paramétrée
+         */
         public float getAltitude_max() {
             return altitude_max;
         }
 
+        /**
+         * Setter de l'altitude maximum
+         * @param altitude_max float qui indique l'altitude maximum
+         */
         public void setAltitude_max(float altitude_max) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxAltitude(altitude_max);
 
@@ -952,10 +1159,18 @@ public class BebopDrone {
             }
         }
 
+        /**
+         * Getter de distance_max
+         * @return la distance max paramétrée
+         */
         public float getDistance_max() {
             return distance_max;
         }
 
+        /**
+         * Setter de distance_max
+         * @param distance_max float pour parametrer la distance max
+         */
         public void setDistance_max(float distance_max) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxDistance(distance_max);
 
@@ -964,10 +1179,19 @@ public class BebopDrone {
             }
         }
 
+        /**
+         * Getter de la résolution vidéo
+         * @return 720 ou 1080
+         */
         public ARCOMMANDS_ARDRONE3_PICTURESETTINGSSTATE_VIDEORESOLUTIONSCHANGED_TYPE_ENUM getVideo_resolution() {
             return video_resolution;
         }
 
+        /**
+         * Setter de la resolution vidéo
+         * @param video_resolution ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM
+         * @return true si l'opération s'est bien déroulée, false sinon
+         */
         public boolean setVideo_resolution(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEORESOLUTIONS_TYPE_ENUM video_resolution) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoResolutions(video_resolution);
             if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
@@ -978,7 +1202,11 @@ public class BebopDrone {
 
         }
 
-
+        /**
+         * Setter du framerate
+         * @param framerate ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM
+         * @return true si l'opération s'est bien déroulée, false sinon
+         */
         public boolean setFramerate(ARCOMMANDS_ARDRONE3_PICTURESETTINGS_VIDEOFRAMERATE_FRAMERATE_ENUM framerate) {
             //this.framerate = framerate;
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendPictureSettingsVideoFramerate(framerate);
@@ -992,10 +1220,19 @@ public class BebopDrone {
 
         }
 
+        /**
+         * Getter de l'anti flickering
+         * @return ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM
+         */
         public ARCOMMANDS_ARDRONE3_ANTIFLICKERINGSTATE_MODECHANGED_MODE_ENUM getAntiflickering() {
             return antiflickering;
         }
 
+        /**
+         * Setter de l'anti flickering
+         * @param antiflickering ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM
+         * @return true si l'opération s'est bien déroulée, false sinon
+         */
         public boolean setAntiflickering(ARCOMMANDS_ARDRONE3_ANTIFLICKERING_SETMODE_MODE_ENUM antiflickering) {
             ARCONTROLLER_ERROR_ENUM test = mDeviceController.getFeatureARDrone3().sendAntiflickeringSetMode(antiflickering);
             if (test == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
@@ -1005,34 +1242,66 @@ public class BebopDrone {
             }
         }
 
+        /**
+         * Getter tiltMax
+         * @return float
+         */
         public float getTiltmax() {
             return tiltmax;
         }
 
+        /**
+         * Setter tiltMax
+         * @param tiltmax float
+         */
         public void setTiltmax(float tiltmax) {
             mDeviceController.getFeatureARDrone3().sendPilotingSettingsMaxTilt(tiltmax);
         }
 
+        /**
+         * Getter speedTilt
+         * @return float
+         */
         public float getSpeedtilt() {
             return speedtilt;
         }
 
+        /**
+         * Setter SpeedTilt
+         * @param speedtilt float
+         */
         public void setSpeedtilt(float speedtilt) {
             mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxPitchRollRotationSpeed(speedtilt);
         }
 
+        /**
+         * Getter vitesse verticale
+         * @return float vitesse verticale
+         */
         public float getSpeedverticale() {
             return speedverticale;
         }
 
+        /**
+         * Setter vitesse verticale
+         * @param speedverticale float
+         */
         public void setSpeedverticale(float speedverticale) {
             mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxVerticalSpeed(speedverticale);
         }
 
+        /**
+         * Getter vitesse de rotation
+         * @return float
+         */
         public float getSpeedrotation() {
             return speedrotation;
         }
 
+        /**
+         * Setter vitesse de rotation
+         * @param speedrotation float
+         */
         public void setSpeedrotation(float speedrotation) {
             mDeviceController.getFeatureARDrone3().sendSpeedSettingsMaxRotationSpeed(speedrotation);
         }

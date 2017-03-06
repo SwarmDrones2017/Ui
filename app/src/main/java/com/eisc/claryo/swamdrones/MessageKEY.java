@@ -1,7 +1,7 @@
 package com.eisc.claryo.swamdrones;
 
 /**
- * Created by sofiane on 14/02/17.
+ * Classe gérant des strings global
  */
 
 class MessageKEY {

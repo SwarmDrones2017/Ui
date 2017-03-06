@@ -9,7 +9,8 @@ import android.widget.ImageButton;
 
 
 /**
- * Created by jolwarden on 02/03/17.
+ * Classe présentant la notice
+ * Controle drone
  */
 
 public class NoticeControlDrone extends AppCompatActivity{

@@ -1,12 +1,16 @@
 package com.eisc.claryo.swamdrones;
 
+/**
+ * Classe correspondant au menu principal
+ * Présence des drones de l'essaim
+ */
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,12 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Création de l'interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Gestion des boutons
+         */
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("LongLogTag")
             @Override
@@ -168,72 +173,5 @@ public class MainActivity extends AppCompatActivity {
         });
         discoveryDrone = new DiscoveryDrone(getApplicationContext(), handler);
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Log.i("onPause", "pause");
-//    }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        Log.i("onStart", "start");
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        Log.i("onStop", "stop");
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Log.i("onResume", "resume");
-//    }
-//
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Log.i("OnRestart", "restart");
-//    }
-/*
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        try {
-            ServerUDP.t.join(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.i("onDestroy", "Destruction");
-        byte[] buf_send = "Deconnexion\n".getBytes(Charset.forName("UTF-8"));
-        DatagramPacket envoi = new DatagramPacket(buf_send, buf_send.length);
-        try {
-            //socket = new DatagramSocket(ServerUDP.port);
-            for (int i = 0;i < GlobalCouple.couples.size();i++){
-                //On envoie le signal de déconnexion à la raspberry
-                if(GlobalCouple.couples.get(i).getRaspberry() != null){
-                    envoi.setAddress(GlobalCouple.couples.get(i).getRaspberry().getAddress());
-                    envoi.setPort(GlobalCouple.couples.get(i).getRaspberry().getPort());
-                    ServerUDP.socket.send(envoi);
-                    GlobalCouple.couples.get(i).setRaspberry(null);
-                }
-                //on détruit les drones de l'application
-                if(GlobalCouple.couples.get(i).getBebopDrone() != null){
-                    GlobalCouple.couples.get(i).getBebopDrone().getmDeviceController().stop();
-                    GlobalCouple.couples.get(i).setBebopDrone(null);
-                }
-            }
-            ServerUDP.socket.close();
-
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 }
 

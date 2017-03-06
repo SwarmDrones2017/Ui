@@ -39,6 +39,10 @@ public class DroneDetails extends AppCompatActivity {
         }
     };
 
+    /**
+     * Création de l'interface des details d'un drone
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +90,9 @@ public class DroneDetails extends AppCompatActivity {
             listC.setAdapter(adapter);
             progress = extras.getInt("Battery");
 
-            //On gère l'affichage de la batterie des drones
+            /**
+             * Affichage de l'état de la batterie
+             */
 
             updateBatteryLevel();
 
@@ -123,6 +129,9 @@ public class DroneDetails extends AppCompatActivity {
         });
     }
 
+    /**
+     * Affichage de la batterie en temps réel
+     */
     private void updateBatteryLevel() {
         Log.i("updateBattery", "UpdateBatteryDetails");
         String textBattery = Integer.toString(progress) + "%";
@@ -136,12 +145,19 @@ public class DroneDetails extends AppCompatActivity {
             ProgressBarBattery.setProgressDrawable(getResources().getDrawable(R.drawable.custom_progress_bar_horizontal_red));
     }
 
+    /**
+     * Gestion des listeners
+     */
     private final BebopDrone.Listener mBebopListenerDetails = new BebopDrone.Listener() {
         @Override
         public void onDroneConnectionChanged(ARCONTROLLER_DEVICE_STATE_ENUM state) {
 
         }
 
+        /**
+         * Listener pour le pourcentage de batterie restant
+         * @param batteryPercentage the battery remaining (in percent)
+         */
         @Override
         public void onBatteryChargeChanged(int batteryPercentage) {
             Log.i("updateBattery", "UpdateBatteryDetails");

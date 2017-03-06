@@ -15,6 +15,12 @@ class CaractDrone {
         super();
     }
 
+    /**
+     * Méthode pour récuperer le nom du drone ainsi que son état de connexion
+     * @param name
+     * @param connect
+     */
+
     public CaractDrone(String name, String connect) {
         super();
         this.categorie = name;

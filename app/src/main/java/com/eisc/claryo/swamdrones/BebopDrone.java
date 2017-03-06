@@ -1,7 +1,7 @@
 package com.eisc.claryo.swamdrones;
 
 /**
- * Created by sofiane on 11/02/17.
+ * Gestion de l'objet BebopDrone
  */
 
 
@@ -50,8 +50,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.parrot.arsdk.arcontroller.ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY;
 
 public class BebopDrone {
     private static final String TAG = "BebopDrone";

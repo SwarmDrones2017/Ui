@@ -45,6 +45,7 @@ public class ServerUDP {
                         } while (str.indexOf("\n") == -1);
 
                         String sframe = str.substring(0, str.indexOf("\n"));
+                        Log.e(TAG, "RPI : " + sframe);
                         String scmd = sframe.substring(0, sframe.indexOf(" "));
                         switch (scmd) {
                             case RPI_SENSORS:
@@ -53,12 +54,15 @@ public class ServerUDP {
 
                                 if (ssensor != null) {
                                     String[] listSensor = ssensor.split(DECOUPE_SENSOR);
+                                    if(listSensor[0] != null){
+                                        listSensor[0] = listSensor[0].substring(1); //enelever le espace devant le chiffre
+                                    }
                                     int index = GlobalCouple.raspberryIPCorrespondante(paquet.getAddress());
                                     if (index != -1) {
                                         for (int i = 0; i < listSensor.length; i++) {
 
-                                            Log.e(TAG, "Message vsensor : " + listSensor[i] + paquet.getAddress().getAddress());
-                                            String val = listSensor[i].substring(1, listSensor[i].indexOf(":"));
+
+                                            String val = listSensor[i].substring(0, listSensor[i].indexOf(":"));
                                             String capt = listSensor[i].substring(listSensor[i].lastIndexOf(":") + 1, listSensor[i].length());
 
                                             if (capt.equals("n")) {
@@ -122,7 +126,7 @@ public class ServerUDP {
                                 break;
                             case RPI_SMARTPHONE:
 
-
+                                //sendAck(paquet.getAddress(), paquet.getPort());
                                 //Création de l'objet Raspberry s'il n'existe pas dans la liste des couples
                                 //et insertion de l'objet dans la liste des couples
                                 if (!GlobalCouple.raspberryExist(paquet.getAddress())) {
@@ -134,6 +138,7 @@ public class ServerUDP {
                                         GlobalCouple.couples.add(new Couple(null, rpi));
                                 }
                                 sendAck(paquet.getAddress(), paquet.getPort());
+
                                 break;
                         }
                         paquet.setLength(buffer.length);

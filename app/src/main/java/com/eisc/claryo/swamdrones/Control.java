@@ -22,6 +22,10 @@ import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 
+import static com.eisc.claryo.swamdrones.Raspberry.SEUIL_NOT_OBSTACLE;
+import static com.eisc.claryo.swamdrones.Raspberry.SEUIL_OBSTACLE_NEAR;
+import static com.eisc.claryo.swamdrones.Raspberry.SEUIL_OBSTACLE_STOP;
+
 /**
  * Classe pour l'interface de controle de vol de l'essaim
  */
@@ -56,7 +60,7 @@ public class Control extends AppCompatActivity {
 
     private ImageView ProxJauneGauche, ProxOrangeGauche, ProxRougeGauche, ProxJauneDroite, ProxOrangeDroite,
             ProxRougeDroite, ProxJauneDevant, ProxOrangeDevant, ProxRougeDevant, ProxJauneDerriere, ProxOrangeDerriere,
-            ProxRougeDerriere, ProxJauneAbove, ProxOrangeAbove, ProxRougeAbove, ProxJauneBelow, ProxOrangeBelow, ProxRougeBelow;
+            ProxRougeDerriere;
 
     private final Handler handlerBattery = new Handler() {
         @Override
@@ -69,11 +73,27 @@ public class Control extends AppCompatActivity {
     private final Handler handlerObstacle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            north = msg.getData().getInt(MessageKEY.OBSTACLENORTH);
-            south = msg.getData().getInt(MessageKEY.OBSTACLESOUTH);
-            west = msg.getData().getInt(MessageKEY.OBSTACLEWEST);
-            east = msg.getData().getInt(MessageKEY.OBSTACLEEST);
-            above = msg.getData().getInt(MessageKEY.OBSTACLEABOVE);
+
+            String east_string = msg.getData().getString(MessageKEY.OBSTACLEEST);
+            String west_string = msg.getData().getString(MessageKEY.OBSTACLEWEST);
+            String north_string = msg.getData().getString(MessageKEY.OBSTACLENORTH);
+            String south_string = msg.getData().getString(MessageKEY.OBSTACLESOUTH);
+            if(east_string != null)
+                east = Integer.valueOf(east_string);
+            else
+                east = 151;
+            if(west_string != null)
+                west = Integer.valueOf(west_string);
+            else
+                west = 151;
+            if(north_string != null)
+                north = Integer.valueOf(north_string);
+            else
+                north = 151;
+            if(south_string != null)
+                south = Integer.valueOf(south_string);
+            else
+                south = 151;
 
             if (north > 0) {
                 if (north <= Raspberry.SEUIL_OBSTACLE_STOP) {
@@ -170,113 +190,78 @@ public class Control extends AppCompatActivity {
     private void proxyBars() {
         //Gérer l'apparition des lignes de proximité
 
-        if (west > 100) {
+        if (west > SEUIL_NOT_OBSTACLE) {
             ProxJauneGauche.setVisibility(View.INVISIBLE);
             ProxOrangeGauche.setVisibility(View.INVISIBLE);
             ProxRougeGauche.setVisibility(View.INVISIBLE);
-        } else if (west <= 100 && west > 75) {
+        } else if (west <= SEUIL_NOT_OBSTACLE && west > SEUIL_OBSTACLE_NEAR) {
             ProxJauneGauche.setVisibility(View.VISIBLE);
             ProxOrangeGauche.setVisibility(View.INVISIBLE);
             ProxRougeGauche.setVisibility(View.INVISIBLE);
-        } else if (west <= 75 && west > 50) {
+        } else if (west <= SEUIL_OBSTACLE_NEAR && west > SEUIL_OBSTACLE_STOP) {
             ProxJauneGauche.setVisibility(View.VISIBLE);
             ProxOrangeGauche.setVisibility(View.VISIBLE);
             ProxRougeGauche.setVisibility(View.INVISIBLE);
-        } else if (west <= 50) {
+        } else if (west <= SEUIL_OBSTACLE_STOP) {
             ProxJauneGauche.setVisibility(View.VISIBLE);
             ProxOrangeGauche.setVisibility(View.VISIBLE);
             ProxRougeGauche.setVisibility(View.VISIBLE);
         }
 
-        if (east > 100) {
+        if (east > SEUIL_NOT_OBSTACLE) {
             ProxJauneDroite.setVisibility(View.INVISIBLE);
             ProxOrangeDroite.setVisibility(View.INVISIBLE);
             ProxRougeDroite.setVisibility(View.INVISIBLE);
-        } else if (east <= 100 && east > 75) {
+        } else if (east <= SEUIL_NOT_OBSTACLE && east > SEUIL_OBSTACLE_NEAR) {
             ProxJauneDroite.setVisibility(View.VISIBLE);
             ProxOrangeDroite.setVisibility(View.INVISIBLE);
             ProxRougeDroite.setVisibility(View.INVISIBLE);
-        } else if (east <= 75 && east > 50) {
+        } else if (east <= SEUIL_OBSTACLE_NEAR && east > SEUIL_OBSTACLE_STOP) {
             ProxJauneDroite.setVisibility(View.VISIBLE);
             ProxOrangeDroite.setVisibility(View.VISIBLE);
             ProxRougeDroite.setVisibility(View.INVISIBLE);
-        } else if (east <= 50) {
+        } else if (east <= SEUIL_OBSTACLE_STOP) {
             ProxJauneDroite.setVisibility(View.VISIBLE);
             ProxOrangeDroite.setVisibility(View.VISIBLE);
             ProxRougeDroite.setVisibility(View.VISIBLE);
         }
 
-        if (north > 100) {
+        if (north > SEUIL_NOT_OBSTACLE) {
             ProxJauneDevant.setVisibility(View.INVISIBLE);
             ProxOrangeDevant.setVisibility(View.INVISIBLE);
             ProxRougeDevant.setVisibility(View.INVISIBLE);
-        } else if (north <= 100 && north > 75) {
+        } else if (north <= SEUIL_NOT_OBSTACLE && north > SEUIL_OBSTACLE_NEAR) {
             ProxJauneDevant.setVisibility(View.VISIBLE);
             ProxOrangeDevant.setVisibility(View.INVISIBLE);
             ProxRougeDevant.setVisibility(View.INVISIBLE);
-        } else if (north <= 75 && north > 50) {
+        } else if (north <= SEUIL_OBSTACLE_NEAR && north > SEUIL_OBSTACLE_STOP) {
             ProxJauneDevant.setVisibility(View.VISIBLE);
             ProxOrangeDevant.setVisibility(View.VISIBLE);
             ProxRougeDevant.setVisibility(View.INVISIBLE);
-        } else if (north <= 50) {
+        } else if (north <= SEUIL_OBSTACLE_STOP) {
             ProxJauneDevant.setVisibility(View.VISIBLE);
             ProxOrangeDevant.setVisibility(View.VISIBLE);
             ProxRougeDevant.setVisibility(View.VISIBLE);
         }
 
-        if (south > 100) {
+        if (south > SEUIL_NOT_OBSTACLE) {
             ProxJauneDerriere.setVisibility(View.INVISIBLE);
             ProxOrangeDerriere.setVisibility(View.INVISIBLE);
             ProxRougeDerriere.setVisibility(View.INVISIBLE);
-        } else if (south <= 100 && south > 75) {
+        } else if (south <= SEUIL_NOT_OBSTACLE && south > SEUIL_OBSTACLE_NEAR) {
             ProxJauneDerriere.setVisibility(View.VISIBLE);
             ProxOrangeDerriere.setVisibility(View.INVISIBLE);
             ProxRougeDerriere.setVisibility(View.INVISIBLE);
-        } else if (south <= 75 && south > 50) {
+        } else if (south <= SEUIL_OBSTACLE_NEAR && south > SEUIL_OBSTACLE_STOP) {
             ProxJauneDerriere.setVisibility(View.VISIBLE);
             ProxOrangeDerriere.setVisibility(View.VISIBLE);
             ProxRougeDerriere.setVisibility(View.INVISIBLE);
-        } else if (south <= 50) {
+        } else if (south <= SEUIL_OBSTACLE_STOP) {
             ProxJauneDerriere.setVisibility(View.VISIBLE);
             ProxOrangeDerriere.setVisibility(View.VISIBLE);
             ProxRougeDerriere.setVisibility(View.VISIBLE);
         }
-
-        if (below > 100) {
-            ProxJauneBelow.setVisibility(View.INVISIBLE);
-            ProxOrangeBelow.setVisibility(View.INVISIBLE);
-            ProxRougeBelow.setVisibility(View.INVISIBLE);
-        } else if (below <= 100 && below > 75) {
-            ProxJauneBelow.setVisibility(View.VISIBLE);
-            ProxOrangeBelow.setVisibility(View.INVISIBLE);
-            ProxRougeBelow.setVisibility(View.INVISIBLE);
-        } else if (below <= 75 && below > 50) {
-            ProxJauneBelow.setVisibility(View.VISIBLE);
-            ProxOrangeBelow.setVisibility(View.VISIBLE);
-            ProxRougeBelow.setVisibility(View.INVISIBLE);
-        } else if (below <= 50) {
-            ProxJauneBelow.setVisibility(View.VISIBLE);
-            ProxOrangeBelow.setVisibility(View.VISIBLE);
-            ProxRougeBelow.setVisibility(View.VISIBLE);
-        }
-
-        if (above > 100) {
-            ProxJauneAbove.setVisibility(View.INVISIBLE);
-            ProxOrangeAbove.setVisibility(View.INVISIBLE);
-            ProxRougeAbove.setVisibility(View.INVISIBLE);
-        } else if (above <= 100 && above > 75) {
-            ProxJauneAbove.setVisibility(View.VISIBLE);
-            ProxOrangeAbove.setVisibility(View.INVISIBLE);
-            ProxRougeAbove.setVisibility(View.INVISIBLE);
-        } else if (above <= 75 && above > 50) {
-            ProxJauneAbove.setVisibility(View.VISIBLE);
-            ProxOrangeAbove.setVisibility(View.VISIBLE);
-            ProxRougeAbove.setVisibility(View.INVISIBLE);
-        } else if (above <= 50) {
-            ProxJauneAbove.setVisibility(View.VISIBLE);
-            ProxOrangeAbove.setVisibility(View.VISIBLE);
-            ProxRougeAbove.setVisibility(View.VISIBLE);
-        }
+        
     }
 
     @Override
@@ -325,13 +310,6 @@ public class Control extends AppCompatActivity {
         ProxOrangeDerriere = (ImageView) findViewById(R.id.ProxOrangeDerriere);
         ProxRougeDerriere = (ImageView) findViewById(R.id.ProxRougeDerriere);
 
-        ProxJauneAbove = (ImageView) findViewById(R.id.ProxJauneAbove);
-        ProxOrangeAbove = (ImageView) findViewById(R.id.ProxOrangeAbove);
-        ProxRougeAbove = (ImageView) findViewById(R.id.ProxRougeAbove);
-
-        ProxJauneBelow = (ImageView) findViewById(R.id.ProxJauneBelow);
-        ProxOrangeBelow = (ImageView) findViewById(R.id.ProxOrangeBelow);
-        ProxRougeBelow = (ImageView) findViewById(R.id.ProxRougeBelow);
 
         positionMaster = -1;
         batteryPercentage = 100;

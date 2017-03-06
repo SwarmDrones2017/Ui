@@ -16,7 +16,10 @@ public class Raspberry {
     private final Cardinal obstacle = new Cardinal();
     private final Bundle messageBundle = new Bundle();
     private Handler handlerObstacle;
-    public final static int SEUIL_OBSTACLE_STOP = 50;
+    public final static int SEUIL_OBSTACLE_STOP = 75;
+    public final static int SEUIL_OBSTACLE_NEAR = 100;
+    //public final static int SEUIL_OBSTACLE_NOT_NEAR = 125;
+    public final static int SEUIL_NOT_OBSTACLE = 125;
 
     public Raspberry(InetAddress address,int port) {
         this.address = address;
@@ -54,7 +57,8 @@ public class Raspberry {
             this.north = north;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLENORTH, north);
+                messageBundle.putString(MessageKEY.OBSTACLENORTH, ""+north);
+                //messageBundle.putInt(MessageKEY.OBSTACLENORTH, north);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);
@@ -65,7 +69,7 @@ public class Raspberry {
             this.west = west;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLEWEST, west);
+                messageBundle.putString(MessageKEY.OBSTACLEWEST, ""+west);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);
@@ -76,7 +80,7 @@ public class Raspberry {
             this.south = south;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLESOUTH, south);
+                messageBundle.putString(MessageKEY.OBSTACLESOUTH, ""+south);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);
@@ -87,7 +91,7 @@ public class Raspberry {
             this.est = est;
             if(handlerObstacle != null){
                 Message myMessage = handlerObstacle.obtainMessage();
-                messageBundle.putInt(MessageKEY.OBSTACLEEST, est);
+                messageBundle.putString(MessageKEY.OBSTACLEEST, ""+est);
                 myMessage.setData(messageBundle);
                 //Envoyer le message
                 handlerObstacle.sendMessage(myMessage);

@@ -336,6 +336,7 @@ class ProxyBars extends AppCompatActivity {
 
     /**
      * Constructeur pour instancier la classe ProxyBars
+     * On recupère les valeurs des capteurs de la Raspberry grace au Handler
      * @param context
      * @param ecran
      * @param density
@@ -391,6 +392,13 @@ class ProxyBars extends AppCompatActivity {
 
     /**
      * Création des objets Drone et barres de proximité
+     * L'objet Drone se trouvant sur un AbsoluteLayout, on choisit de lui donner des coordonnées
+     * aléatoire x et y dans une plage de valeurs de telle façon que les Drones crées
+     * soient présents et accessibles sur tous les smartphones et tablettes
+     *
+     * Grace à ces coordonnées de départ, on créé alors les barres de proximité autour de Drone
+     * en fonction des coordonnées de départ de drone ainsi que de la densité en pixel de l'écran
+     * (la densité de base choisit est xhdpi = 2)
      */
     private void show() {
         Drone = new ImageView(context);
@@ -524,6 +532,8 @@ class ProxyBars extends AppCompatActivity {
 
     /**
      * Gestion de l'apparition des barres de proximité suivant les données capteurs
+     * Grace aux valeurs des capteurs récupérées précedemment, on choisit alors d'afficher
+     * ou non les différentes barres autour du drone
      */
     private void hideAndShowBars() {
         if (west > SEUIL_NOT_OBSTACLE) {

@@ -2,7 +2,7 @@ package com.eisc.claryo.swamdrones;
 
 /**
  * Classe permettant de donner les caractéristiques de chaque drones
- *
+ * <p>
  * A voir dans DroneDetails.java
  */
 
@@ -11,7 +11,7 @@ public class CaractDrone {
     private String categorie;
     private String caracteristique;
 
-    public CaractDrone(){
+    public CaractDrone() {
         super();
     }
 

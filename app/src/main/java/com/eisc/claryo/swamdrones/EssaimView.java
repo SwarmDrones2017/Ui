@@ -39,9 +39,9 @@ public class EssaimView extends AppCompatActivity {
     Button BtnAllDrone;
     LinearLayout LayoutDrone1, LayoutDrone2, LayoutDrone3;
     TextView NomDrone1, NomDrone2, NomDrone3, batteryDrone1txt, batteryDrone2txt, batteryDrone3txt;
-    TextView []TabNomDrone;
-    TextView []TabBatterieDronetxt;
-    ImageView []TabBatterieDrone;
+    TextView[] TabNomDrone;
+    TextView[] TabBatterieDronetxt;
+    ImageView[] TabBatterieDrone;
     int batteryPercentage;
     ImageView batteryDrone1, batteryDrone2, batteryDrone3;
 
@@ -77,7 +77,7 @@ public class EssaimView extends AppCompatActivity {
                 TabBatterieDrone[i].setImageResource(R.drawable.ic_battery_alert_24dp);
 
 
-            TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage)+"%");
+            TabBatterieDronetxt[i].setText(Integer.toString(batteryPercentage) + "%");
 
         }
 
@@ -252,15 +252,15 @@ public class EssaimView extends AppCompatActivity {
 
     }
 
-    protected void layoutDrone(){
+    protected void layoutDrone() {
 
-        for(int i = 0 ; i < GlobalCouple.couples.size() ; i++){
+        for (int i = 0; i < GlobalCouple.couples.size(); i++) {
             Toast.makeText(getApplicationContext(), GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName(), Toast.LENGTH_SHORT).show();
             TabNomDrone[i].setText(GlobalCouple.couples.get(i).getBebopDrone().getInfoDrone().getDroneName());
         }
     }
 
-    protected void proxyBarsView(){
+    protected void proxyBarsView() {
 
         //Drone 1
         int D1ProxGauche = 150;
@@ -401,7 +401,7 @@ public class EssaimView extends AppCompatActivity {
                     D3ProxOrUp.setVisibility(View.VISIBLE);
                     D3ProxRedUp.setVisibility(View.VISIBLE);
                 }
-            
+
             case 2:
 
                 Drone2.setVisibility(View.VISIBLE);

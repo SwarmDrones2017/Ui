@@ -3,7 +3,7 @@ package com.eisc.claryo.swamdrones;
 /**
  * Classe permettant de gerer la liste des drones ainsi que leur état
  * connectés ou non
- *
+ * <p>
  * A voir dans MainActivity.java
  */
 
@@ -23,11 +23,11 @@ public class DroneListeConnecte {
         return this.name + "              " + this.connect;
     }
 
-    public String getname(){
+    public String getname() {
         return name;
     }
 
-    public String getConnect(){
+    public String getConnect() {
         return connect;
     }
 

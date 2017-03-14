@@ -1,9 +1,6 @@
 package com.eisc.claryo.swamdrones;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,26 +13,20 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
-import java.lang.annotation.Target;
-import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.eisc.claryo.swamdrones.MessageHandler.LISTDRONEUPDATE;
-import static com.eisc.claryo.swamdrones.MessageHandler.NOTDRONE;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String MSG_ANY_DRONES = "Aucun";
     public static DroneListeConnecte[] items;
+    static private String[] listDrone;
     private ArrayAdapter<String> adapter;
     private ListView list;
     private TextView textViewNbDrones;
     private TextView textViewDrones;
     private MainActivity ici = this;
-    static private String[] listDrone;
     private ImageButton btnRefresh;
     private Button btnFly;
 
@@ -98,29 +89,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Si aucun drone n'est connecté, cliquer sur l'item ne fera rien
-                if(!list.getAdapter().getItem(0).equals("Aucun drone connecter")){
-                    String droneClicked = (String)list.getAdapter().getItem(position);
-                    int droneSelected=-1;
-                    for(int i=0; i<GlobalCouple.couples.size(); i++){
-                        if(droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
-                            droneSelected=i;
+                if (!list.getAdapter().getItem(0).equals("Aucun drone connecter")) {
+                    String droneClicked = (String) list.getAdapter().getItem(position);
+                    int droneSelected = -1;
+                    for (int i = 0; i < GlobalCouple.couples.size(); i++) {
+                        if (droneClicked.equals(GlobalCouple.couples.get(i).getBebopDrone().getdeviceService().getName()))
+                            droneSelected = i;
                     }
 
                     Intent DroneDetailsActivity = new Intent(MainActivity.this, DroneDetails.class);
-                    if(droneSelected !=-1){
+                    if (droneSelected != -1) {
 
                         DroneDetailsActivity.putExtra("Name", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDroneName())
-                        .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
-                        .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
-                        .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())
-                        .putExtra("SoftVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareVersion())
-                        .putExtra("GPSVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareGPSVersion())
-                        .putExtra("nbFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getNbFlights())
-                        .putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight())
-                        .putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
+                                .putExtra("Battery", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getBattery())
+                                .putExtra("HardVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getHardwareVersion())
+                                .putExtra("SerialID", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSerialID())
+                                .putExtra("SoftVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareVersion())
+                                .putExtra("GPSVersion", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getSoftwareGPSVersion())
+                                .putExtra("nbFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getNbFlights())
+                                .putExtra("LastFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationLastFlight())
+                                .putExtra("TotalFlight", GlobalCouple.couples.get(droneSelected).getBebopDrone().getInfoDrone().getDurationTotalFlights());
 
 
-                    }else{
+                    } else {
                         DroneDetailsActivity.putExtra("Name", "null");
                     }
 

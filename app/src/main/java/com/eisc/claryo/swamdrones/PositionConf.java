@@ -9,8 +9,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import static com.eisc.claryo.swamdrones.EssaimConfig.NumeroDrone;
-
 /**
  * Classe permettant de régler les paramètres de position d'un/des drone(s)
  */
@@ -58,7 +56,7 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((5 + progress));
-                temp = (double)progressChanged/10;
+                temp = (double) progressChanged / 10;
                 String valeurFinale = String.valueOf(temp);
                 txtsBAltiMax.setText(valeurFinale + "m");
             }
@@ -81,7 +79,7 @@ public class PositionConf extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = ((10 + progress));
-                temp = (double)progressChanged;
+                temp = (double) progressChanged;
                 String valeurFinale = String.valueOf(temp);
                 txtsBDistMax.setText(valeurFinale + "m");
             }

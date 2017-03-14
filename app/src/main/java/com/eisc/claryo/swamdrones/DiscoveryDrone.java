@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -15,14 +14,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.parrot.arsdk.ARSDK;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_ERROR_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerException;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiver;
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiverDelegate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,14 +34,22 @@ import java.util.List;
 public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedReceiverDelegate {
 
     private final static String TAG = "DiscoveryDrone";
+    ///////////The libARDiscovery will let you know when BLE and Wifi devices have been found on network:
+    ARDiscoveryServicesDevicesListUpdatedReceiver mArdiscoveryServicesDevicesListUpdatedReceiver;
     private Context context;
     private List<ARDiscoveryDeviceService> deviceList;
-
     private Handler handler;
-
     /////////Start discovery:
     private ARDiscoveryService mArdiscoveryService;
     private ServiceConnection mArdiscoveryServiceConnection;
+
+    DiscoveryDrone(Context context, Handler handler) {
+        this.context = context;
+        this.handler = handler;
+        ARSDK.loadSDKLibs();
+        initDiscoveryService();
+        registerReceivers();
+    }
 
     private void initDiscoveryService() {
         // create the service connection
@@ -80,9 +85,6 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
             mArdiscoveryService.start();
         }
     }
-
-    ///////////The libARDiscovery will let you know when BLE and Wifi devices have been found on network:
-    ARDiscoveryServicesDevicesListUpdatedReceiver mArdiscoveryServicesDevicesListUpdatedReceiver;
 
     // your class should implement ARDiscoveryServicesDevicesListUpdatedReceiverDelegate
     private void registerReceivers() {
@@ -136,7 +138,7 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                                     bebop.getmDeviceController().getFeatureCommon().sendSettingsAllSettings();
                             }
                             int positionRpiCorres = GlobalCouple.raspberryCorrespondante(bebop); //verification sur l'IP
-                            if(GlobalCouple.whoIsMaster() == -1){//si personne n'est maître alors il est maître
+                            if (GlobalCouple.whoIsMaster() == -1) {//si personne n'est maître alors il est maître
                                 bebop.setMaster(true);
                             }
                             if (positionRpiCorres == -1) {
@@ -153,15 +155,6 @@ public class DiscoveryDrone implements ARDiscoveryServicesDevicesListUpdatedRece
                 handler.sendMessage(myMessage);
             }
         }
-    }
-
-
-    DiscoveryDrone(Context context, Handler handler) {
-        this.context = context;
-        this.handler = handler;
-        ARSDK.loadSDKLibs();
-        initDiscoveryService();
-        registerReceivers();
     }
 
 

@@ -5,9 +5,9 @@ package com.eisc.claryo.swamdrones;
  */
 
 public class Couple {
+    boolean couplageOk = false;
     private BebopDrone bebopDrone;
     private Raspberry raspberry;
-    boolean couplageOk =false;
 
 
     public Couple(BebopDrone bebopDrone, Raspberry raspberry) {
@@ -21,8 +21,8 @@ public class Couple {
 
     public void setBebopDrone(BebopDrone bebopDrone) {
         this.bebopDrone = bebopDrone;
-        if(this.raspberry !=null)
-            couplageOk =true;
+        if (this.raspberry != null)
+            couplageOk = true;
     }
 
     public Raspberry getRaspberry() {
@@ -32,7 +32,7 @@ public class Couple {
 
     public void setRaspberry(Raspberry raspberry) {
         this.raspberry = raspberry;
-        if(this.bebopDrone != null)
+        if (this.bebopDrone != null)
             couplageOk = true;
     }
 

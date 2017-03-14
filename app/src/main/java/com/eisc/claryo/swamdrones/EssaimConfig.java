@@ -63,16 +63,15 @@ public class EssaimConfig extends AppCompatActivity {
                                 if (buttonView == listbutton.get(j).getRadiodrone()) {
                                     GlobalCouple.couples.get(j).getBebopDrone().setMaster(true);
                                     buttonView.setChecked(true);
-                                    for(int k = 0; k < listbutton.size();k++){
-                                        if(k!=j){
+                                    for (int k = 0; k < listbutton.size(); k++) {
+                                        if (k != j) {
                                             listbutton.get(k).getRadiodrone().setChecked(false);
                                         }
                                     }
                                     break;
                                 }
                             }
-                        }
-                        else {//innutilisé peut être
+                        } else {//innutilisé peut être
                             for (int j = 0; j < listbutton.size(); j++) {
                                 if (buttonView == listbutton.get(j).getRadiodrone()) {
                                     GlobalCouple.couples.get(j).getBebopDrone().setMaster(false);

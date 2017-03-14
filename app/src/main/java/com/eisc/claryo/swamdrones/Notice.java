@@ -22,7 +22,7 @@ public class Notice extends AppCompatActivity {
         btnBackNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Notice.this.finish();
+                Notice.this.finish();
             }
         });
 

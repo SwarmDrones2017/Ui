@@ -1,17 +1,11 @@
 package com.eisc.claryo.swamdrones;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
 /**
@@ -20,17 +14,15 @@ import java.nio.charset.Charset;
 
 public class ServerUDP {
 
-    private final String TAG = "ServerUDP";
     final static int port = 55555;
-
     final static int taille = 1024;
     static byte buffer[] = new byte[taille];
-
     final String RPI_SMARTPHONE = "Telephone";
     final String RPI_SENSORS = "Sensor";
     final String RPI_REPONSE = "Oui\n";
+    private final String TAG = "ServerUDP";
 
-    ServerUDP(final Context context){
+    ServerUDP(final Context context) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -39,23 +31,23 @@ public class ServerUDP {
                     DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
                     DatagramPacket envoi = null;
                     String str;
-                    while(true){
+                    while (true) {
                         do {
                             socket.receive(paquet);
                             str = new String(paquet.getData());
-                        }while(str.indexOf("\n") == -1);
-                        String sframe = str.substring(0,str.indexOf("\n"));
-                        String scmd = sframe.substring(0,sframe.indexOf(" "));
-                        switch (scmd){
-                            case RPI_SENSORS :
+                        } while (str.indexOf("\n") == -1);
+                        String sframe = str.substring(0, str.indexOf("\n"));
+                        String scmd = sframe.substring(0, sframe.indexOf(" "));
+                        switch (scmd) {
+                            case RPI_SENSORS:
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
 
                                 break;
-                            case RPI_SMARTPHONE :
+                            case RPI_SMARTPHONE:
                                 //Toast.makeText(context,sframe,Toast.LENGTH_SHORT);
                                 //Log.d(TAG,"Message reçu : "+sframe);
-                                byte [] buf_send = RPI_REPONSE.getBytes(Charset.forName("UTF-8"));
-                                envoi = new DatagramPacket(buf_send,buf_send.length);
+                                byte[] buf_send = RPI_REPONSE.getBytes(Charset.forName("UTF-8"));
+                                envoi = new DatagramPacket(buf_send, buf_send.length);
                                 envoi.setAddress(paquet.getAddress());
                                 envoi.setPort(paquet.getPort());
                                 socket.send(envoi);
@@ -75,7 +67,6 @@ public class ServerUDP {
                         }
                         paquet.setLength(buffer.length);
                     }
-
 
 
                 } catch (SocketException e) {

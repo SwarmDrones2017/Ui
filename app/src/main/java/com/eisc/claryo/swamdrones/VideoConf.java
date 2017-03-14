@@ -49,38 +49,38 @@ public class VideoConf extends AppCompatActivity {
         final ToggleButton btn60Hz = (ToggleButton) findViewById(R.id.btn60Hz);
         final ToggleButton btnAutoHz = (ToggleButton) findViewById(R.id.btnAutoHz);
 
-        if(btn720p.isChecked())
+        if (btn720p.isChecked())
             btn720p.setClickable(false);
-        else if(btn1080p.isChecked())
+        else if (btn1080p.isChecked())
             btn1080p.setClickable(false);
 
-        if(btnStdr.isChecked())
+        if (btnStdr.isChecked())
             btnStdr.setClickable(false);
-        else if(btnHigh.isChecked())
+        else if (btnHigh.isChecked())
             btnHigh.setClickable(false);
 
-        if(btn24fps.isChecked())
+        if (btn24fps.isChecked())
             btn24fps.setClickable(false);
-        else if(btn25fps.isChecked())
+        else if (btn25fps.isChecked())
             btn25fps.setClickable(false);
-        else if(btn30fps.isChecked())
+        else if (btn30fps.isChecked())
             btn30fps.setClickable(false);
 
-        if(btnStabNon.isChecked())
+        if (btnStabNon.isChecked())
             btnStabNon.setClickable(false);
-        else if(btnStabOui.isChecked())
+        else if (btnStabOui.isChecked())
             btnStabOui.setClickable(false);
 
-        if(btn50Hz.isChecked())
+        if (btn50Hz.isChecked())
             btn50Hz.setClickable(false);
-        else if(btn60Hz.isChecked())
+        else if (btn60Hz.isChecked())
             btn60Hz.setClickable(false);
-        else if(btnAutoHz.isChecked())
+        else if (btnAutoHz.isChecked())
             btnAutoHz.setClickable(false);
 
         //Gerer le fonctionnement des boutons
 
-            //Résolution de l'enregistrement
+        //Résolution de l'enregistrement
 
         btn1080p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -88,8 +88,7 @@ public class VideoConf extends AppCompatActivity {
                 if (btn1080p.isChecked()) {
                     btn720p.setChecked(false);
                     btn1080p.setClickable(false);
-                }
-                else {
+                } else {
                     btn720p.setChecked(true);
                     btn1080p.setClickable(true);
                 }
@@ -102,15 +101,14 @@ public class VideoConf extends AppCompatActivity {
                 if (btn720p.isChecked()) {
                     btn1080p.setChecked(false);
                     btn720p.setClickable(false);
-                }
-                else {
+                } else {
                     btn1080p.setChecked(true);
                     btn720p.setClickable(true);
                 }
             }
         });
 
-            //Qualité de l'enregistrement
+        //Qualité de l'enregistrement
 
         btnStdr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -118,8 +116,7 @@ public class VideoConf extends AppCompatActivity {
                 if (btnStdr.isChecked()) {
                     btnHigh.setChecked(false);
                     btnStdr.setClickable(false);
-                }
-                else {
+                } else {
                     btnHigh.setChecked(true);
                     btnStdr.setClickable(true);
                 }
@@ -132,15 +129,14 @@ public class VideoConf extends AppCompatActivity {
                 if (btnHigh.isChecked()) {
                     btnStdr.setChecked(false);
                     btnHigh.setClickable(false);
-                }
-                else {
+                } else {
                     btnStdr.setChecked(true);
                     btnHigh.setClickable(true);
                 }
             }
         });
 
-            //Fréquence d'images
+        //Fréquence d'images
 
         btn24fps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -149,8 +145,7 @@ public class VideoConf extends AppCompatActivity {
                     btn25fps.setChecked(false);
                     btn30fps.setChecked(false);
                     btn24fps.setClickable(false);
-                }
-                else {
+                } else {
                     btn24fps.setClickable(true);
                 }
             }
@@ -163,8 +158,7 @@ public class VideoConf extends AppCompatActivity {
                     btn24fps.setChecked(false);
                     btn30fps.setChecked(false);
                     btn25fps.setClickable(false);
-                }
-                else {
+                } else {
                     btn25fps.setClickable(true);
                 }
             }
@@ -177,14 +171,13 @@ public class VideoConf extends AppCompatActivity {
                     btn24fps.setChecked(false);
                     btn25fps.setChecked(false);
                     btn30fps.setClickable(false);
-                }
-                else {
+                } else {
                     btn30fps.setClickable(true);
                 }
             }
         });
 
-            //Stabilisation d'image
+        //Stabilisation d'image
 
         btnStabNon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -192,8 +185,7 @@ public class VideoConf extends AppCompatActivity {
                 if (btnStabNon.isChecked()) {
                     btnStabOui.setChecked(false);
                     btnStabNon.setClickable(false);
-                }
-                else {
+                } else {
                     btnStabOui.setChecked(true);
                     btnStabNon.setClickable(true);
                 }
@@ -206,15 +198,14 @@ public class VideoConf extends AppCompatActivity {
                 if (btnStabOui.isChecked()) {
                     btnStabNon.setChecked(false);
                     btnStabOui.setClickable(false);
-                }
-                else {
+                } else {
                     btnStabNon.setChecked(true);
                     btnStabOui.setClickable(true);
                 }
             }
         });
 
-            //Mode d'anti-scintillement
+        //Mode d'anti-scintillement
 
         btn50Hz.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -223,8 +214,7 @@ public class VideoConf extends AppCompatActivity {
                     btn60Hz.setChecked(false);
                     btnAutoHz.setChecked(false);
                     btn50Hz.setClickable(false);
-                }
-                else {
+                } else {
                     btn50Hz.setClickable(true);
                 }
             }
@@ -237,8 +227,7 @@ public class VideoConf extends AppCompatActivity {
                     btn50Hz.setChecked(false);
                     btnAutoHz.setChecked(false);
                     btn50Hz.setClickable(false);
-                }
-                else {
+                } else {
                     btn50Hz.setClickable(true);
                 }
             }
@@ -251,8 +240,7 @@ public class VideoConf extends AppCompatActivity {
                     btn50Hz.setChecked(false);
                     btn60Hz.setChecked(false);
                     btnAutoHz.setClickable(false);
-                }
-                else {
+                } else {
                     btnAutoHz.setClickable(true);
                 }
             }
@@ -260,8 +248,8 @@ public class VideoConf extends AppCompatActivity {
 
         //Gerer le nom du drone à afficher dans le réglages des paramètres
 
-        for(int i=0; i<5; i++){
-            if(NumeroDrone == i) {
+        for (int i = 0; i < 5; i++) {
+            if (NumeroDrone == i) {
                 txtDroneNom.setText(MainActivity.items[i].getname());
             }
         }

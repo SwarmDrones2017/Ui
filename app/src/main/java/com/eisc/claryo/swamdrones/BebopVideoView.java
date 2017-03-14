@@ -17,25 +17,21 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 @TargetApi(17)
 public class BebopVideoView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "BebopVideoView";
     private static final String VIDEO_MIME_TYPE = "video/avc";
     private static final int VIDEO_DEQUEUE_TIMEOUT = 33000;
-
-    private MediaCodec mMediaCodec;
-    private Lock mReadyLock;
-
-    private boolean mIsCodecConfigured = false;
-
-    private ByteBuffer mSpsBuffer;
-    private ByteBuffer mPpsBuffer;
-
-    private ByteBuffer[] mBuffers;
-
     private static final int VIDEO_WIDTH = 640;
     private static final int VIDEO_HEIGHT = 368;
+    private MediaCodec mMediaCodec;
+    private Lock mReadyLock;
+    private boolean mIsCodecConfigured = false;
+    private ByteBuffer mSpsBuffer;
+    private ByteBuffer mPpsBuffer;
+    private ByteBuffer[] mBuffers;
 
     public BebopVideoView(Context context) {
         super(context);
